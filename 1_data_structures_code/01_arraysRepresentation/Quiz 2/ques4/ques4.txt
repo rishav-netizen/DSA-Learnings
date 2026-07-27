@@ -1,0 +1,23 @@
+Question 4:
+
+if an 3D Array is declared in C language as follows
+? X[?][?][?]
+
+find data type and dimensions of Array
+if complier performs following intermediate 
+operations for finding Address of any location X[i][j][k].
+
+t0=i * 1024
+t1=j * 32
+t2=k * 4
+t3=t0+t1
+t4=t3+t2
+t5=X[t4]
+
+(Assume int takes 2 bytes, float takes 4 bytes)
+
+
+
+
+
+Soln:

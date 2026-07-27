@@ -1,0 +1,25 @@
+Abstract data types mean representation of data and the set of operations on the data.
+
+representation of the data is defined by the compiler but the operations are not so we make them
+
+Data
+1. Array Space
+2. Size
+3. Length (No. of elements) (less than or equal to the size)
+
+static: int A[10]
+dynamic: int *p;
+         p = new int[10]
+
+We will learn the list of operations that can be performed on an array:
+Operations
+1. Display()
+2. Add(x) / Append(x)
+3. Insert(index, x)
+4. Delete(index)
+5. Search(x)
+6. Get(index)
+7. Set(index, x)
+8. Max() / Min()
+9. Reverse()
+10. Shift() / Rotate()

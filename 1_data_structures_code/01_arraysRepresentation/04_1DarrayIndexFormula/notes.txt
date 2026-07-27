@@ -1,0 +1,9 @@
+at compile time the address cannot be known so the compiler uses a formula to know the address 
+address calculation by the compiler during run time is called data binding
+the formula is a relative formula, relative to the base address
+
+the formula where we have base address non zero for an array there we replace 
+i with (i - baseAdd) but this adds an additional operation for the compiler to perform
+even though its just one extra operation but for n elements it would be n extra operations
+which would make it slower hence we have the base address from 0 not one since it reduces the 
+extra operation we would otherwise perform

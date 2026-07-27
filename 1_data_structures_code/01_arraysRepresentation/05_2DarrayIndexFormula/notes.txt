@@ -1,0 +1,4 @@
+both the formulas for the row major and column major 
+are using the same number of operations hence equally efficient
+
+C/C++ uses row major formula 

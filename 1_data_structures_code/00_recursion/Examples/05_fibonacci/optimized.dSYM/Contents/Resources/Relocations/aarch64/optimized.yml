@@ -1,0 +1,12 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rishav07/Documents/programming/c++/1_data_structures_code/00_recursion/examples/05_fibonacci/optimized'
+relocations:
+  - { offset: 0x2479, size: 0x8, addend: 0x0, symName: __ZStL8__ioinit, symObjAddr: 0xF216, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offset: 0x2497, size: 0x8, addend: 0x0, symName: __ZL3len, symObjAddr: 0x184, symBinAddr: 0x100000900, symSize: 0x0 }
+  - { offset: 0x24B9, size: 0x8, addend: 0x0, symName: _F, symObjAddr: 0xF218, symBinAddr: 0x100008008, symSize: 0x0 }
+  - { offset: 0x25BE, size: 0x8, addend: 0x0, symName: __GLOBAL__sub_I_optimized.cpp, symObjAddr: 0x1C4, symBinAddr: 0x1000008B8, symSize: 0x14 }
+  - { offset: 0x25D5, size: 0x8, addend: 0x0, symName: __Z41__static_initialization_and_destruction_0v, symObjAddr: 0x188, symBinAddr: 0x10000087C, symSize: 0x3C }
+  - { offset: 0x25F3, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x110, symBinAddr: 0x100000808, symSize: 0x74 }
+  - { offset: 0x2646, size: 0x8, addend: 0x0, symName: __Z3fibi, symObjAddr: 0x0, symBinAddr: 0x1000006F8, symSize: 0x110 }
+...

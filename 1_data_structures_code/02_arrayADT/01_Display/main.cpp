@@ -11,6 +11,7 @@ typedef struct Array
 } Array;
 
 void Display(Array arr);
+void Input(Array *arr);
 
 int main(){
     Array arr;
@@ -19,17 +20,18 @@ int main(){
     arr.A = new int[arr.size];
     arr.length = 0;
 
-    int n;
+    int length;
     cout << "Enter the number of numbers: ";
-    cin >> n;
-    for (int i = 0; i < n; i++)
+    cin >> length;
+    while (length < 0 || length > arr.size)
     {
-        cout << "Enter element " << i + 1 << ": ";
+        cout << "Invalid input! Length must be smaller than size!" << endl;
+        cout << "Try again: ";
+        cin >> length;
+    }
+    arr.length = length;
 
-        cin >> arr.A[i];
-    }   
-    arr.length = n;
-
+    Input(&arr);
     Display(arr);
 
     return 0;
@@ -48,4 +50,14 @@ void Display(Array arr)
         }
     }
     cout << "}\n";
+}
+
+void Input(Array *arr)
+{
+    for (int i = 0, l = arr -> length; i < l; i++)
+    {
+        cout << "Enter element " << i + 1 << ": ";
+        cin >> arr -> A[i];
+    }
+
 }

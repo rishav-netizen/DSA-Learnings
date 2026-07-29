@@ -101,6 +101,5 @@ void Input(Array *arr)
     {
         cout << "Enter element " << i + 1 << ": ";
         cin >> arr -> A[i];
-    }
-    
+    }   
 }

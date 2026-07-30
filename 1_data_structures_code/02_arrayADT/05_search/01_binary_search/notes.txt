@@ -1,0 +1,42 @@
+number of calls depends on the height of the binary search tree
+
+for successful search 
+best case O(1)
+worst case O(log n)
+avg case O(log n)
+
+for unsuccessful search
+always O(log n)
+
+OR 
+
+we can see say number of elements is n then we keep dividing n by 2 till we get 1
+inverse of power is log
+hence we get exact expression is ceil(log base 2 of (n+1))
+cuz if n is not multiple of 2 then we may get decimal
+
+
+---
+AVERAGE CASE ANALYSIS
+1 + 1(2) + 3(8) + ...
+1 + 1(2^1) + 3(2^3) + ...
+(summation (i) * (2^i)) / n
+on solving this summation/n expression we get avg case time as log n
+
+
+now consider the tree in image
+I = sum of paths of internal nodes
+E = sum of paths of external nodes
+then E = I + 2*n (y ou can verify)
+
+e = number of external nodes
+i = number of internal nodes
+e = i + 1
+
+Avg successful search time for n elements = (I/n) + 1
+Avg unsuccessful search time for n elements = (E/(n+1))
+
+since all external nodes are at same level
+E = (n+1)*(log n) ~ n*(log n)
+hence Avg unsuccessful search time for n elements = log n
+hence Avg successful search time for n elements = ((E - 2n)/n) + 1 = E/n - 1 ~= log n

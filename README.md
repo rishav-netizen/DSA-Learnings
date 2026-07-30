@@ -17,12 +17,27 @@ Current progress:
 - [x] Recursion
 - [x] Array Representation
 - [ ] Array ADT
+- [ ] Strings
+- [ ] Matrices
+- [ ] Sparse Matrix and Polynomial Representation
 - [ ] Linked Lists
+- [ ] Sparse Matrix and Polynomial Representation using Linked Lists
 - [ ] Stacks
 - [ ] Queues
 - [ ] Trees
+- [ ] Binary Search Trees
+- [ ] AVL Trees
+- [ ] Search Trees
+- [ ] Heap
+- [ ] Sorting Techniques
+- [ ] Hashing Techniques
 - [ ] Graphs
-- [ ] Hashing
+- [ ] Recurrence Relations
+- [ ] Asymptotic Notations
+- [ ] Divide and Conquer
+- [ ] Greedy Method
+- [ ] Dynamic Programming
+- [ ] Backtracking
 
 ### 2_STL
 Examples demonstrating the usage of C++ STL containers and algorithms.

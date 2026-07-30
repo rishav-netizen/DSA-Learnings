@@ -39,7 +39,7 @@ int main(){
     int key;
     cout << "Enter element you wanna linear search: ";
     cin >> key;
-    
+
     int index = LinearSearchMoveToHead(arr, key);
     // int index = LinearSearchTransposition(arr, key);
 
@@ -53,7 +53,8 @@ int main(){
     return 0;
 }
 
-int LinearSearchTransposition(Array arr, int key)
+// slow reduction in time for searching
+int LinearSearchTransposition(Array arr, int key) 
 {
     for(int i = 0, l = arr.length; i < l; i++)
     {
@@ -69,7 +70,9 @@ int LinearSearchTransposition(Array arr, int key)
     }
     return -1;
 }
-int LinearSearchMoveToHead(Array arr, int key)
+
+// sudden reduction in searching time
+int LinearSearchMoveToHead(Array arr, int key) 
 {
         for(int i = 0, l = arr.length; i < l; i++)
     {
@@ -81,6 +84,7 @@ int LinearSearchMoveToHead(Array arr, int key)
     }
     return -1;
 }
+
 void swap(int *a, int *b)
 {
     int c = *b;

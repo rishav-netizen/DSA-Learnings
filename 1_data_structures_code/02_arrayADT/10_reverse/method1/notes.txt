@@ -1,0 +1,4 @@
+We use an auxillary array for this method and it takes 
+O(n) time
+and f(n) = 2n
+

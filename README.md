@@ -138,8 +138,9 @@ This section explores **array declaration, static vs dynamic arrays, resizing, m
 ├── 06_get/
 ├── 07_set/
 ├── 08_max_min/
-├── 09_reverse/
-├── 010_shift/
+├── 09_sum/
+├── 10_reverse/
+├── 11_shift/
 └── notes.txt
 ```
 

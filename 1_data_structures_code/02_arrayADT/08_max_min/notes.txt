@@ -1,0 +1,4 @@
+finding max and min:
+
+for unsorted list time is O(n) and the f(n) = 2n + 1
+for sorted its the first or last element 

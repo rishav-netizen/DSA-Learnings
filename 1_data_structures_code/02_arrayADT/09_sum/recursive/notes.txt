@@ -1,0 +1,17 @@
+SUM: Returns the sum of the elements in the array
+
+its O(n) and f(n) = 2n + 3
+
+and recursively we
+can define it as:
+
+Sum(A, n) = {
+    0 : n < 0;
+    Sum(A, n - 1) + A[n];
+}
+
+recursive method is O(n) 
+and it would keep calling itself for the number of elements it has and fill the stack 
+
+and for finding average we can just do (total/n) 
+where n is number of elements

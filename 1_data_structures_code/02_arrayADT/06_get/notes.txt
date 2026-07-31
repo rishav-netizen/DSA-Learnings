@@ -1,0 +1,5 @@
+gets element at the given index from array
+
+Get(index)
+
+O(1)

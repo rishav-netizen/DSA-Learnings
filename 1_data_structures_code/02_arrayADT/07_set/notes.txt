@@ -1,0 +1,5 @@
+sets the element at an index of an array to another value
+
+Set(index, value)
+
+O(1)

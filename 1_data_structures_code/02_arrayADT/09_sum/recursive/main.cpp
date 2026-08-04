@@ -23,6 +23,7 @@ int main()
     return 0;
 }
 
+//! i feel like this is better
 int Sum(Array arr, int l)
 {
     // l is length not index hence, it cant be = 0

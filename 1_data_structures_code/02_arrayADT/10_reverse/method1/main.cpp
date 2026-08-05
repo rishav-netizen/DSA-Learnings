@@ -24,8 +24,9 @@ int main()
 // using auxillary array
 void Reverse(Array *arr)
 {
-    Array B = {{}, 10, arr->length};
-
+    Array B;
+    B.length = arr->length;
+    B.size = arr->size;
     for (int j = 0, i = arr->length - 1; i>=0; i--, j++)
     {
         B.A[j] =  arr->A[i];

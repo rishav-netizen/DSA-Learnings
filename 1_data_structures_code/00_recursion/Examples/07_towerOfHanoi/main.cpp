@@ -3,6 +3,7 @@
 using namespace std;
 
 long long steps = 0;
+// TOH(number of disks, source, helper, destination)
 void TOH(int n, char A, char B, char C)
 {
     if (n == 0)

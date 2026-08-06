@@ -20,11 +20,13 @@ int main()
         cin >> size;
     }
     
-    A = new int[size + 1];
+    A = new int[size + 1]; // since i am making an insertion
 
     Input(A, size);
     Display(A, size);
     
+    // the array adt struct made earlier would have been better for insertion but its fine
+
     int insertionItem;
     cout << "Enter item to be inserted: ";
     cin >> insertionItem;

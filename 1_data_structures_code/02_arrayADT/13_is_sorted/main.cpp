@@ -1,4 +1,3 @@
-// inserting element in a sorted list
 #include <iostream>
 #include <cctype>
 
@@ -20,7 +19,7 @@ int main()
         cin >> size;
     }
     
-    A = new int[size];
+    A = new int[size + 1]; // since i am making an insertion
 
     Input(A, size);
     Display(A, size);

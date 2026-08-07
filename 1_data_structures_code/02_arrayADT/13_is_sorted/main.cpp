@@ -20,7 +20,7 @@ int main()
         cin >> size;
     }
     
-    A = new int[size + 1]; // since i am making an insertion
+    A = new int[size];
 
     Input(A, size);
     Display(A, size);

@@ -45,6 +45,8 @@ int main()
     {
         cout << "One or both arrays are not sorted!\n";
         delete[] C;
+        delete[] A;
+        delete[] B;
         return 1;
     }
     else 

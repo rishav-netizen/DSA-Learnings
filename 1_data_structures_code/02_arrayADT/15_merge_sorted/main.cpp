@@ -120,6 +120,7 @@ void merge(int *arr_a, int size_a, int *arr_b, int size_b, int *arr_c)
         }
     }
     
+    // after one array is finished then copy the other one
     for (; i < size_a; i++)
     {
         arr_c[k] = arr_a[i];

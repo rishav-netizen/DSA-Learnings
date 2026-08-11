@@ -1,0 +1,2 @@
+order of n 
+because we are scanning through elements once

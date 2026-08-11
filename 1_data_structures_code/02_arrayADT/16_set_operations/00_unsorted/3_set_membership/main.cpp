@@ -75,27 +75,6 @@ Array Input(string name)
     return arr;
 }
 
-Array Difference(Array A, Array B)
-{
-    Array C;
-    int total_len = A.length + B.length;
-    C.size = A.size + B.size;
-    C.length = total_len;
-    C.A = new int[C.size];
-
-    int k = 0;
-    for (int i = 0; i < A.length; i++)
-    {
-        if (not In(A.A[i], B) and not In(A.A[i], C))
-        {
-            C.A[k++] = A.A[i];
-        }
-    }
-
-    C.length = k;
-    return C;
-}
-
 int In(int key, Array A)
 {
     for (int i = 0; i < A.length; i++)

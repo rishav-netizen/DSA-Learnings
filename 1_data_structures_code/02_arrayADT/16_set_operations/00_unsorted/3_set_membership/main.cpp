@@ -22,7 +22,7 @@ int main(){
     cin >> key;
 
     int idx = In(key, A);
-    if (idx)
+    if (idx != -1)
     {
         cout << "Found item at index " << idx << endl;
     }

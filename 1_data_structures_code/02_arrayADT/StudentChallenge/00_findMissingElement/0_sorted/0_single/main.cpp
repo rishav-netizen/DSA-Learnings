@@ -34,6 +34,7 @@ class Array
         int Delete(int index);
         void Input();
         int missingElementMethodOne();
+        int missingElementMethodTwo();
 };
 
 void Array::Display()
@@ -115,13 +116,41 @@ int Array::missingElementMethodOne()
     return element;
 }
 
+// if array starts with 1 and has natural numbers
+int Array::missingElementMethodTwo()
+{
+    int sum = 0;
+    int increment = 1; // since natural numbers
+    for (int i = 0; i < length; i++)
+    {   
+        sum += A[i];
+    }
+     
+    int index = 0;
+    for (int i = 0; i < length - 1; i++)
+    {
+        if (A[i] - A[i + 1]!= increment)
+        {
+            index = i - 1;
+        }
+    }
+    
+    int last = A[length - 1];
+    int expected_sum = last * (last + 1) / 2;
+    int missing = expected_sum - sum;
+    cout << "Found missing element: " << missing << endl;
+    Insert(index, missing);
+    return missing;
+}
+
 int main(int argc, const char * argv[])
 {
 
     Array A;
     A.Input();
     A.Display();
-    A.missingElementMethodOne();
+    // A.missingElementMethodTwo();
+    A.missingElementMethodOne(); //this is obviously really good
     A.Display();
     return 0;
 }

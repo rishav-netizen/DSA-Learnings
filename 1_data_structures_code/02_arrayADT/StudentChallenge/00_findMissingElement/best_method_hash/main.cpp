@@ -133,7 +133,7 @@ void Array::Input()
 
 }
 
-// this is just O(n)
+//! this is just O(n) 
 void Array::missingElement()
 {
     int max = Max();

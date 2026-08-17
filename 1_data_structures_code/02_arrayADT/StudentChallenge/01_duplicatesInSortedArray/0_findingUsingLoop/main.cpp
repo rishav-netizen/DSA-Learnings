@@ -120,6 +120,7 @@ void Array::Duplicates()
     }
 }
 
+// for sorted array using loop
 void Array::DuplicatesWithCount() // O(n)
 {
     int lastDuplicate = 531451345, j = 0;

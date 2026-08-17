@@ -97,7 +97,7 @@ void Array::Input()
 
 }
 
-
+// for sorted arrays
 void Array::DuplicatesWithCount() // using hash map
 {
     int maximum = A[length - 1];

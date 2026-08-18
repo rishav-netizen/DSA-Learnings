@@ -34,6 +34,7 @@ class Array
         int Delete(int index);
         void Input();
         int Max();
+        void ElementsWithSum(int sum);
         void DuplicatesWithCount();
     };
 
@@ -109,11 +110,37 @@ int Array::Max()
     
 }
 
+// iterative approach gives O(n^2) time complexity
+void Array::ElementsWithSum(int sum)
+{
+    bool found = false;
+    for (int i = 0; i < length - 1; i++)
+    {
+        for (int j = i + 1; j < length; j++)
+        {
+            if (A[i] + A[j] == sum)
+            {
+                cout << A[i] << " + " << A[j] << " = " << sum << endl;
+                found = true;
+            }
+        }
+    }
+
+    if (!found)
+    {
+        cout << "No elements found with that sum!\n";
+    }
+    
+}
+
 int main()
 {
     Array A;
     A.Input();
     A.Display();
-
-    return 0;
+    int n;
+    cout << "Enter sum: ";
+    cin >> n;
+    A.ElementsWithSum(n);
+    return 0;   
 }

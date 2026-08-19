@@ -35,6 +35,7 @@ class Array
         void Input();
         int Max();
         void ElementsWithSum(int sum);
+        void AnotherElementsWithSum(int sum);
         void DuplicatesWithCount();
     };
 
@@ -149,6 +150,44 @@ void Array::ElementsWithSum(int sum)
     H = nullptr;
 }
 
+void Array::AnotherElementsWithSum(int sum) // this assumes positive inputs
+{
+    int maxElement = Max();
+    int* H = new int[maxElement + 1]();
+    bool found = false;
+    int complement = 0;
+    for (int i = 0; i < length; i++)
+    {   
+        complement = sum - A[i];
+        
+        if (complement >= 0 and H[complement] > 0 and complement <= maxElement)
+        {
+                if (complement == A[i])
+                {
+                    if (H[A[i]] >= 2)
+                    {
+                        cout << complement << " + " << A[i] << " = " << sum << endl;
+                        found = true;
+                    }
+                }
+                else
+                {
+                    cout << complement << " + " << A[i] << " = " << sum << endl;
+                    found = true;
+                }   
+        }
+        H[A[i]]++;
+    }
+    
+    if (!found)
+    {
+        cout << "No such element found!\n";
+    }
+
+    delete[] H;
+    H = nullptr;
+}
+
 int main()
 {
     Array A;
@@ -157,6 +196,6 @@ int main()
     int n;
     cout << "Enter sum: ";
     cin >> n;
-    A.ElementsWithSum(n);
+    A.AnotherElementsWithSum(n);
     return 0;   
 }

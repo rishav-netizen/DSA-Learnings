@@ -116,7 +116,7 @@ void Array::ElementsWithSum(int sum) // assumes array elements are sorted
     int i = 0, j = length - 1, currentSum = 0;
     //? this is possible but not good and readable
     // for (int i = 0, j = length - 1; i < j;)
-    while (i < j)
+    while (i < j) //! O(n)
     {
         currentSum = A[i] + A[j];
         if (currentSum > sum)

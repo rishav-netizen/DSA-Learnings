@@ -33,12 +33,14 @@ class Array
         void Insert(int index, int x);
         int Delete(int index);
         void Input();
+        int Max();
+        void ElementsWithSum(int sum);
         void DuplicatesWithCount();
     };
 
 void Array::Display()
 {
-    cout << "Elements of the array are: {";
+    cout << "\nElements of the array are: {";
     for (int i = 0; i < length; i++)
     {   
         cout << A[i];
@@ -97,12 +99,57 @@ void Array::Input()
 
 }
 
+int Array::Max()
+{
+    int result = A[0];
+    for (int i = 1; i < length; i++)
+    {
+        result = (result > A[i]) ? result : A[i];
+    }
+    return result;
+    
+}
+
+void Array::ElementsWithSum(int sum) // assumes array elements are sorted
+{
+    bool found = false;
+    int i = 0, j = length - 1, currentSum = 0;
+    //? this is possible but not good and readable
+    // for (int i = 0, j = length - 1; i < j;)
+    while (i < j)
+    {
+        currentSum = A[i] + A[j];
+        if (currentSum > sum)
+        {
+            j--;
+        }
+        else if (currentSum < sum)
+        {
+            i++;
+        }
+        else
+        {
+            cout << A[i] << " + " << A[j] << " = " << sum << endl;
+            i++; j--;
+            found = true;
+        }
+    }
+
+    if (!found)
+    {
+        cout << "No elements found with that sum!\n";
+    }
+    
+}
 
 int main()
 {
     Array A;
     A.Input();
     A.Display();
-
-    return 0;
-}
+    int n;
+    cout << "Enter sum: ";
+    cin >> n;
+    A.ElementsWithSum(n);
+    return 0;   
+} 

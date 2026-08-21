@@ -35,229 +35,222 @@ A major part of the DSA material follows **Abdul Bari's _Mastering Data Structur
 
 ```text
 c++/
-├── 0_syntax_codes/
-│   ├── 00_projects/
-│   ├── 01_helloworld/
-│   ├── 02_variables/
-│   ├── 03_input/
-│   ├── 04_strings/
-│   ├── 05_numbers/
-│   ├── 06_initializing_vars/
-│   ├── 07_arrays/
-│   ├── 08_class/
-│   └── 09_pointers/
+├── 0_syntax_codes/               # C++ Fundamentals, I/O, OOP, Memory & Templates
+│   ├── 00_projects/              # Modular evolution (monolithic -> procedural -> OOP) & games
+│   ├── 01_helloworld/            # Console outputs & ASCII shapes
+│   ├── 02_variables/             # Datatypes, operators, precedence, swap, formatting
+│   ├── 03_input/                 # cin, getline, conversions & games
+│   ├── 04_strings/               # std::string manipulation
+│   ├── 05_numbers/               # Number bases, math functions & narrowing conversions
+│   ├── 06_initializing_vars/     # Direct, copy, and uniform {} initialization
+│   ├── 07_arrays/                # 1D fixed-size arrays
+│   ├── 08_class/                 # Classes, methods, banking, and template class Arithmetic<T>
+│   ├── 09_pointers/              # Heap dynamic memory allocation (new/delete)
+│   └── README.md                 # Detailed guide to C++ fundamentals
 │
-├── 1_data_structures_code/
-│   ├── 00_recursion/
-│   ├── 01_arraysRepresentation/
-│   └── 02_arrayADT/
+├── 1_data_structures_code/       # Low-Level DSA Implementations from Scratch
+│   ├── 00_recursion/             # Recursion types, call stack trees, 7 classical problems & quiz
+│   │   ├── 01_TailHead/          # Ascending vs descending execution phases
+│   │   ├── 02_StaticGlobal/      # Static & global variables in recursion
+│   │   ├── 03_Tail/              # Pure tail recursion
+│   │   ├── 04_Head/              # Pure head recursion
+│   │   ├── 05_Tree/              # Tree recursion (multiple recursive calls)
+│   │   ├── 06_IndirectRecursion/ # Indirect circular recursion
+│   │   ├── 07_NestedRecursion/   # Nested recursive calls
+│   │   ├── Examples/             # Naturals sum, Factorial, Fast Power, Taylor, Fibonacci, nCr, Hanoi
+│   │   ├── Quiz 1/               # Recursion tracing quiz
+│   │   └── README.md             # Deep dive into recursion
+│   │
+│   ├── 01_arraysRepresentation/  # Memory layouts, 2D arrays (3 methods), n-D formulas & Horner's rule
+│   │   ├── 00_declaration/       # Declaration & initialization
+│   │   ├── 01_staticDynamic/     # Stack vs Heap memory arrays
+│   │   ├── 02_arraySizeIncrement/# Dynamic array resizing mechanics
+│   │   ├── 03_2DimensionalArray/ # 3 methods for 2D array representation in memory
+│   │   ├── 04_1DarrayIndexFormula/# 1D array index-to-address calculation
+│   │   ├── 05_2DarrayIndexFormula/# Row-Major & Column-Major address calculations
+│   │   ├── 06_nDarrayIndexFormula/# n-D addressing & Horner's Rule optimization
+│   │   ├── 07_3DarrayIndexFormula/# 3D addressing formulas
+│   │   ├── Quiz 2/               # Memory and addressing quiz
+│   │   └── README.md             # Deep dive into array memory models & math
+│   │
+│   ├── 02_arrayADT/              # Complete Array Abstract Data Type & Challenges
+│   │   ├── Functions/            # 17 core operations (Insert, Delete, Search, Merge, Set Ops, OOP Class)
+│   │   ├── StudentChallenge/     # 5 challenges (Missing elements, Duplicates, Two-Sum, Min/Max Once)
+│   │   ├── Quiz/                 # Array ADT interactive quiz
+│   │   ├── notes.txt             # Core ADT definitions
+│   │   └── README.md             # Complete Array ADT operations & complexity guide
+│   │
+│   └── README.md                 # Overview of all DSA implementations
 │
-├── 2_STL/
-├── notes/
-└── README.md
+├── 2_STL/                        # C++ Standard Template Library
+│   └── README.md                 # STL containers, iterators, algorithms & comparison guide
+│
+├── notes/                        # C++ Language Notes & Architecture
+│   ├── 00_intro.md to 04_class.md# Notes on namespaces, whitespaces, OOP, syntax
+│   ├── *.png                     # Memory layout & binary diagrams
+│   └── README.md                 # Notes catalog and language guide
+│
+└── README.md                     # Root repository overview (this file)
 ```
 
 ---
 
 ## 🧱 C++ Fundamentals
 
-The `0_syntax_codes` directory contains small programs and experiments used to learn and revise the language itself before applying it to larger DSA implementations.
+The [`0_syntax_codes`](./0_syntax_codes/README.md) directory contains small programs and experiments used to learn and revise the language itself before applying it to larger DSA implementations.
 
-| # | Topic | Folder | Status |
-| :---: | --- | --- | :---: |
-| **00** | Projects | [`00_projects`](./0_syntax_codes/00_projects/) | 🧪 Practice |
-| **01** | Hello World | [`01_helloworld`](./0_syntax_codes/01_helloworld/) | ✅ Done |
-| **02** | Variables | [`02_variables`](./0_syntax_codes/02_variables/) | ✅ Done |
-| **03** | Input | [`03_input`](./0_syntax_codes/03_input/) | ✅ Done |
-| **04** | Strings | [`04_strings`](./0_syntax_codes/04_strings/) | ✅ Done |
-| **05** | Numbers | [`05_numbers`](./0_syntax_codes/05_numbers/) | ✅ Done |
-| **06** | Variable Initialization | [`06_initializing_vars`](./0_syntax_codes/06_initializing_vars/) | ✅ Done |
-| **07** | Arrays | [`07_arrays`](./0_syntax_codes/07_arrays/) | ✅ Done |
-| **08** | Classes | [`08_class`](./0_syntax_codes/08_class/) | ✅ Done |
-| **09** | Pointers | [`09_pointers`](./0_syntax_codes/09_pointers/) | ✅ Done |
+| # | Topic | Folder | Status | Key Highlights |
+| :---: | --- | --- | :---: | --- |
+| **00** | Projects | [`00_projects`](./0_syntax_codes/00_projects/) | ✅ Done | Monolithic $\to$ Procedural $\to$ OOP (`rect3.cpp`), CLI guessing games |
+| **01** | Hello World | [`01_helloworld`](./0_syntax_codes/01_helloworld/) | ✅ Done | Basic console output & ASCII art shapes |
+| **02** | Variables | [`02_variables`](./0_syntax_codes/02_variables/) | ✅ Done | Datatypes, constants, operators, precedence, swap |
+| **03** | Input | [`03_input`](./0_syntax_codes/03_input/) | ✅ Done | `cin`, `getline()`, temperature converter, Mad Libs |
+| **04** | Strings | [`04_strings`](./0_syntax_codes/04_strings/) | ✅ Done | `std::string` indexing, concatenation |
+| **05** | Numbers | [`05_numbers`](./0_syntax_codes/05_numbers/) | ✅ Done | Number bases (hex, octal, binary), `<cmath>`, narrowing conversions |
+| **06** | Variable Initialization | [`06_initializing_vars`](./0_syntax_codes/06_initializing_vars/) | ✅ Done | Direct, copy, and uniform `{}` initialization |
+| **07** | Arrays | [`07_arrays`](./0_syntax_codes/07_arrays/) | ✅ Done | Basic fixed-size stack arrays |
+| **08** | Classes & Templates | [`08_class`](./0_syntax_codes/08_class/) | ✅ Done | OOP encapsulation, `Arithmetic<T>` generic template, char overflow |
+| **09** | Pointers | [`09_pointers`](./0_syntax_codes/09_pointers/) | ✅ Done | Dynamic heap allocation (`new` / `delete[]`) |
 
-### 🧠 Fundamentals Practiced
-
-`Variables` · `Input/Output` · `Strings` · `Numbers` · `Arrays` · `Classes` · `Pointers` · `Memory` · `C++ Syntax`
+👉 **Read the full guide:** [`0_syntax_codes/README.md`](./0_syntax_codes/README.md)
 
 ---
 
 ## 🧮 Data Structures & Algorithms
 
-The `1_data_structures_code` directory contains implementations and exercises focused on understanding DSA concepts rather than simply relying on library implementations.
+The [`1_data_structures_code`](./1_data_structures_code/README.md) directory contains implementations and exercises focused on understanding DSA concepts from the ground up.
 
 ### 00 · Recursion
 
-[`View Recursion Code`](./1_data_structures_code/00_recursion/)
+👉 **Read the module guide:** [`00_recursion/README.md`](./1_data_structures_code/00_recursion/README.md)
 
-```text
-00_recursion/
-├── 01_Tailhead/
-├── 02_StaticGlobal/
-├── 03_Tail/
-├── 04_Head/
-├── 05_Tree/
-├── 06_IndirectRecursion/
-├── 07_NestedRecursion/
-├── Examples/
-└── Quiz 1/
-```
+- **Mechanics**: Calling phase (ascending) vs returning phase (descending), call stack activation records, static & global variables.
+- **Classification**: Tail Recursion, Head Recursion, Tree Recursion, Indirect Recursion, and Nested Recursion.
+- **Classical Problems**:
+  1. Sum of first $N$ natural numbers ($O(n)$)
+  2. Factorial ($O(n)$)
+  3. Fast Exponentiation ($O(\log n)$)
+  4. Taylor Series for $e^x$ (Standard, Static vars, and Horner's Rule in $O(n)$)
+  5. Fibonacci Series (Iterative, Naive Recursive $O(2^n)$, and Memoized $O(n)$)
+  6. Combinations $nCr$ (Factorial formula vs Pascal's Identity)
+  7. Tower of Hanoi ($2^n - 1$ steps in $O(2^n)$)
+- **Quiz 1**: Call stack tracing exercises and output analysis.
 
-Concepts include **tail recursion, head recursion, tree recursion, indirect recursion, nested recursion, and static/global variables in recursive functions**.
+---
 
-### 01 · Array Representation
+### 01 · Array Representation & Addressing Formulas
 
-[`View Array Representation Code`](./1_data_structures_code/01_arraysRepresentation/)
+👉 **Read the module guide:** [`01_arraysRepresentation/README.md`](./1_data_structures_code/01_arraysRepresentation/README.md)
 
-```text
-01_arraysRepresentation/
-├── 00_declaration/
-├── 01_staticDynamic/
-├── 02_arraySizeIncrement/
-├── 03_2DimensionalArray/
-├── 04_1DarrayIndexFormula/
-├── 05_2DarrayIndexFormula/
-├── 06_nDarrayIndexFormula/
-├── 07_3DarrayIndexFormula/
-└── Quiz 2/
-```
+- **Memory Models**: Static (Stack) vs Dynamic (Heap) arrays, array capacity expansion via pointer redirection.
+- **2D Array Representations**:
+  1. *Method 1*: Pure stack allocation (`int A[3][4]`).
+  2. *Method 2*: Stack array of pointers to heap rows (`int *A[3]`).
+  3. *Method 3*: Double pointer heap allocation (`int **A`).
+- **Addressing Formulas**:
+  - **1D Array**: $Address(A[i]) = L_0 + (i - l) \times w$
+  - **2D Array (Row-Major)**: $Address(A[i][j]) = L_0 + [(i - l_1) \times n + (j - l_2)] \times w$
+  - **2D Array (Column-Major)**: $Address(A[i][j]) = L_0 + [(j - l_2) \times m + (i - l_1)] \times w$
+  - **3D Array & n-D Array**: Generalized hypercube addressing and **Horner's Rule optimization** (reducing time from $O(n^2)$ down to $O(n)$ multiplications).
+- **Quiz 2**: Memory address calculation and pointer arithmetic.
 
-This section explores **array declaration, static vs dynamic arrays, resizing, multidimensional arrays, and the formulas used to map array indices to memory addresses**.
+---
 
-### 02 · Array ADT
+### 02 · Array ADT (Abstract Data Type)
 
-[`View Array ADT Code`](./1_data_structures_code/02_arrayADT/)
+👉 **Read the module guide:** [`02_arrayADT/README.md`](./1_data_structures_code/02_arrayADT/README.md)
 
-```text
-02_arrayADT/
-├── 01_display/
-├── 02_append/
-├── 03_insert/
-├── 04_delete/
-├── 05_search/
-├── 06_get/
-├── 07_set/
-├── 08_max_min/
-├── 09_sum/
-├── 10_reverse/
-├── 11_shift/
-└── notes.txt
-```
-
-The Array ADT section implements common array operations manually, including **display, append, insert, delete, search, get/set, max/min, reverse, and shifting operations**.
+- **17 Core Operations (`Functions/`)**:
+  - `01 Display`, `02 Append`, `03 Insert`, `04 Delete`
+  - `05 Search`: Normal linear search, Improved linear search (Transposition & Move to Head), Iterative & Recursive Binary Search ($O(\log n)$)
+  - `06 Get`, `07 Set`, `08 Max/Min`, `09 Sum & Average` (Iterative & Recursive)
+  - `10 Reverse`: Method 1 (auxiliary array) & Method 2 (two-pointer in-place swap)
+  - `11 Shift & Rotate`: Left/Right Shift and Left/Right Circular Rotate
+  - `12 Insert in Sorted Array` & `13 Check if Sorted`
+  - `14 Rearrange Positive & Negative`: Two-pointer partition algorithm in $O(n)$
+  - `15 Merge Sorted Arrays`: Linear two-finger merge in $\Theta(m + n)$
+  - `16 Set Operations`: Union, Intersection, Difference & Membership on unsorted ($O(m \times n)$) and sorted arrays ($O(m + n)$)
+  - `17 C++ Class`: Object-Oriented Array ADT with dynamic allocation, constructors, destructor, and methods
+- **5 High-Frequency Student Challenges (`StudentChallenge/`)**:
+  - `00 Find Missing Elements`: Single missing (sum formula & index diff), multiple missing, and single-pass Hash Table method ($O(n)$)
+  - `01 Duplicates in Sorted Array`: Linear scan with counting & Hash Table frequency
+  - `02 Duplicates in Unsorted Array`: Nested loops $O(n^2)$ with marking vs Hash Table $O(n)$
+  - `03 Pair of Elements with Sum K (Two-Sum)`: Two-pointer $O(n)$ on sorted array vs Hash Table $O(n)$ on unsorted array
+  - `04 Min & Max in Single Scan`: Minimized comparisons ($(n-1)$ best case, $2(n-1)$ worst case, $\approx 1.5n$ average)
+- **Quiz**: Interactive dynamic memory Array ADT test program.
 
 ---
 
 ## 📚 DSA Roadmap
 
-| Topic | Status |
-| --- | :---: |
-| Recursion | ✅ Completed |
-| Array Representation | ✅ Completed |
-| Array ADT | 🚧 In Progress |
-| Strings | ⏳ Planned |
-| Matrices | ⏳ Planned |
-| Sparse Matrices & Polynomials | ⏳ Planned |
-| Linked Lists | ⏳ Planned |
-| Stacks | ⏳ Planned |
-| Queues | ⏳ Planned |
-| Trees | ⏳ Planned |
-| Binary Search Trees | ⏳ Planned |
-| AVL Trees | ⏳ Planned |
-| Heaps | ⏳ Planned |
-| Sorting Techniques | ⏳ Planned |
-| Hashing Techniques | ⏳ Planned |
-| Graphs | ⏳ Planned |
-| Recurrence Relations | ⏳ Planned |
-| Asymptotic Analysis | ⏳ Planned |
-| Divide & Conquer | ⏳ Planned |
-| Greedy Methods | ⏳ Planned |
-| Dynamic Programming | ⏳ Planned |
-| Backtracking | ⏳ Planned |
+| Topic | Status | Detailed Documentation |
+| :--- | :---: | :---: |
+| **00 · Recursion** | ✅ Completed | [`00_recursion/README.md`](./1_data_structures_code/00_recursion/README.md) |
+| **01 · Array Representation** | ✅ Completed | [`01_arraysRepresentation/README.md`](./1_data_structures_code/01_arraysRepresentation/README.md) |
+| **02 · Array ADT** | ✅ Completed | [`02_arrayADT/README.md`](./1_data_structures_code/02_arrayADT/README.md) |
+| **03 · Strings** | ⏳ Planned | Pattern matching, anagrams, permutations, bitwise operations |
+| **04 · Matrices** | ⏳ Planned | Special matrices: Diagonal, Tri-diagonal, Symmetric, Triangular |
+| **05 · Sparse Matrix & Polynomial** | ⏳ Planned | Coordinate list, linked representation, addition & multiplication |
+| **06 · Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, operations, reverse, cycle detection |
+| **07 · Stacks** | ⏳ Planned | Array/Linked List implementations, infix-to-postfix, matching |
+| **08 · Queues** | ⏳ Planned | Linear, Circular, Deque, Priority Queue |
+| **09 · Trees** | ⏳ Planned | Binary Trees, Traversals (Pre, In, Post, Level), Height, Count |
+| **10 · Binary Search Trees** | ⏳ Planned | BST Insert, Delete, Search, Predecessor, Successor |
+| **11 · AVL Trees** | ⏳ Planned | Self-balancing BSTs, LL/RR/LR/RL rotations |
+| **12 · Search Trees & Heaps** | ⏳ Planned | 2-3 Trees, B-Trees, Max/Min Binary Heap, Heap Sort |
+| **13 · Sorting Techniques** | ⏳ Planned | Bubble, Insertion, Selection, Quick, Merge, Count, Radix, Shell |
+| **14 · Hashing Techniques** | ⏳ Planned | Chaining, Linear Probing, Quadratic Probing, Double Hashing |
+| **15 · Graphs** | ⏳ Planned | BFS, DFS, Prim's, Kruskal's, Dijkstra's, Floyd-Warshall |
 
 ---
 
-## 🧰 Standard Template Library
+## 🧰 Standard Template Library (STL)
 
-The `2_STL` directory is reserved for learning the C++ Standard Template Library and comparing standard containers with the data structures implemented manually elsewhere in this repository.
+The [`2_STL`](./2_STL/README.md) directory covers modern C++ STL containers (`vector`, `list`, `deque`, `stack`, `queue`, `priority_queue`, `set`, `map`, `unordered_map`), iterators, and algorithms, contrasting standard implementations against our custom ADTs.
 
-### Planned STL Topics
-
-`vector` · `array` · `string` · `deque` · `list` · `stack` · `queue` · `priority_queue` · `set` · `map` · `unordered_map` · `iterators` · `algorithms`
+👉 **Read the STL guide:** [`2_STL/README.md`](./2_STL/README.md)
 
 ---
 
-## 📝 Notes
+## 📝 Notes & References
 
-The [`notes`](./notes/) directory contains supporting notes and diagrams from my C++ learning.
+The [`notes`](./notes/README.md) directory contains supporting study notes, syntax rules, memory byte layouts, and diagrams.
 
 ```text
 notes/
-├── 00_intro.md
-├── 01_whitespaces.md
-├── 02_namespaces.md
-├── 03_namingconvention copy.md
-├── 04_class.md
-├── decimals.png
-├── ints.png
-└── unibyte.png
+├── 00_intro.md                   # C++ overview & I/O comparison
+├── 01_whitespaces.md             # Lexer whitespace handling
+├── 02_namespaces.md              # Namespace scoping rules
+├── 03_namingconvention copy.md  # Style & naming conventions
+├── 04_class.md                   # Class vs struct & ADT principles
+├── decimals.png                  # IEEE-754 floating point layout
+├── ints.png                      # Integer sign & bit layout
+└── unibyte.png                   # 8-bit byte representation
 ```
 
-These notes complement the source code and provide quick references for language concepts.
-
----
-
-## 🧠 What I'm Practicing
-
-`C++` · `Data Structures` · `Algorithms` · `Recursion` · `Arrays` · `Pointers` · `Memory Management` · `ADTs` · `STL` · `Time Complexity` · `Space Complexity` · `Problem Solving`
-
-The focus is on understanding **why an implementation works**, how data is represented in memory, and the time and space costs of different operations.
+👉 **Read the notes index:** [`notes/README.md`](./notes/README.md)
 
 ---
 
 ## ⚙️ Compile & Run
 
-Compile a C++ source file using Clang:
+Compile any source file using Clang or GCC:
 
 ```bash
-clang++ -std=c++17 main.cpp -o main
+# Clang (Recommended on macOS)
+clang++ -std=c++17 <file_path>.cpp -o main
+./main
+
+# GCC / G++
+g++ -std=c++17 <file_path>.cpp -o main
 ./main
 ```
 
-Or using GCC:
-
-```bash
-g++ -std=c++17 main.cpp -o main
-./main
-```
-
-For C++20:
-
-```bash
-g++ -std=c++20 main.cpp -o main
-./main
-```
-
-> Replace `main.cpp` and `main` with the actual source and executable names when necessary.
-
 ---
 
-## 🎯 Goals
+## 🎯 Learning Philosophy
 
-- Implement core data structures from scratch
-- Understand the memory representation behind each structure
-- Analyze time and space complexity instead of memorizing operations
-- Strengthen recursion and algorithmic problem-solving skills
-- Learn when and why to use STL containers and algorithms
-- Build a repository that doubles as a long-term DSA revision resource
-
----
-
-## 📈 Progress Philosophy
-
-I prefer learning the internal implementation first and using the STL equivalent afterward. This makes abstractions such as `vector`, `list`, `stack`, `queue`, and other containers easier to understand instead of treating them as black boxes.
-
----
+> **Build it $\to$ Understand the low-level memory & time cost $\to$ Utilize the STL abstraction.**
 
 <div align="center">
 

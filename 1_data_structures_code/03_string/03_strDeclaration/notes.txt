@@ -1,0 +1,116 @@
+================================================================================
+                       STRING DECLARATION & THE NULL TERMINATOR
+================================================================================
+
+1. WHAT IS A STRING IN C / C++?
+-------------------------------
+- A String in C/C++ is defined as an ARRAY OF CHARACTERS terminated by a 
+  special sentinel character called the NULL TERMINATOR (`'\0'`).
+- Without `'\0'`, a character array is simply a collection of bytes, NOT a string.
+
+
+================================================================================
+2. THE NULL TERMINATOR (`'\0'`)
+================================================================================
+
+Also known as:
+  1. String Delimiter
+  2. End of String Character
+  3. NULL Character
+  4. String Terminator
+
+Key Properties:
+- Literal representation: '\0'
+- Decimal ASCII value:    0
+- Hexadecimal:            0x00
+- Binary:                 00000000
+- Size in Memory:         1 Byte
+
+Why is it needed?
+- In C/C++, strings do not have metadata storing their length by default.
+- Standard functions (`printf("%s")`, `cout`, `strlen()`, `strcpy()`, etc.) 
+  read memory sequentially starting from the base address until they encounter 
+  the byte value `0` (`'\0'`), where they immediately stop.
+
+
+================================================================================
+3. THREE PRIMARY WAYS TO DECLARE AND INITIALIZE A STRING
+================================================================================
+
+--------------------------------------------------------------------------------
+Method 1: Sized Character Array with Explicit Null Terminator
+--------------------------------------------------------------------------------
+    char name[10] = {'J', 'o', 'h', 'n', '\0'};
+
+Memory Layout:
+       0   1   2   3   4   5   6   7   8   9   <-- Indices
+     +---+---+---+---+---+---+---+---+---+---+
+     | J | o | h | n |\0 | 0 | 0 | 0 | 0 | 0 |
+     +---+---+---+---+---+---+---+---+---+---+
+     |---|---|---|---| ^ |---|---|---|---|---|
+       Array of chars  |   Uninitialized elements zero-filled
+      (Length = 4)     String Terminator (ASCII 0)
+
+- Array capacity / Total size = 10 Bytes (`sizeof(name) == 10`)
+- String Length = 4 characters (`strlen(name) == 4`)
+- Slots from index 5 to 9 are automatically zero-filled because of partial 
+  initialization.
+
+
+--------------------------------------------------------------------------------
+Method 2: Unsized Character Array with Explicit Null Terminator
+--------------------------------------------------------------------------------
+    char name[] = {'J', 'o', 'h', 'n', '\0'};
+
+- The compiler determines the array size by counting the elements in the 
+  initializer list: 4 characters ('J', 'o', 'h', 'n') + 1 null character ('\0').
+- Array Size = 5 Bytes (`sizeof(name) == 5`)
+- String Length = 4 characters (`strlen(name) == 4`)
+
+
+--------------------------------------------------------------------------------
+Method 3: String Literal in Double Quotes (Standard / Most Common)
+--------------------------------------------------------------------------------
+    char name[] = "John";
+
+- The string literal `"John"` is enclosed in double quotes.
+- The compiler AUTOMATICALLY appends the null-terminator `'\0'` at the end.
+- Memory Layout:
+       0   1   2   3   4
+     +---+---+---+---+---+
+     | J | o | h | n |\0 |
+     +---+---+---+---+---+
+- Array Size = 5 Bytes (`sizeof(name) == 5`)
+- String Length = 4 characters (`strlen(name) == 4`)
+
+
+================================================================================
+4. PARTIAL INITIALIZATION & IMPLICIT STRINGS
+================================================================================
+
+    char X[5] = {'A', 'B'};
+
+Memory Layout:
+       0   1   2   3   4
+     +---+---+---+---+---+
+     | A | B | 0 | 0 | 0 |
+     +---+---+---+---+---+
+             ^
+             |-- Implicit '\0' at index 2
+
+- Because uninitialized elements of an array are set to 0, `X[2]` becomes 0 (`'\0'`).
+- Therefore, `X` can be printed and manipulated as a valid string `"AB"` with 
+  length 2, even though `'\0'` was not explicitly written!
+
+
+================================================================================
+5. KEY DISTINCTIONS SUMMARY
+================================================================================
+
+| Property | Character Array | String |
+| :--- | :--- | :--- |
+| **Definition** | Array of `char` without `'\0'` | Array of `char` terminated by `'\0'` |
+| **Example** | `char a[4] = {'a','b','c','d'};` | `char s[5] = {'a','b','c','d','\0'};` or `"abcd"` |
+| **cout / %s** | May cause undefined behavior / buffer overrun (reads past array) | Stops safely at `'\0'` |
+| **Length** | Fixed by array dimension | Number of characters preceding `'\0'` |
+================================================================================

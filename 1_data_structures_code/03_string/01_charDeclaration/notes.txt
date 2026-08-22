@@ -1,0 +1,73 @@
+================================================================================
+                    CHARACTER DECLARATION & INITIALIZATION NOTES
+================================================================================
+
+1. CHARACTER DECLARATION
+------------------------
+Syntax:
+    char temp;
+
+- `char` is a fundamental primitive data type in C and C++.
+- Size in Memory: Exactly 1 Byte (8 bits).
+- Memory Location: Stored in the Stack frame of the executing function.
+- Internal Representation: The machine stores the integer ASCII value of the 
+  character (e.g., for 'A', the value 65 is stored in binary: 01000001).
+
+  Memory Box:
+  +------------+
+  |    temp    |
+  |     A      |  <-- ASCII: 65 (Binary: 01000001)
+  |  (1 Byte)  |
+  +------------+
+
+
+================================================================================
+2. ASSIGNMENT RULES (VALID VS INVALID)
+================================================================================
+
+A. temp = 'A';      [ VALID ]
+   - Single character enclosed in single quotes (' ').
+   - The compiler evaluates 'A' to its corresponding ASCII integer (65) and 
+     stores it in the 1-byte memory space of `temp`.
+
+B. temp = 'AB';     [ INVALID ]
+   - Multi-character character constant.
+   - Enclosing multiple characters in single quotes attempts to pack multiple 
+     bytes into an integer (implementation-defined), which overflows or causes 
+     a compiler error/warning when assigning to a 1-byte `char`.
+
+C. temp = A;        [ INVALID ]
+   - Missing quotes.
+   - Without quotes, the compiler interprets `A` as an identifier (variable name).
+   - If no variable named `A` is in scope, it results in a compile error:
+     "error: 'A' undeclared identifier".
+
+D. temp = "A";      [ INVALID ]
+   - Enclosed in double quotes (" ").
+   - Double quotes denote a String Literal (an array of type `const char[2]` 
+     containing 'A' and the null-terminator '\0').
+   - In expressions, "A" decays into a pointer (`const char*`) to the string in 
+     read-only memory (ROData).
+   - A pointer cannot be implicitly assigned to a single `char` variable.
+   - Results in a compile error:
+     "error: cannot initialize a variable of type 'char' with an lvalue of type 'const char[2]'".
+
+
+================================================================================
+3. PRINTING / OUTPUTTING CHARACTERS
+================================================================================
+
+A. In C (printf):
+   - Formatted character:
+       printf("%c", temp);  --> Prints the symbol representation: 'A'
+   - Formatted decimal/integer:
+       printf("%d", temp);  --> Prints the numeric ASCII code: 65
+
+B. In C++ (cout):
+   - Stream character:
+       cout << temp;        --> Prints the symbol representation: 'A'
+   - Stream integer:
+       cout << (int)temp;   --> Prints the numeric ASCII code: 65
+                            (explicit cast needed because `cout` is type-aware
+                             and will print `temp` as a character by default).
+================================================================================

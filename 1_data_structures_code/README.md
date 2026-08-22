@@ -85,6 +85,26 @@ flowchart LR
 
 ---
 
+## 🔤 Strings Module Overview (`03_string/`)
+
+The strings section covers character memory representations, ASCII mechanics, and fundamental string algorithms implemented from scratch:
+
+```text
+03_string/
+├── 00_introduction/              # ASCII decimal chart (0-127), control codes, and encoding notes
+├── 01_charDeclaration/           # Character declaration, memory allocation (1 byte), valid vs invalid assignments
+├── 02_charArrayDeclaration/      # 5 methods of character array declaration & partial zero-initialization
+├── 03_strDeclaration/            # Null terminator '\0', string literal syntax, array capacity vs string length
+├── 04_strlen/                    # String length calculation via sentinel loop traversal: O(n)
+├── 05_changeCase/                # Uppercase, Lowercase, and Toggle case conversions using ASCII offset (32)
+├── 06_countVowelandWords/        # Counting vowels, consonants, and words (handling multi-space delimiters)
+└── README.md                     # Comprehensive Strings module documentation
+```
+
+👉 **Read the full module guide:** [`03_string/README.md`](./03_string/README.md)
+
+---
+
 ## ⚙️ How to Compile & Run
 
 All programs can be compiled using standard C++17 compilers (`clang++` or `g++`):

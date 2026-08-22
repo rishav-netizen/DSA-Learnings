@@ -80,6 +80,16 @@ c++/
 │   │   ├── notes.txt             # Core ADT definitions
 │   │   └── README.md             # Complete Array ADT operations & complexity guide
 │   │
+│   ├── 03_string/                # Strings, character arrays, ASCII encoding & algorithms
+│   │   ├── 00_introduction/      # ASCII table (0-127), control characters, and encoding notes
+│   │   ├── 01_charDeclaration/   # Character declaration, 1-byte storage, valid/invalid assignments
+│   │   ├── 02_charArrayDeclaration/# Character array initializations & partial zero-filling
+│   │   ├── 03_strDeclaration/    # Null terminator '\0', string literals, capacity vs length
+│   │   ├── 04_strlen/            # Length calculation via sentinel loop: O(n)
+│   │   ├── 05_changeCase/        # Uppercase, Lowercase, and Toggle case conversions (+-32)
+│   │   ├── 06_countVowelandWords/# Vowel, consonant, and multi-space word counting
+│   │   └── README.md             # Complete Strings guide & complexity matrix
+│   │
 │   └── README.md                 # Overview of all DSA implementations
 │
 ├── 2_STL/                        # C++ Standard Template Library
@@ -181,6 +191,19 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
 
 ---
 
+### 03 · Strings & Character Array Fundamentals
+
+👉 **Read the module guide:** [`03_string/README.md`](./1_data_structures_code/03_string/README.md)
+
+- **Memory & Representation**: Stack memory allocation, 1-byte storage, ASCII encoding table ($0 \dots 127$), valid vs invalid character assignments.
+- **Character Arrays vs Strings**: 5 array initialization methods, partial zero-initialization, and the Null Terminator (`'\0'`) sentinel delimiter.
+- **Core Operations & Algorithms**:
+  - `04 String Length`: $O(n)$ traversal using sentinel loop.
+  - `05 Change Case`: Uppercase, lowercase, and toggle case transformations using ASCII offset ($32$) and bitwise logic.
+  - `06 Count Vowels, Consonants & Words`: Single-scan classification and multi-space word delimiter parsing.
+
+---
+
 ## 📚 DSA Roadmap
 
 | Topic | Status | Detailed Documentation |
@@ -188,7 +211,7 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
 | **00 · Recursion** | ✅ Completed | [`00_recursion/README.md`](./1_data_structures_code/00_recursion/README.md) |
 | **01 · Array Representation** | ✅ Completed | [`01_arraysRepresentation/README.md`](./1_data_structures_code/01_arraysRepresentation/README.md) |
 | **02 · Array ADT** | ✅ Completed | [`02_arrayADT/README.md`](./1_data_structures_code/02_arrayADT/README.md) |
-| **03 · Strings** | ⏳ Planned | Pattern matching, anagrams, permutations, bitwise operations |
+| **03 · Strings** | ⏳ In Progress | [`03_string/README.md`](./1_data_structures_code/03_string/README.md) |
 | **04 · Matrices** | ⏳ Planned | Special matrices: Diagonal, Tri-diagonal, Symmetric, Triangular |
 | **05 · Sparse Matrix & Polynomial** | ⏳ Planned | Coordinate list, linked representation, addition & multiplication |
 | **06 · Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, operations, reverse, cycle detection |

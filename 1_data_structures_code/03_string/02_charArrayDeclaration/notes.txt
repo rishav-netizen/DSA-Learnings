@@ -1,0 +1,92 @@
+================================================================================
+                    CHARACTER ARRAY DECLARATION & INITIALIZATION
+================================================================================
+
+1. WHAT IS A CHARACTER ARRAY?
+-----------------------------
+- A character array is a sequential collection of `char` elements stored in 
+  contiguous memory locations.
+- Each element occupies exactly 1 Byte (8 bits).
+- Total memory allocated = (Number of elements) * sizeof(char) = N * 1 Byte.
+
+
+================================================================================
+2. METHODS OF DECLARATION & INITIALIZATION
+================================================================================
+
+Method 1: Declaration without Initialization
+---------------------------------------------
+    char X[5];
+
+- Allocates 5 consecutive bytes in the Stack frame.
+- The elements contain indeterminate / garbage values until assigned.
+- Memory:
+       +---+---+---+---+---+
+    X: | ? | ? | ? | ? | ? |
+       +---+---+---+---+---+
+         0   1   2   3   4
+
+
+Method 2: Explicit Size with Character Literals
+------------------------------------------------
+    char X[5] = {'A', 'B', 'C', 'D', 'E'};
+
+- Explicitly declares an array of 5 characters and initializes every element.
+- Memory Layout:
+       +---+---+---+---+---+
+    X: | A | B | C | D | E |
+       +---+---+---+---+---+
+         0   1   2   3   4
+- ASCII values stored: 65, 66, 67, 68, 69.
+- Note: This is an array of characters, NOT a null-terminated C-string (no '\0').
+
+
+Method 3: Implicit Sizing (Size Inferred by Compiler)
+-----------------------------------------------------
+    char X[] = {'A', 'B', 'C', 'D', 'E'};
+
+- The array size is omitted in the brackets `[]`.
+- The compiler automatically counts the number of initializers (5) and allocates
+  exactly 5 bytes in memory (`sizeof(X) == 5`).
+
+
+Method 4: Initialization using ASCII Decimal Codes
+--------------------------------------------------
+    char X[5] = {65, 66, 67, 68, 69};
+
+- Instead of character literals in quotes, integer ASCII values are supplied.
+- 65 corresponds to 'A', 66 to 'B', 67 to 'C', 68 to 'D', 69 to 'E'.
+- Stored identically in binary memory as `{'A', 'B', 'C', 'D', 'E'}`.
+
+
+Method 5: Partial Initialization (Zero-Filling)
+------------------------------------------------
+    char X[5] = {'A', 'B'};
+
+- When an array is partially initialized, the specified elements receive their 
+  respective initial values.
+- All remaining uninitialized elements are AUTOMATICALLY zero-initialized (filled with 0).
+- Since integer `0` is the ASCII value of the Null Character (`'\0'`), the remaining
+  elements contain `'\0'`.
+- Memory Layout:
+       +---+---+---+---+---+
+    X: | A | B | 0 | 0 | 0 |
+       +---+---+---+---+---+
+         0   1   2   3   4
+                 ^   ^   ^
+                 |---|---|-- Zero-initialized (ASCII 0 / '\0')
+
+- Significance: Because `X[2]` contains `0` (`'\0'`), `X` can safely be treated 
+  as the string `"AB"` by standard C/C++ string functions (like `printf("%s", X)` 
+  or `cout << X`).
+
+
+================================================================================
+3. SUMMARY OF KEY RULES
+================================================================================
+1. `char X[5];`                          -> Garbage values in all 5 slots.
+2. `char X[5] = {'A','B','C','D','E'};`  -> Fully populated, no null terminator.
+3. `char X[] = {'A','B','C','D','E'};`   -> Auto-sized to 5 bytes.
+4. `char X[5] = {65, 66, 67, 68, 69};`   -> Decimal ASCII codes convert to characters.
+5. `char X[5] = {'A', 'B'};`             -> Remaining slots filled with 0 (`'\0'`).
+================================================================================

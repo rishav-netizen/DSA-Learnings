@@ -98,6 +98,9 @@ The strings section covers character memory representations, ASCII mechanics, an
 ├── 04_strlen/                    # String length calculation via sentinel loop traversal: O(n)
 ├── 05_changeCase/                # Uppercase, Lowercase, and Toggle case conversions using ASCII offset (32)
 ├── 06_countVowelandWords/        # Counting vowels, consonants, and words (handling multi-space delimiters)
+├── 07_validation/                # String validation algorithm (alphanumeric check)
+├── 08_reversing/                 # String reversal (Method 1: Auxiliary array, Method 2: In-place swap)
+├── 09_comparing/                 # String comparison (lexicographical comparison & palindrome check)
 └── README.md                     # Comprehensive Strings module documentation
 ```
 

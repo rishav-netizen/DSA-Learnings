@@ -88,6 +88,9 @@ c++/
 │   │   ├── 04_strlen/            # Length calculation via sentinel loop: O(n)
 │   │   ├── 05_changeCase/        # Uppercase, Lowercase, and Toggle case conversions (+-32)
 │   │   ├── 06_countVowelandWords/# Vowel, consonant, and multi-space word counting
+│   │   ├── 07_validation/        # Alphanumeric string validation
+│   │   ├── 08_reversing/         # Reversal (0_auxillary & 1_inplace swap)
+│   │   ├── 09_comparing/         # Comparison (0_compare & 1_palindrome check)
 │   │   └── README.md             # Complete Strings guide & complexity matrix
 │   │
 │   └── README.md                 # Overview of all DSA implementations

@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-orange?style=for-the-badge)
-![Topics](https://img.shields.io/badge/Modules-7_Completed-brightgreen?style=for-the-badge)
+![Topics](https://img.shields.io/badge/Modules-10_Completed-brightgreen?style=for-the-badge)
 
 *Low-level memory representation, character array initializations, ASCII mathematics, null-terminated C-strings, and fundamental string algorithms implemented from scratch in C++.*
 
@@ -20,7 +20,7 @@ In C and C++, a **String** is not a native primitive data type at the hardware l
 1. **Character Encoding (ASCII)**: How numeric integer codes ($0 \dots 127$) map to printable symbols and non-printable control instructions.
 2. **Memory Layout**: How single `char` variables (1 Byte), character arrays, and string literals reside in the Stack vs Read-Only Data (`.rodata`) segments.
 3. **The Sentinel / Delimiter Pattern**: Why `'\0'` (ASCII `0`) is essential for string traversal, bound detection, and standard library I/O.
-4. **String Operations**: Algorithmic implementations for length calculation, case conversion/toggling, and multi-condition token/word counting.
+4. **String Operations**: Algorithmic implementations for length calculation, case conversion/toggling, validation, reversing (auxiliary vs in-place), lexicographical comparison, and palindrome checking.
 
 ---
 
@@ -35,6 +35,13 @@ In C and C++, a **String** is not a native primitive data type at the hardware l
 ├── 04_strlen/                    # String length calculation via sentinel loop traversal: O(n)
 ├── 05_changeCase/                # Uppercase, Lowercase, and Toggle case conversions using ASCII offset (32)
 ├── 06_countVowelandWords/        # Counting vowels, consonants, and words (handling multi-space delimiters)
+├── 07_validation/                # String validation algorithm (alphanumeric check)
+├── 08_reversing/                 # String reversal techniques
+│   ├── 0_auxillary/              # Method 1: Using auxiliary character array: O(n) space
+│   └── 1_inplace/                # Method 2: Two-pointer in-place swap: O(1) space
+├── 09_comparing/                 # String comparison & palindrome verification
+│   ├── 0_compare/                # Case-insensitive lexicographical string comparison
+│   └── 1_palindrome/             # Palindrome detection via string reversal and comparison
 └── README.md                     # Strings module documentation and progress tracker
 ```
 
@@ -110,6 +117,40 @@ for (; name[i] != '\0'; i++);
   return count + 1;
   ```
 
+#### D. String Validation (`07_validation`)
+- Validates whether a string conforms to specific character set constraints (e.g., valid usernames/passwords without special characters):
+  ```cpp
+  bool valid(const char *name) {
+      for (int i = 0; name[i]; i++) {
+          if (!('a' <= name[i] && name[i] <= 'z') &&
+              !('A' <= name[i] && name[i] <= 'Z') &&
+              !('0' <= name[i] && name[i] <= '9')) {
+              return false;
+          }
+      }
+      return true;
+  }
+  ```
+- **Time Complexity**: $O(n)$ · **Space Complexity**: $O(1)$.
+
+#### E. String Reversal (`08_reversing`)
+- **Method 1 · Auxiliary Array (`0_auxillary`)**:
+  Calculate length $l$, allocate an auxiliary buffer $B[l+1]$, copy characters from end of $A$ to start of $B$, and terminate with $B[j] = \text{'\0'}$.
+  - **Time**: $O(n)$ · **Auxiliary Space**: $O(n)$.
+- **Method 2 · In-Place Two-Pointer Swap (`1_inplace`)**:
+  Initialize pointers $i = 0$ and $j = \text{length} - 1$. Swap $A[i]$ with $A[j]$ and increment $i$, decrement $j$ until $i \ge j$.
+  - **Time**: $O(n)$ · **Auxiliary Space**: $O(1)$.
+
+#### F. String Comparison & Palindrome Detection (`09_comparing`)
+- **Lexicographical Comparison (`0_compare`)**:
+  Iterate synchronously through $A[i]$ and $B[j]$, convert to lowercase for case-insensitivity, and detect inequality:
+  - If $A[i] == B[j]$ at termination: Strings are **Equal**.
+  - If $A[i] < B[j]$: String $A$ is **Smaller** (appears earlier alphabetically).
+  - If $A[i] > B[j]$: String $A$ is **Greater**.
+- **Palindrome Verification (`1_palindrome`)**:
+  Reverse string $A$ into string $B$, then perform character-by-character equality check.
+  - **Time**: $O(n)$ · **Space**: $O(n)$ (or $O(1)$ if using two pointers).
+
 ---
 
 ## 📊 Operations Complexity Matrix
@@ -122,6 +163,11 @@ for (; name[i] != '\0'; i++);
 | **Toggle Case** | `05_changeCase` | $O(1)$ per char | $O(1)$ | Range check / Bitwise XOR `^ 32` |
 | **Count Vowels & Consonants** | `06_countVowelandWords` | $O(n)$ | $O(1)$ | Lookup & alphabetic validation |
 | **Count Words** | `06_countVowelandWords` | $O(n)$ | $O(1)$ | Space transition check (`c[i]==' ' && c[i-1]!=' '`) |
+| **String Validation** | `07_validation` | $O(n)$ | $O(1)$ | Alphanumeric range checking |
+| **Reverse (Auxiliary)** | `08_reversing/0_auxillary` | $O(n)$ | $O(n)$ | End-to-start copy into second array |
+| **Reverse (In-Place)** | `08_reversing/1_inplace` | $O(n)$ | $O(1)$ | Two-pointer inward swapping |
+| **String Comparison** | `09_comparing/0_compare` | $O(n)$ | $O(1)$ | Lexicographical ASCII delta checking |
+| **Palindrome Check** | `09_comparing/1_palindrome` | $O(n)$ | $O(n)$ | Reverse copy & synchronous comparison |
 
 ---
 
@@ -130,23 +176,20 @@ for (; name[i] != '\0'; i++);
 Compile and execute any program using C++17:
 
 ```bash
-# Character declaration & valid/invalid syntax
-clang++ -std=c++17 01_charDeclaration/main.cpp -o char_decl && ./char_decl
+# String validation (alphanumeric check)
+clang++ -std=c++17 07_validation/main.cpp -o valid && ./valid
 
-# Character array initialization methods
-clang++ -std=c++17 02_charArrayDeclaration/main.cpp -o arr_decl && ./arr_decl
+# String reversal (auxiliary array)
+clang++ -std=c++17 08_reversing/0_auxillary/main.cpp -o rev_aux && ./rev_aux
 
-# String declaration & null terminator mechanics
-clang++ -std=c++17 03_strDeclaration/main.cpp -o str_decl && ./str_decl
+# String reversal (in-place swap)
+clang++ -std=c++17 08_reversing/1_inplace/main.cpp -o rev_inplace && ./rev_inplace
 
-# String length calculation
-clang++ -std=c++17 04_strlen/main.cpp -o str_len && ./str_len
+# String comparison
+clang++ -std=c++17 09_comparing/0_compare/main.cpp -o cmp && ./cmp
 
-# Case conversion and toggling
-clang++ -std=c++17 05_changeCase/main.cpp -o case_change && ./case_change
-
-# Vowel, consonant, and word counting
-clang++ -std=c++17 06_countVowelandWords/main.cpp -o count_words && ./count_words
+# Palindrome detection
+clang++ -std=c++17 09_comparing/1_palindrome/main.cpp -o pal && ./pal
 ```
 
 ---

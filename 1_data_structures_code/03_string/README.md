@@ -42,6 +42,7 @@ In C and C++, a **String** is not a native primitive data type at the hardware l
 ├── 09_comparing/                 # String comparison & palindrome verification
 │   ├── 0_compare/                # Case-insensitive lexicographical string comparison
 │   └── 1_palindrome/             # Palindrome detection via string reversal and comparison
+├── 010_duplicates/               # Finding duplicate characters using bitwise operations (masking & merging)
 └── README.md                     # Strings module documentation and progress tracker
 ```
 
@@ -151,6 +152,25 @@ for (; name[i] != '\0'; i++);
   Reverse string $A$ into string $B$, then perform character-by-character equality check.
   - **Time**: $O(n)$ · **Space**: $O(n)$ (or $O(1)$ if using two pointers).
 
+#### G. Finding Duplicates via Bitwise Operations (`010_duplicates`)
+- Utilizes a single 32-bit / 64-bit integer (`long int H = 0`) as a compact bitset instead of an auxiliary 26-element array (104 bytes $\rightarrow$ 4 bytes).
+- **Core Bitwise Mechanics**:
+  - **Left Shift (`1 << (A[i] - 97)`)**: Creates a mask with the bit at index $A[i] - 'a'$ turned ON.
+  - **Masking (`x & H`)**: Tests if the bit is already ON ($> 0 \implies$ duplicate character detected).
+  - **Merging (`H = x | H`)**: Sets the bit to $1$ to record the character's occurrence.
+  ```cpp
+  long int H = 0;
+  for (int i = 0; A[i]; i++) {
+      long int x = 1;
+      x = x << (A[i] - 97);
+      if ((x & H) > 0)
+          cout << "Duplicate: " << A[i] << endl;
+      else
+          H = x | H;
+  }
+  ```
+- **Time Complexity**: $O(n)$ · **Auxiliary Space**: $O(1)$ (only 4 bytes memory).
+
 ---
 
 ## 📊 Operations Complexity Matrix
@@ -168,6 +188,7 @@ for (; name[i] != '\0'; i++);
 | **Reverse (In-Place)** | `08_reversing/1_inplace` | $O(n)$ | $O(1)$ | Two-pointer inward swapping |
 | **String Comparison** | `09_comparing/0_compare` | $O(n)$ | $O(1)$ | Lexicographical ASCII delta checking |
 | **Palindrome Check** | `09_comparing/1_palindrome` | $O(n)$ | $O(n)$ | Reverse copy & synchronous comparison |
+| **Finding Duplicates** | `010_duplicates` | $O(n)$ | $O(1)$ | Bitmasking (`&`), left shifting (`<<`), & merging (`\|`) |
 
 ---
 
@@ -190,6 +211,9 @@ clang++ -std=c++17 09_comparing/0_compare/main.cpp -o cmp && ./cmp
 
 # Palindrome detection
 clang++ -std=c++17 09_comparing/1_palindrome/main.cpp -o pal && ./pal
+
+# Finding duplicates (bitwise operations)
+clang++ -std=c++17 010_duplicates/main.cpp -o duplicates && ./duplicates
 ```
 
 ---

@@ -91,6 +91,7 @@ c++/
 │   │   ├── 07_validation/        # Alphanumeric string validation
 │   │   ├── 08_reversing/         # Reversal (0_auxillary & 1_inplace swap)
 │   │   ├── 09_comparing/         # Comparison (0_compare & 1_palindrome check)
+│   │   ├── 010_duplicates/       # Finding duplicates using bitwise operations (masking & merging)
 │   │   └── README.md             # Complete Strings guide & complexity matrix
 │   │
 │   └── README.md                 # Overview of all DSA implementations
@@ -204,6 +205,10 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
   - `04 String Length`: $O(n)$ traversal using sentinel loop.
   - `05 Change Case`: Uppercase, lowercase, and toggle case transformations using ASCII offset ($32$) and bitwise logic.
   - `06 Count Vowels, Consonants & Words`: Single-scan classification and multi-space word delimiter parsing.
+  - `07 Validation`: Alphanumeric character validation ($O(n)$).
+  - `08 Reversing`: Auxiliary buffer ($O(n)$ space) vs two-pointer in-place swap ($O(1)$ space).
+  - `09 Comparing & Palindrome`: Case-insensitive lexicographical comparison and palindrome detection.
+  - `010 Finding Duplicates`: Bitwise masking ($x \ \& \ H$), left shifting ($1 \ll (A[i]-97)$), and merging ($H \mid x$) in $O(n)$ time and $O(1)$ space ($4$ bytes) vs Hash Table.
 
 ---
 

@@ -1,0 +1,264 @@
+================================================================================
+          FINDING DUPLICATES IN A STRING USING BITWISE OPERATIONS
+================================================================================
+
+1. PROBLEM STATEMENT & MOTIVATION
+---------------------------------
+Given a string of characters (e.g., `char A[] = "finding"`), find and display 
+all duplicate characters present in the string.
+
+Example from whiteboard / lecture:
+    char A[] = "finding";
+
+Array Layout & ASCII Mapping:
+    ASCII:   102   105   110   100   105   110   103     0
+            +-----+-----+-----+-----+-----+-----+-----+-----+
+    A  -->  | 'f' | 'i' | 'n' | 'd' | 'i' | 'n' | 'g' |'\0'|
+            +-----+-----+-----+-----+-----+-----+-----+-----+
+    Index:     0     1     2     3     4     5     6     7
+
+Analysis:
+- 'i' appears at index 1 and index 4 (Duplicate!)
+- 'n' appears at index 2 and index 5 (Duplicate!)
+- Length of string = 7 characters.
+
+================================================================================
+2. THREE APPROACHES TO FIND DUPLICATES
+================================================================================
+
+--------------------------------------------------------------------------------
+Approach 1: Brute Force (Nested Loops / Compare with remaining elements)
+--------------------------------------------------------------------------------
+- Compare every character A[i] with all subsequent characters A[j] (where j > i).
+- Time Complexity: O(n^2)
+- Space Complexity: O(1)
+- Drawback: Redundant comparisons; if a duplicate appears 3+ times, handling 
+  multiple duplicate prints requires marking/modifying the string.
+
+--------------------------------------------------------------------------------
+Approach 2: Counting / Hash Table / Frequency Array
+--------------------------------------------------------------------------------
+- Create an integer array H of size 26 initialized with 0:
+    int H[26] = {0};
+- Traverse string: increment count for each letter:
+    H[A[i] - 97]++;  // or A[i] - 'a'
+- Scan H array: if H[i] > 1, character (char)(i + 97) is duplicated.
+- Time Complexity: O(n)
+- Space Complexity: O(1) in big-O, but requires 26 * 4 bytes = 104 bytes in memory.
+
+--------------------------------------------------------------------------------
+Approach 3: Bitwise Operations (Bit Manipulation / Bitmasking) [OPTIMAL]
+--------------------------------------------------------------------------------
+- Instead of using an array of 26 integers (104 bytes), we can use a SINGLE 
+  integer / long integer variable (32/64 bits = 4 or 8 bytes) as a compact bitset!
+- Lowercase English alphabet has 26 letters ('a' to 'z').
+- A 32-bit integer has 32 individual bits (0 to 31). We only need 26 bits.
+- Each bit position represents one alphabet character:
+    Bit 0  -> 'a'
+    Bit 1  -> 'b'
+    Bit 2  -> 'c'
+    ...
+    Bit 5  -> 'f'
+    Bit 8  -> 'i'
+    Bit 13 -> 'n'
+    ...
+    Bit 25 -> 'z'
+
+- Time Complexity: O(n)
+- Space Complexity: O(1) (Only 1 integer variable, 4 bytes = 32 bits).
+
+
+================================================================================
+3. CORE BITWISE OPERATIONS EXPLAINED
+================================================================================
+
+To find duplicates using a single integer variable `H = 0`, we use three operations:
+
+1. LEFT SHIFT OPERATOR (`<<`):
+   - Used to create a BITMASK for a specific character.
+   - Syntax:
+       long int x = 1;
+       x = x << (A[i] - 97);   // Shift bit 1 left by (ASCII - 97) positions
+   - Example: For 'f' (ASCII 102):
+       offset = 102 - 97 = 5
+       x = 1 << 5 = 32 (Binary: ... 00000000 00100000)
+       This places a '1' at bit position 5.
+
+2. BITS ANDing / MASKING (`&`):
+   - Used to CHECK / TEST if a particular bit is already ON (set to 1) in H.
+   - Masking operation:
+       if ((x & H) > 0)
+   - How it works:
+       If the bit at position (A[i] - 97) was ALREADY set in H (from a prior occurrence):
+           x & H produces a non-zero value (> 0).
+           --> Indicates the character is a DUPLICATE!
+       If the bit was NOT set (character seen for the first time):
+           x & H produces 0.
+
+3. BITS ORing / MERGING (`|`):
+   - Used to SET (turn ON) a particular bit in H to 1.
+   - Merging operation:
+       H = x | H;   // or H |= x;
+   - How it works:
+       Performs a bitwise union. It preserves all previously set bits in H and 
+       sets the new bit corresponding to A[i] to 1.
+
+
+================================================================================
+4. 32-BIT BITSET MEMORY REPRESENTATION
+================================================================================
+
+Bit indices mapping to alphabet letters:
+
+ Bit:  31 30 29 28 27 26 | 25 24 23 ... 13 ...  8  7  6  5  4  3  2  1  0
+ Char: [  Unused (6)   ] |  z  y  x ...  n ...  i  h  g  f  e  d  c  b  a
+
+ Initial state:
+ H = 0 (All 32 bits are 0)
+ H = 00000000 00000000 00000000 00000000
+
+
+================================================================================
+5. STEP-BY-STEP DRY RUN / TRACE FOR "finding"
+================================================================================
+
+Given: char A[] = "finding";
+Initial: H = 0 (0000...0000)
+
+--------------------------------------------------------------------------------
+Step 0: i = 0 | Character = 'f' (ASCII 102)
+--------------------------------------------------------------------------------
+- Offset = 102 - 97 = 5
+- Bitmask x = 1 << 5 = 32 (Binary: 00...00100000)
+- MASKING (Check):
+    x & H = 32 & 0 = 0  (Bit 5 is NOT set)
+- MERGING (Set bit):
+    H = H | x = 0 | 32 = 32
+- State of H: Bit 5 is ON (represents 'f').
+
+--------------------------------------------------------------------------------
+Step 1: i = 1 | Character = 'i' (ASCII 105)
+--------------------------------------------------------------------------------
+- Offset = 105 - 97 = 8
+- Bitmask x = 1 << 8 = 256 (Binary: 00...0100000000)
+- MASKING (Check):
+    x & H = 256 & 32 = 0  (Bit 8 is NOT set)
+- MERGING (Set bit):
+    H = H | x = 32 | 256 = 288
+- State of H: Bits 5 ('f') and 8 ('i') are ON.
+
+--------------------------------------------------------------------------------
+Step 2: i = 2 | Character = 'n' (ASCII 110)
+--------------------------------------------------------------------------------
+- Offset = 110 - 97 = 13
+- Bitmask x = 1 << 13 = 8192 (Binary: 00...10000000000000)
+- MASKING (Check):
+    x & H = 8192 & 288 = 0  (Bit 13 is NOT set)
+- MERGING (Set bit):
+    H = H | x = 288 | 8192 = 8480
+- State of H: Bits 5 ('f'), 8 ('i'), 13 ('n') are ON.
+
+--------------------------------------------------------------------------------
+Step 3: i = 3 | Character = 'd' (ASCII 100)
+--------------------------------------------------------------------------------
+- Offset = 100 - 97 = 3
+- Bitmask x = 1 << 3 = 8 (Binary: 00...00001000)
+- MASKING (Check):
+    x & H = 8 & 8480 = 0  (Bit 3 is NOT set)
+- MERGING (Set bit):
+    H = H | x = 8480 | 8 = 8488
+- State of H: Bits 3 ('d'), 5 ('f'), 8 ('i'), 13 ('n') are ON.
+
+--------------------------------------------------------------------------------
+Step 4: i = 4 | Character = 'i' (ASCII 105)
+--------------------------------------------------------------------------------
+- Offset = 105 - 97 = 8
+- Bitmask x = 1 << 8 = 256
+- MASKING (Check):
+    x & H = 256 & 8488 = 256  (> 0 !!)
+    --> BIT 8 IS ALREADY SET!
+    --> 'i' IS A DUPLICATE!
+- Output: "Duplicate found: i"
+- (No merging needed since bit is already 1)
+
+--------------------------------------------------------------------------------
+Step 5: i = 5 | Character = 'n' (ASCII 110)
+--------------------------------------------------------------------------------
+- Offset = 110 - 97 = 13
+- Bitmask x = 1 << 13 = 8192
+- MASKING (Check):
+    x & H = 8192 & 8488 = 8192 (> 0 !!)
+    --> BIT 13 IS ALREADY SET!
+    --> 'n' IS A DUPLICATE!
+- Output: "Duplicate found: n"
+- (No merging needed since bit is already 1)
+
+--------------------------------------------------------------------------------
+Step 6: i = 6 | Character = 'g' (ASCII 103)
+--------------------------------------------------------------------------------
+- Offset = 103 - 97 = 6
+- Bitmask x = 1 << 6 = 64
+- MASKING (Check):
+    x & H = 64 & 8488 = 0  (Bit 6 is NOT set)
+- MERGING (Set bit):
+    H = H | x = 8488 | 64 = 8552
+- State of H: Bits 3, 5, 6, 8, 13, 6 are ON.
+
+--------------------------------------------------------------------------------
+Step 7: i = 7 | Character = '\0' -> String ends, loop terminates.
+--------------------------------------------------------------------------------
+
+Result: Duplicates in "finding" are 'i' and 'n'.
+
+
+================================================================================
+6. COMPLETE C++ CODE (BITWISE APPROACH)
+================================================================================
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    char A[] = "finding";
+    long int H = 0;   // 32/64 bit integer acting as a hash table of bits
+
+    cout << "String: " << A << "\n";
+    cout << "Duplicate characters: ";
+
+    for (int i = 0; A[i] != '\0'; i++)
+    {
+        long int x = 1;
+        x = x << (A[i] - 97); // Left shift 1 by offset (0-25)
+
+        // Masking: Check if bit is already ON
+        if ((x & H) > 0)
+        {
+            cout << A[i] << " ";
+        }
+        else
+        {
+            // Merging: Turn the bit ON
+            H = x | H;
+        }
+    }
+    cout << "\n";
+    return 0;
+}
+
+
+================================================================================
+7. COMPLEXITY & PERFORMANCE COMPARISON
+================================================================================
+
+| Method | Time Complexity | Auxiliary Space | Memory Used | Pros / Cons |
+| :--- | :---: | :---: | :---: | :--- |
+| **1. Brute Force** | O(n^2) | O(1) | 0 bytes | Simple, but slow for large strings |
+| **2. Hash Table (Count)** | O(n) | O(1) | 104 bytes (26 ints) | Can count exact frequency of occurrences |
+| **3. Bitwise Masking** | O(n) | O(1) | 4 bytes (1 int) | Extremely fast (CPU bitwise ops) & minimal memory |
+
+NOTE ON LIMITATION OF BITWISE METHOD:
+- Standard single integer bitwise tracking only acts as a boolean flag (seen vs not seen).
+- It indicates IF a character is duplicated, but does not track exact frequency (e.g. 2 times vs 5 times) without additional bitfields.
+- If a character appears 3 times (e.g., "iiik"), it will trigger the duplicate condition for each occurrence after the first. To prevent printing duplicates multiple times, a second bitmask can be used to track already-printed duplicates.
+================================================================================

@@ -93,6 +93,7 @@ c++/
 │   │   ├── 09_comparing/         # Comparison (00_compare & 01_palindrome check)
 │   │   ├── 10_duplicates/        # Finding duplicates using bitwise operations (masking & merging)
 │   │   ├── 11_anagram/           # Anagram checking via hash table frequency counting
+│   │   ├── 12_permutations/      # Finding permutations via State Space Tree & Swapping Backtracking
 │   │   └── README.md             # Complete Strings guide & complexity matrix
 │   │
 │   └── README.md                 # Overview of all DSA implementations
@@ -211,6 +212,7 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
   - `09 Comparing & Palindrome`: Case-insensitive lexicographical comparison and palindrome detection.
   - `10 Finding Duplicates`: Bitwise masking ($x \ \& \ H$), left shifting ($1 \ll (A[i]-97)$), and merging ($H \mid x$) in $O(n)$ time and $O(1)$ space ($4$ bytes) vs Hash Table.
   - `11 Anagram Checking`: Single hash table frequency increment/decrement technique ($O(n)$ time, $O(1)$ auxiliary space).
+  - `12 Permutations`: Generating all $n!$ arrangements using recursive State Space Tree (flag array) and in-place swapping with backtracking ($O(n \times n!)$ time).
 
 ---
 
@@ -221,7 +223,7 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
 | **00 · Recursion** | ✅ Completed | [`00_recursion/README.md`](./1_data_structures_code/00_recursion/README.md) |
 | **01 · Array Representation** | ✅ Completed | [`01_arraysRepresentation/README.md`](./1_data_structures_code/01_arraysRepresentation/README.md) |
 | **02 · Array ADT** | ✅ Completed | [`02_arrayADT/README.md`](./1_data_structures_code/02_arrayADT/README.md) |
-| **03 · Strings** | ⏳ In Progress | [`03_string/README.md`](./1_data_structures_code/03_string/README.md) |
+| **03 · Strings** | ✅ Completed | [`03_string/README.md`](./1_data_structures_code/03_string/README.md) |
 | **04 · Matrices** | ⏳ Planned | Special matrices: Diagonal, Tri-diagonal, Symmetric, Triangular |
 | **05 · Sparse Matrix & Polynomial** | ⏳ Planned | Coordinate list, linked representation, addition & multiplication |
 | **06 · Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, operations, reverse, cycle detection |

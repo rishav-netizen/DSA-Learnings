@@ -43,7 +43,7 @@ This directory contains pure C++ implementations of foundational data structures
 | **00 · Recursion** | Fundamentals of recursive execution, call stacks, and recurrence relations. | Tail, Head, Tree, Indirect, Nested Recursion, Taylor Series, Fibonacci (Memoization), Tower of Hanoi | ✅ Completed | [Explore Recursion](./00_recursion/README.md) |
 | **01 · Array Representation** | Physical and logical memory mapping of arrays. | Static vs Dynamic, Array Resizing, 2D Representations (3 Methods), Row/Column Major Formulas, Horner's Rule | ✅ Completed | [Explore Array Representation](./01_arraysRepresentation/README.md) |
 | **02 · Array ADT** | Complete Array Abstract Data Type with 17 core operations and interview challenges. | Insert, Delete, Binary Search, Set Operations (Union, Intersection, Diff), Missing Elements, Duplicates, Two-Sum, Single-scan Min/Max | ✅ Completed | [Explore Array ADT](./02_arrayADT/README.md) |
-| **03 · Strings** | Character memory models, null-terminated strings, and core string algorithms. | ASCII encoding, char vs string, length, case conversion, word counting, validation, reversal, comparison, bitwise duplicates | ⏳ In Progress | [Explore Strings](./03_string/README.md) |
+| **03 · Strings** | Character memory models, null-terminated strings, and core string algorithms. | ASCII encoding, char vs string, length, case conversion, word counting, validation, reversal, comparison, bitwise duplicates, anagrams, permutations | ✅ Completed | [Explore Strings](./03_string/README.md) |
 
 ---
 
@@ -55,7 +55,7 @@ Following **Abdul Bari's _Mastering Data Structures & Algorithms using C and C++
 flowchart LR
     A["00 · Recursion ✅"] --> B["01 · Array Representation ✅"]
     B --> C["02 · Array ADT ✅"]
-    C --> D["03 · Strings ⏳"]
+    C --> D["03 · Strings ✅"]
     D --> E["04 · Matrices ⏳"]
     E --> F["05 · Sparse Matrix & Polynomial ⏳"]
     F --> G["06 · Linked Lists ⏳"]
@@ -71,7 +71,7 @@ flowchart LR
 | 1 | **Recursion** | ✅ Completed | Comprehensive coverage of recursion types, recurrence tracing, and 7 classical problems. |
 | 2 | **Array Representation** | ✅ Completed | Memory layout, heap allocation, 1D/2D/3D/nD address calculations. |
 | 3 | **Array ADT** | ✅ Completed | 17 manual operations, OOP class encapsulation, 5 advanced student challenges. |
-| 4 | **Strings** | ⏳ In Progress | ASCII encoding, char vs string, length calculation, case conversion, word counting, validation, reversal, comparison, bitwise duplicates. |
+| 4 | **Strings** | ✅ Completed | ASCII encoding, char vs string, length calculation, case conversion, word counting, validation, reversal, comparison, bitwise duplicates, anagrams, permutations. |
 | 5 | **Matrices** | ⏳ Planned | Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal matrices. |
 | 6 | **Sparse Matrix & Polynomial** | ⏳ Planned | 3-column representation, linked representation, polynomial evaluation & addition. |
 | 7 | **Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, Doubly Circular, operations, reverse, merge, loops. |
@@ -103,6 +103,7 @@ The strings section covers character memory representations, ASCII mechanics, an
 ├── 09_comparing/                 # String comparison (lexicographical comparison & palindrome check)
 ├── 10_duplicates/                # Finding duplicates using bitwise operations (masking & merging)
 ├── 11_anagram/                   # Anagram checking via hash table / frequency counting
+├── 12_permutations/              # Finding permutations of a string via State Space Tree & Swapping Backtracking
 └── README.md                     # Comprehensive Strings module documentation
 ```
 

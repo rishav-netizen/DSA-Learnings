@@ -11,13 +11,19 @@ int main()
     char A[] = "ABC";
     for(; A[n]; n++);
 
-    // permMethod1(A, 0); // k = 0 means filling first position of result
+    cout << "Using flag array and state space tree" << endl;
+    permMethod1(A, 0); // k = 0 means filling first position of result
+    
+    cout << "\n\nUsing in place swapping\n";
     permMethod2(A, 0, n - 1);
     return 0;
 }
 
+// Method 1: Using Flag/Visited array and Result array
+// state space tree
 void permMethod1(char A[], int k)
 {
+    // we must changes these statics for other examples or just use in main or function definition
     static char res[10];
     static int flag[10] = {0};
 
@@ -40,6 +46,7 @@ void permMethod1(char A[], int k)
     }
 }
 
+// Method 2: In-place Swapping
 void permMethod2(char A[], int l, int h)
 {
     if (l == h)
@@ -48,10 +55,10 @@ void permMethod2(char A[], int l, int h)
         return;
     }
 
-    for (int i = 0; i <= h; i++)
+    for (int i = 1; i <= h; i++)
     {
         swap(A[i], A[l]);
         permMethod2(A, l + 1, h);
-        swap(A[i], A[l]);
+        swap(A[i], A[l]); // backtrack
     }
 }

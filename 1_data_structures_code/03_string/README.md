@@ -43,6 +43,7 @@ In C and C++, a **String** is not a native primitive data type at the hardware l
 │   ├── 0_compare/                # Case-insensitive lexicographical string comparison
 │   └── 1_palindrome/             # Palindrome detection via string reversal and comparison
 ├── 010_duplicates/               # Finding duplicate characters using bitwise operations (masking & merging)
+├── 011_anagram/                  # Anagram checking via hash table / frequency counting
 └── README.md                     # Strings module documentation and progress tracker
 ```
 
@@ -171,6 +172,30 @@ for (; name[i] != '\0'; i++);
   ```
 - **Time Complexity**: $O(n)$ · **Auxiliary Space**: $O(1)$ (only 4 bytes memory).
 
+#### H. Anagram Checking (`011_anagram`)
+- Validates if two strings are anagrams using a single 26-element counting hash table (`int H[26] = {0}`):
+  1. Compares lengths; if $l_1 \neq l_2$, immediately returns `false`.
+  2. Increments frequency counts for characters in string $A$.
+  3. Decrements frequency counts for characters in string $B$; if any count drops below $0$, returns `false`.
+  4. Verifies all remaining counts are $0$.
+  ```cpp
+  bool isAnagram(char A[], char B[]) {
+      int l1 = 0, l2 = 0;
+      for (; A[l1]; l1++);
+      for (; B[l2]; l2++);
+      if (l1 != l2) return false;
+
+      int H[26] = {0};
+      for (int i = 0; A[i]; i++) H[tolower(A[i]) - 'a']++;
+      for (int i = 0; B[i]; i++) {
+          H[tolower(B[i]) - 'a']--;
+          if (H[tolower(B[i]) - 'a'] < 0) return false;
+      }
+      return true;
+  }
+  ```
+- **Time Complexity**: $O(n)$ · **Auxiliary Space**: $O(1)$ (26 integers = 104 bytes).
+
 ---
 
 ## 📊 Operations Complexity Matrix
@@ -189,6 +214,7 @@ for (; name[i] != '\0'; i++);
 | **String Comparison** | `09_comparing/0_compare` | $O(n)$ | $O(1)$ | Lexicographical ASCII delta checking |
 | **Palindrome Check** | `09_comparing/1_palindrome` | $O(n)$ | $O(n)$ | Reverse copy & synchronous comparison |
 | **Finding Duplicates** | `010_duplicates` | $O(n)$ | $O(1)$ | Bitmasking (`&`), left shifting (`<<`), & merging (`\|`) |
+| **Anagram Check** | `011_anagram` | $O(n)$ | $O(1)$ | Hash table frequency increment/decrement |
 
 ---
 
@@ -214,6 +240,9 @@ clang++ -std=c++17 09_comparing/1_palindrome/main.cpp -o pal && ./pal
 
 # Finding duplicates (bitwise operations)
 clang++ -std=c++17 010_duplicates/main.cpp -o duplicates && ./duplicates
+
+# Anagram check
+clang++ -std=c++17 011_anagram/main.cpp -o anagram && ./anagram
 ```
 
 ---

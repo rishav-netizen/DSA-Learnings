@@ -92,6 +92,7 @@ c++/
 │   │   ├── 08_reversing/         # Reversal (0_auxillary & 1_inplace swap)
 │   │   ├── 09_comparing/         # Comparison (0_compare & 1_palindrome check)
 │   │   ├── 010_duplicates/       # Finding duplicates using bitwise operations (masking & merging)
+│   │   ├── 011_anagram/          # Anagram checking via hash table frequency counting
 │   │   └── README.md             # Complete Strings guide & complexity matrix
 │   │
 │   └── README.md                 # Overview of all DSA implementations
@@ -209,6 +210,7 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
   - `08 Reversing`: Auxiliary buffer ($O(n)$ space) vs two-pointer in-place swap ($O(1)$ space).
   - `09 Comparing & Palindrome`: Case-insensitive lexicographical comparison and palindrome detection.
   - `010 Finding Duplicates`: Bitwise masking ($x \ \& \ H$), left shifting ($1 \ll (A[i]-97)$), and merging ($H \mid x$) in $O(n)$ time and $O(1)$ space ($4$ bytes) vs Hash Table.
+  - `011 Anagram Checking`: Single hash table frequency increment/decrement technique ($O(n)$ time, $O(1)$ auxiliary space).
 
 ---
 

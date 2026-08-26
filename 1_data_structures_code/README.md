@@ -102,6 +102,7 @@ The strings section covers character memory representations, ASCII mechanics, an
 ├── 08_reversing/                 # String reversal (Method 1: Auxiliary array, Method 2: In-place swap)
 ├── 09_comparing/                 # String comparison (lexicographical comparison & palindrome check)
 ├── 010_duplicates/               # Finding duplicates using bitwise operations (masking & merging)
+├── 011_anagram/                  # Anagram checking via hash table / frequency counting
 └── README.md                     # Comprehensive Strings module documentation
 ```
 

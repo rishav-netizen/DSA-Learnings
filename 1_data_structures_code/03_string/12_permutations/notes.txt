@@ -1,0 +1,320 @@
+================================================================================
+                         PERMUTATIONS OF A STRING
+================================================================================
+
+1. WHAT IS A PERMUTATION?
+-------------------------
+A **Permutation** of a string is any possible rearrangement/reordering of all its 
+characters such that each character is used exactly once.
+
+Given a string `S` of length `n` containing distinct characters:
+- Total number of unique permutations = **n!** (n factorial)
+
+Example from Whiteboard / Lecture:
+    Input String: S = "ABC" (Length n = 3)
+    Total Permutations = 3! = 3 × 2 × 1 = 6
+
+All 6 Permutations:
+    1. ABC
+    2. ACB
+    3. BAC
+    4. BCA
+    5. CAB
+    6. CBA
+
+Memory Layout of String S:
+    +-----+-----+-----+-----+
+S   | 'A' | 'B' | 'C' |'\0' |
+    +-----+-----+-----+-----+
+Idx:   0     1     2     3
+
+
+================================================================================
+2. CORE CONCEPTS (FROM WHITEBOARD)
+================================================================================
+
+1. BRUTE FORCE APPROACH:
+   - Systematically generating and trying all possible character sequences to find 
+     all valid permutations.
+   - At each position, test all available characters.
+
+2. RECURSION:
+   - We solve the problem by placing a character at position `k` and recursively 
+     calling the function to fill the remaining positions `k + 1`, `k + 2`, ..., `n - 1`.
+   - Base Case: When all positions are filled (index `k` reaches `'\0'`), a complete 
+     permutation is formed and printed.
+
+3. BACKTRACKING:
+   - An algorithmic technique for solving problems incrementally by trying out partial 
+     solutions and "backtracking" (undoing the previous step) when a solution is 
+     reached or a branch is fully explored.
+   - Why it is needed: After exploring a branch where character `s[i]` is used at 
+     position `k`, we must release/unmark `s[i]` (set `A[i] = 0` or swap back) so 
+     it can be chosen at other positions in alternative branches.
+
+4. STATE SPACE TREE:
+   - A tree representing all possible states (choices and decisions) during the search.
+   - Root Node: Initial state (empty selection, index k = 0).
+   - Level 1 Nodes: Choices for the 1st position (3 branches: 'A', 'B', 'C').
+   - Level 2 Nodes: Choices for the 2nd position from remaining unselected characters.
+   - Level 3 Nodes: Choices for the 3rd position (last remaining character).
+   - Leaf Nodes: Complete permutations (total 3! = 6 leaves).
+
+
+================================================================================
+3. STATE SPACE TREE DIAGRAM (STRING: "ABC")
+================================================================================
+
+                                    ( ROOT )
+                                   /   |    \
+                      +-----------+    |     +-----------+
+                     /                 |                  \
+           Pick 'A' /          Pick 'B'|          Pick 'C' \
+                   v                   v                    v
+                 ( A )               ( B )                ( C )
+                /     \             /     \              /     \
+       Pick 'B'/       \Pick 'C'   /       \Pick 'C'    /       \Pick 'B'
+              v         v         v         v          v         v
+           ( A B )   ( A C )   ( B A )   ( B C )    ( C A )   ( C B )
+              |         |         |         |          |         |
+      Pick 'C'| Pick 'B'| Pick 'C'| Pick 'A'|  Pick 'B'| Pick 'A'|
+              v         v         v         v          v         v
+           [ ABC ]   [ ACB ]   [ BAC ]   [ BCA ]    [ CAB ]   [ CBA ]
+             (1)       (2)       (3)       (4)        (5)       (6)
+
+Tree Properties:
+- Level 0 (k = 0): 3 choices ('A', 'B', 'C')
+- Level 1 (k = 1): 2 choices per branch
+- Level 2 (k = 2): 1 choice per branch
+- Level 3 (k = 3): Base condition reached -> Leaf / Result printed!
+- Total Leaf Nodes = 3 × 2 × 1 = 3! = 6
+
+
+================================================================================
+4. METHOD 1: USING FLAG / VISITED ARRAY & AUXILIARY RESULT BUFFER
+================================================================================
+
+Data Structures:
+1. `s[]`: Input character array, e.g., `"ABC"`.
+2. `Res[]`: Auxiliary result array of size `n + 1` to build each permutation.
+3. `A[]`: Flag/Availability array of size `n` initialized to `0`.
+   - `A[i] = 0` -> Character `s[i]` is FREE / AVAILABLE.
+   - `A[i] = 1` -> Character `s[i]` is CURRENTLY USED in `Res[]`.
+4. `k`: Current index in `Res[]` being filled (recursion depth, starting at 0).
+
+Algorithm Logic:
+----------------
+void perm(char s[], int k)
+{
+    // Base Case: When k reaches the end of the string
+    if (s[k] == '\0')
+    {
+        Res[k] = '\0';
+        cout << Res << "\n";
+        return;
+    }
+
+    // Traverse all characters of s[]
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (A[i] == 0)             // If s[i] is available
+        {
+            Res[k] = s[i];         // Place s[i] at position k
+            A[i] = 1;              // Mark s[i] as used
+            perm(s, k + 1);        // Recurse to fill position k + 1
+            A[i] = 0;              // BACKTRACK: Unmark s[i] for subsequent branches
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+Step-by-Step Trace / Dry Run:
+--------------------------------------------------------------------------------
+Initial: s = "ABC", Res = "___", A = [0, 0, 0], k = 0
+
+1. k = 0, i = 0:
+   - A[0] == 0 -> Res[0] = 'A', A[0] = 1 -> A = [1, 0, 0]
+   - Call perm(s, 1):
+     * k = 1, i = 0: A[0] == 1 (skip)
+     * k = 1, i = 1: A[1] == 0 -> Res[1] = 'B', A[1] = 1 -> A = [1, 1, 0]
+       - Call perm(s, 2):
+         + k = 2, i = 0: A[0] == 1 (skip)
+         + k = 2, i = 1: A[1] == 1 (skip)
+         + k = 2, i = 2: A[2] == 0 -> Res[2] = 'C', A[2] = 1 -> A = [1, 1, 1]
+           * Call perm(s, 3):
+             s[3] == '\0' -> Print "ABC" -> Output 1: ABC
+           * Return to k = 2 -> Backtrack: A[2] = 0 -> A = [1, 1, 0]
+       - Return to k = 1 -> Backtrack: A[1] = 0 -> A = [1, 0, 0]
+     * k = 1, i = 2: A[2] == 0 -> Res[1] = 'C', A[2] = 1 -> A = [1, 0, 1]
+       - Call perm(s, 2):
+         + k = 2, i = 0: A[0] == 1 (skip)
+         + k = 2, i = 1: A[1] == 0 -> Res[2] = 'B', A[1] = 1 -> A = [1, 1, 1]
+           * Call perm(s, 3):
+             s[3] == '\0' -> Print "ACB" -> Output 2: ACB
+           * Return to k = 2 -> Backtrack: A[1] = 0 -> A = [1, 0, 1]
+         + k = 2, i = 2: A[2] == 1 (skip)
+       - Return to k = 1 -> Backtrack: A[2] = 0 -> A = [1, 0, 0]
+   - Return to k = 0 -> Backtrack: A[0] = 0 -> A = [0, 0, 0]
+
+2. k = 0, i = 1:
+   - A[1] == 0 -> Res[0] = 'B', A[1] = 1 -> A = [0, 1, 0]
+   - Generates "BAC" (Output 3) and "BCA" (Output 4)
+   - Backtracks to A = [0, 0, 0]
+
+3. k = 0, i = 2:
+   - A[2] == 0 -> Res[0] = 'C', A[2] = 1 -> A = [0, 0, 1]
+   - Generates "CAB" (Output 5) and "CBA" (Output 6)
+   - Backtracks to A = [0, 0, 0]
+
+
+================================================================================
+5. METHOD 2: IN-PLACE PERMUTATIONS USING SWAPPING & BACKTRACKING
+================================================================================
+
+Concept:
+- Instead of maintaining extra `Res[]` and `A[]` arrays, we can swap characters 
+  directly within the input string `s[]`.
+- Parameter `l`: Lower index (current position being fixed).
+- Parameter `h`: Higher index (last valid character index, length - 1).
+
+Algorithm Logic:
+----------------
+void perm2(char s[], int l, int h)
+{
+    // Base Case: When l reaches h, a full permutation is in place
+    if (l == h)
+    {
+        cout << s << "\n";
+        return;
+    }
+
+    for (int i = l; i <= h; i++)
+    {
+        swap(s[l], s[i]);        // Swap to place character s[i] at position l
+        perm2(s, l + 1, h);      // Recurse for the next index l + 1
+        swap(s[l], s[i]);        // BACKTRACK: Undo the swap to restore original state
+    }
+}
+
+Swapping Tree Representation:
+-----------------------------
+                         "ABC" (l=0, h=2)
+                        /       |        \
+         swap(0,0)     / swap(0,1)        \ swap(0,2)
+                      v         v          v
+                  "ABC"       "BAC"      "CBA"
+                 (l=1)       (l=1)      (l=1)
+                 /   \       /   \      /   \
+         sw(1,1)/ sw(1,2)  sw(1,1)sw(1,2)sw(1,1)sw(1,2)
+               v     v       v     v    v     v
+             "ABC" "ACB"   "BAC" "BCA""CBA" "CAB"
+             (l=2) (l=2)   (l=2) (l=2)(l=2) (l=2)
+             Print Print   Print PrintPrint Print
+
+
+================================================================================
+6. COMPLEXITY ANALYSIS
+================================================================================
+
+1. TIME COMPLEXITY:
+   - Total number of leaf nodes = n!
+   - Number of non-leaf nodes in the State Space Tree:
+       1 + n + n(n-1) + ... + n! ≈ O(n!)
+   - At each leaf node, printing or copying a string of length n takes O(n) time.
+   - Total Time Complexity = **O(n × n!)**
+
+2. SPACE COMPLEXITY:
+   - Method 1 (Flag Array & Auxiliary Buffer):
+     * Recursion Call Stack Depth: O(n)
+     * Auxiliary `Res[]` buffer: O(n)
+     * Flag `A[]` array: O(n)
+     * Total Auxiliary Space = **O(n)**
+   - Method 2 (In-Place Swapping):
+     * Recursion Call Stack Depth: O(n)
+     * No extra arrays needed.
+     * Auxiliary Space = **O(n)** (Call stack only).
+
+
+================================================================================
+7. METHOD COMPARISON
+================================================================================
+
+| Feature | Method 1: Flag Array (State Space Tree) | Method 2: In-Place Swapping |
+| :--- | :--- | :--- |
+| **Auxiliary Arrays** | Requires `Res[]` and `A[]` | None (In-place) |
+| **Lexicographical Order** | Naturally preserves alphabetical order | May not produce strictly sorted order |
+| **Backtracking Step** | `A[i] = 0` (Reset flag) | `swap(s[l], s[i])` (Swap back) |
+| **Time Complexity** | O(n × n!) | O(n × n!) |
+| **Space Complexity** | O(n) extra buffers + O(n) stack | O(n) stack only |
+| **Whiteboard Focus** | Main approach diagrammed on whiteboard | Common alternative in DSA |
+
+
+================================================================================
+8. COMPLETE C++ CODE IMPLEMENTATION
+================================================================================
+
+#include <iostream>
+using namespace std;
+
+// Method 1: Using Flag/Visited array and Result array
+void permMethod1(char s[], int k, char res[], int a[])
+{
+    if (s[k] == '\0')
+    {
+        res[k] = '\0';
+        cout << res << "\n";
+        return;
+    }
+
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (a[i] == 0)
+        {
+            res[k] = s[i];
+            a[i] = 1;
+            permMethod1(s, k + 1, res, a);
+            a[i] = 0; // Backtrack
+        }
+    }
+}
+
+// Method 2: In-place Swapping
+void permMethod2(char s[], int l, int h)
+{
+    if (l == h)
+    {
+        cout << s << "\n";
+        return;
+    }
+
+    for (int i = l; i <= h; i++)
+    {
+        swap(s[l], s[i]);
+        permMethod2(s, l + 1, h);
+        swap(s[l], s[i]); // Backtrack
+    }
+}
+
+int main()
+{
+    char s[] = "ABC";
+    int n = 0;
+    for (; s[n] != '\0'; n++); // Length of string = 3
+
+    cout << "========================================\n";
+    cout << " Permutations of \"" << s << "\" using Method 1:\n";
+    cout << " (Flag Array & State Space Tree)\n";
+    cout << "========================================\n";
+    char res[10];
+    int a[10] = {0};
+    permMethod1(s, 0, res, a);
+
+    cout << "\n========================================\n";
+    cout << " Permutations of \"" << s << "\" using Method 2:\n";
+    cout << " (In-place Swapping & Backtracking)\n";
+    cout << "========================================\n";
+    permMethod2(s, 0, n - 1);
+
+    return 0;
+}
+================================================================================

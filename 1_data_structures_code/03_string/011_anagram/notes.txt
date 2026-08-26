@@ -1,0 +1,91 @@
+================================================================================
+                    CHECKING IF TWO STRINGS ARE ANAGRAMS
+================================================================================
+
+1. WHAT IS AN ANAGRAM?
+----------------------
+Two strings are called **Anagrams** of each other if they contain the exact same 
+characters with the exact same frequencies, but arranged in a different order.
+In other words, one string can be formed by rearranging the characters of the other.
+
+Examples of Valid Anagrams:
+- "decimal"  <-->  "medical"
+- "verbose"  <-->  "observe"
+- "silent"   <-->  "listen"
+- "triangle" <-->  "integral"
+
+Examples of Non-Anagrams:
+- "apple"    <-->  "apples"   (Different lengths: 5 vs 6)
+- "listen"   <-->  "silentt"  (Different character frequencies)
+- "state"    <-->  "taste"    (Valid anagram) vs "stats" (Invalid)
+
+
+================================================================================
+2. ALGORITHMIC APPROACHES
+================================================================================
+
+--------------------------------------------------------------------------------
+Approach 1: Sorting Both Strings
+--------------------------------------------------------------------------------
+- Sort string A and sort string B alphabetically.
+- Compare the sorted strings character-by-character.
+- If they match completely, they are anagrams.
+- Time Complexity: O(n log n)
+- Space Complexity: O(1) or O(n) depending on sorting algorithm.
+
+--------------------------------------------------------------------------------
+Approach 2: Counting / Hash Table (Single Hash Table Method) [OPTIMAL]
+--------------------------------------------------------------------------------
+1. Check Lengths:
+   - If length(A) != length(B), they CANNOT be anagrams -> Return false immediately.
+2. Initialize Hash Table:
+   - Create an integer array H of size 26 initialized with 0:
+       int H[26] = {0};
+3. Scan First String (A):
+   - For each character in A, increment its corresponding frequency count in H:
+       H[tolower(A[i]) - 'a']++;
+4. Scan Second String (B):
+   - For each character in B, decrement its corresponding count in H:
+       H[tolower(B[i]) - 'a']--;
+   - Early Termination: If the count drops below 0 (< 0), it means string B 
+     contains an extra character or a character not present in string A:
+       if (H[tolower(B[i]) - 'a'] < 0) return false;
+5. Verify Hash Table:
+   - If all elements in H are 0 (or by virtue of equal length + no negative counts),
+     the strings are confirmed Anagrams -> Return true.
+
+- Time Complexity: O(n)  [Single linear scan of both strings]
+- Space Complexity: O(1) [Fixed 26-element array, 104 bytes]
+
+
+================================================================================
+3. STEP-BY-STEP DRY RUN FOR "decimal" & "medical"
+================================================================================
+
+String A = "decimal" (Length = 7)
+String B = "medical" (Length = 7)
+
+Initial State:
+  H[26] = all 0s
+
+Pass 1 (Increment for String A "decimal"):
+  'd' -> H['d'-'a'] = H[3]  = 1
+  'e' -> H['e'-'a'] = H[4]  = 1
+  'c' -> H['c'-'a'] = H[2]  = 1
+  'i' -> H['i'-'a'] = H[8]  = 1
+  'm' -> H['m'-'a'] = H[12] = 1
+  'a' -> H['a'-'a'] = H[0]  = 1
+  'l' -> H['l'-'a'] = H[11] = 1
+
+Pass 2 (Decrement & Validate for String B "medical"):
+  'm' -> H[12]-- -> H[12] = 0 (>= 0 OK)
+  'e' -> H[4]--  -> H[4]  = 0 (>= 0 OK)
+  'd' -> H[3]--  -> H[3]  = 0 (>= 0 OK)
+  'i' -> H[8]--  -> H[8]  = 0 (>= 0 OK)
+  'c' -> H[2]--  -> H[2]  = 0 (>= 0 OK)
+  'a' -> H[0]--  -> H[0]  = 0 (>= 0 OK)
+  'l' -> H[11]-- -> H[11] = 0 (>= 0 OK)
+
+Final State:
+  All elements in H are exactly 0.
+  -> Strings are ANAGRAMS!

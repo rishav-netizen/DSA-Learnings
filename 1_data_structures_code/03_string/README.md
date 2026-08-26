@@ -37,11 +37,11 @@ In C and C++, a **String** is not a native primitive data type at the hardware l
 ├── 06_countVowelandWords/        # Counting vowels, consonants, and words (handling multi-space delimiters)
 ├── 07_validation/                # String validation algorithm (alphanumeric check)
 ├── 08_reversing/                 # String reversal techniques
-│   ├── 0_auxillary/              # Method 1: Using auxiliary character array: O(n) space
-│   └── 1_inplace/                # Method 2: Two-pointer in-place swap: O(1) space
+│   ├── 00_auxillary/             # Method 1: Using auxiliary character array: O(n) space
+│   └── 01_inplace/               # Method 2: Two-pointer in-place swap: O(1) space
 ├── 09_comparing/                 # String comparison & palindrome verification
-│   ├── 0_compare/                # Case-insensitive lexicographical string comparison
-│   └── 1_palindrome/             # Palindrome detection via string reversal and comparison
+│   ├── 00_compare/               # Case-insensitive lexicographical string comparison
+│   └── 01_palindrome/            # Palindrome detection via string reversal and comparison
 ├── 10_duplicates/                # Finding duplicate characters using bitwise operations (masking & merging)
 ├── 11_anagram/                   # Anagram checking via hash table / frequency counting
 └── README.md                     # Strings module documentation and progress tracker
@@ -136,20 +136,20 @@ for (; name[i] != '\0'; i++);
 - **Time Complexity**: $O(n)$ · **Space Complexity**: $O(1)$.
 
 #### E. String Reversal (`08_reversing`)
-- **Method 1 · Auxiliary Array (`0_auxillary`)**:
+- **Method 1 · Auxiliary Array (`00_auxillary`)**:
   Calculate length $l$, allocate an auxiliary buffer $B[l+1]$, copy characters from end of $A$ to start of $B$, and terminate with $B[j] = \text{'\0'}$.
   - **Time**: $O(n)$ · **Auxiliary Space**: $O(n)$.
-- **Method 2 · In-Place Two-Pointer Swap (`1_inplace`)**:
+- **Method 2 · In-Place Two-Pointer Swap (`01_inplace`)**:
   Initialize pointers $i = 0$ and $j = \text{length} - 1$. Swap $A[i]$ with $A[j]$ and increment $i$, decrement $j$ until $i \ge j$.
   - **Time**: $O(n)$ · **Auxiliary Space**: $O(1)$.
 
 #### F. String Comparison & Palindrome Detection (`09_comparing`)
-- **Lexicographical Comparison (`0_compare`)**:
-  Iterate synchronously through $A[i] and B[j]$, convert to lowercase for case-insensitivity, and detect inequality:
+- **Lexicographical Comparison (`00_compare`)**:
+  Iterate synchronously through $A[i]$ and $B[j]$, convert to lowercase for case-insensitivity, and detect inequality:
   - If $A[i] == B[j]$ at termination: Strings are **Equal**.
   - If $A[i] < B[j]$: String $A$ is **Smaller** (appears earlier alphabetically).
   - If $A[i] > B[j]$: String $A$ is **Greater**.
-- **Palindrome Verification (`1_palindrome`)**:
+- **Palindrome Verification (`01_palindrome`)**:
   Reverse string $A$ into string $B$, then perform character-by-character equality check.
   - **Time**: $O(n)$ · **Space**: $O(n)$ (or $O(1)$ if using two pointers).
 
@@ -209,10 +209,10 @@ for (; name[i] != '\0'; i++);
 | **Count Vowels & Consonants** | `06_countVowelandWords` | $O(n)$ | $O(1)$ | Lookup & alphabetic validation |
 | **Count Words** | `06_countVowelandWords` | $O(n)$ | $O(1)$ | Space transition check (`c[i]==' ' && c[i-1]!=' '`) |
 | **String Validation** | `07_validation` | $O(n)$ | $O(1)$ | Alphanumeric range checking |
-| **Reverse (Auxiliary)** | `08_reversing/0_auxillary` | $O(n)$ | $O(n)$ | End-to-start copy into second array |
-| **Reverse (In-Place)** | `08_reversing/1_inplace` | $O(n)$ | $O(1)$ | Two-pointer inward swapping |
-| **String Comparison** | `09_comparing/0_compare` | $O(n)$ | $O(1)$ | Lexicographical ASCII delta checking |
-| **Palindrome Check** | `09_comparing/1_palindrome` | $O(n)$ | $O(n)$ | Reverse copy & synchronous comparison |
+| **Reverse (Auxiliary)** | `08_reversing/00_auxillary` | $O(n)$ | $O(n)$ | End-to-start copy into second array |
+| **Reverse (In-Place)** | `08_reversing/01_inplace` | $O(n)$ | $O(1)$ | Two-pointer inward swapping |
+| **String Comparison** | `09_comparing/00_compare` | $O(n)$ | $O(1)$ | Lexicographical ASCII delta checking |
+| **Palindrome Check** | `09_comparing/01_palindrome` | $O(n)$ | $O(n)$ | Reverse copy & synchronous comparison |
 | **Finding Duplicates** | `10_duplicates` | $O(n)$ | $O(1)$ | Bitmasking (`&`), left shifting (`<<`), & merging (`\|`) |
 | **Anagram Check** | `11_anagram` | $O(n)$ | $O(1)$ | Hash table frequency increment/decrement |
 
@@ -227,16 +227,16 @@ Compile and execute any program using C++17:
 clang++ -std=c++17 07_validation/main.cpp -o valid && ./valid
 
 # String reversal (auxiliary array)
-clang++ -std=c++17 08_reversing/0_auxillary/main.cpp -o rev_aux && ./rev_aux
+clang++ -std=c++17 08_reversing/00_auxillary/main.cpp -o rev_aux && ./rev_aux
 
 # String reversal (in-place swap)
-clang++ -std=c++17 08_reversing/1_inplace/main.cpp -o rev_inplace && ./rev_inplace
+clang++ -std=c++17 08_reversing/01_inplace/main.cpp -o rev_inplace && ./rev_inplace
 
 # String comparison
-clang++ -std=c++17 09_comparing/0_compare/main.cpp -o cmp && ./cmp
+clang++ -std=c++17 09_comparing/00_compare/main.cpp -o cmp && ./cmp
 
 # Palindrome detection
-clang++ -std=c++17 09_comparing/1_palindrome/main.cpp -o pal && ./pal
+clang++ -std=c++17 09_comparing/01_palindrome/main.cpp -o pal && ./pal
 
 # Finding duplicates (bitwise operations)
 clang++ -std=c++17 10_duplicates/main.cpp -o duplicates && ./duplicates

@@ -57,24 +57,24 @@ An Array ADT manages:
 │
 ├── StudentChallenge/             # 5 High-Frequency Algorithmic Challenges
 │   ├── 00_findMissingElement/
-│   │   ├── 0_sorted/
-│   │   │   ├── 0_single/         # Single missing element (Sum formula & Index-difference method)
-│   │   │   └── 1_multiple/       # Multiple missing elements using difference tracking
+│   │   ├── 00_sorted/
+│   │   │   ├── 00_single/        # Single missing element (Sum formula & Index-difference method)
+│   │   │   └── 01_multiple/      # Multiple missing elements using difference tracking
 │   │   └── best_method_hash/     # Single-pass missing element search using Hash Table / Bitset: O(n)
 │   │
 │   ├── 01_duplicatesInSortedArray/
-│   │   ├── 0_findingUsingLoop/   # Adjacent comparison & count counting: O(n) time, O(1) space
-│   │   └── 1_findingUsingHashTable/# Frequency counting using Hash Table: O(n) time, O(M) space
+│   │   ├── 00_findingUsingLoop/  # Adjacent comparison & count counting: O(n) time, O(1) space
+│   │   └── 01_findingUsingHashTable/# Frequency counting using Hash Table: O(n) time, O(M) space
 │   │
 │   ├── 02_duplicatesInUnSortedArray/
-│   │   ├── 0_loops/              # Nested loops with in-place marking (-1): O(n^2)
-│   │   └── 1_hash/               # Hash table frequency count: O(n) time
+│   │   ├── 00_loops/             # Nested loops with in-place marking (-1): O(n^2)
+│   │   └── 01_hash/              # Hash table frequency count: O(n) time
 │   │
 │   ├── 03_pairOfElementsWithSumK/
-│   │   ├── 0_sortedArray/        # Two-pointer convergence approach (i=0, j=n-1): O(n)
-│   │   └── 1_unsortedArray/
-│   │       ├── 0_loops/          # Brute-force nested loops: O(n^2)
-│   │       └── 1_hash/           # Hash Table complement lookup (K - A[i]): O(n)
+│   │   ├── 00_sortedArray/       # Two-pointer convergence approach (i=0, j=n-1): O(n)
+│   │   └── 01_unsortedArray/
+│   │       ├── 00_loops/         # Brute-force nested loops: O(n^2)
+│   │       └── 01_hash/          # Hash Table complement lookup (K - A[i]): O(n)
 │   │
 │   └── 04_maxMinOnce/            # Finding Min & Max in single scan with minimized comparisons
 │
@@ -198,7 +198,7 @@ clang++ -std=c++17 Functions/17_class/main.cpp -o array_class
 ./array_class
 
 # Run Pair of Elements with Sum K (Sorted Array)
-clang++ -std=c++17 StudentChallenge/03_pairOfElementsWithSumK/0_sortedArray/main.cpp -o pair_sum
+clang++ -std=c++17 StudentChallenge/03_pairOfElementsWithSumK/00_sortedArray/main.cpp -o pair_sum
 ./pair_sum
 
 # Run Min/Max Single Scan Challenge

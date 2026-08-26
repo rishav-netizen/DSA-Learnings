@@ -89,8 +89,8 @@ c++/
 │   │   ├── 05_changeCase/        # Uppercase, Lowercase, and Toggle case conversions (+-32)
 │   │   ├── 06_countVowelandWords/# Vowel, consonant, and multi-space word counting
 │   │   ├── 07_validation/        # Alphanumeric string validation
-│   │   ├── 08_reversing/         # Reversal (0_auxillary & 1_inplace swap)
-│   │   ├── 09_comparing/         # Comparison (0_compare & 1_palindrome check)
+│   │   ├── 08_reversing/         # Reversal (00_auxillary & 01_inplace swap)
+│   │   ├── 09_comparing/         # Comparison (00_compare & 01_palindrome check)
 │   │   ├── 10_duplicates/        # Finding duplicates using bitwise operations (masking & merging)
 │   │   ├── 11_anagram/           # Anagram checking via hash table frequency counting
 │   │   └── README.md             # Complete Strings guide & complexity matrix

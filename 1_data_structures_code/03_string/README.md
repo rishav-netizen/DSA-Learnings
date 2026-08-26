@@ -42,8 +42,8 @@ In C and C++, a **String** is not a native primitive data type at the hardware l
 ├── 09_comparing/                 # String comparison & palindrome verification
 │   ├── 0_compare/                # Case-insensitive lexicographical string comparison
 │   └── 1_palindrome/             # Palindrome detection via string reversal and comparison
-├── 010_duplicates/               # Finding duplicate characters using bitwise operations (masking & merging)
-├── 011_anagram/                  # Anagram checking via hash table / frequency counting
+├── 10_duplicates/                # Finding duplicate characters using bitwise operations (masking & merging)
+├── 11_anagram/                   # Anagram checking via hash table / frequency counting
 └── README.md                     # Strings module documentation and progress tracker
 ```
 
@@ -145,7 +145,7 @@ for (; name[i] != '\0'; i++);
 
 #### F. String Comparison & Palindrome Detection (`09_comparing`)
 - **Lexicographical Comparison (`0_compare`)**:
-  Iterate synchronously through $A[i]$ and $B[j]$, convert to lowercase for case-insensitivity, and detect inequality:
+  Iterate synchronously through $A[i] and B[j]$, convert to lowercase for case-insensitivity, and detect inequality:
   - If $A[i] == B[j]$ at termination: Strings are **Equal**.
   - If $A[i] < B[j]$: String $A$ is **Smaller** (appears earlier alphabetically).
   - If $A[i] > B[j]$: String $A$ is **Greater**.
@@ -153,7 +153,7 @@ for (; name[i] != '\0'; i++);
   Reverse string $A$ into string $B$, then perform character-by-character equality check.
   - **Time**: $O(n)$ · **Space**: $O(n)$ (or $O(1)$ if using two pointers).
 
-#### G. Finding Duplicates via Bitwise Operations (`010_duplicates`)
+#### G. Finding Duplicates via Bitwise Operations (`10_duplicates`)
 - Utilizes a single 32-bit / 64-bit integer (`long int H = 0`) as a compact bitset instead of an auxiliary 26-element array (104 bytes $\rightarrow$ 4 bytes).
 - **Core Bitwise Mechanics**:
   - **Left Shift (`1 << (A[i] - 97)`)**: Creates a mask with the bit at index $A[i] - 'a'$ turned ON.
@@ -172,7 +172,7 @@ for (; name[i] != '\0'; i++);
   ```
 - **Time Complexity**: $O(n)$ · **Auxiliary Space**: $O(1)$ (only 4 bytes memory).
 
-#### H. Anagram Checking (`011_anagram`)
+#### H. Anagram Checking (`11_anagram`)
 - Validates if two strings are anagrams using a single 26-element counting hash table (`int H[26] = {0}`):
   1. Compares lengths; if $l_1 \neq l_2$, immediately returns `false`.
   2. Increments frequency counts for characters in string $A$.
@@ -213,8 +213,8 @@ for (; name[i] != '\0'; i++);
 | **Reverse (In-Place)** | `08_reversing/1_inplace` | $O(n)$ | $O(1)$ | Two-pointer inward swapping |
 | **String Comparison** | `09_comparing/0_compare` | $O(n)$ | $O(1)$ | Lexicographical ASCII delta checking |
 | **Palindrome Check** | `09_comparing/1_palindrome` | $O(n)$ | $O(n)$ | Reverse copy & synchronous comparison |
-| **Finding Duplicates** | `010_duplicates` | $O(n)$ | $O(1)$ | Bitmasking (`&`), left shifting (`<<`), & merging (`\|`) |
-| **Anagram Check** | `011_anagram` | $O(n)$ | $O(1)$ | Hash table frequency increment/decrement |
+| **Finding Duplicates** | `10_duplicates` | $O(n)$ | $O(1)$ | Bitmasking (`&`), left shifting (`<<`), & merging (`\|`) |
+| **Anagram Check** | `11_anagram` | $O(n)$ | $O(1)$ | Hash table frequency increment/decrement |
 
 ---
 
@@ -239,10 +239,10 @@ clang++ -std=c++17 09_comparing/0_compare/main.cpp -o cmp && ./cmp
 clang++ -std=c++17 09_comparing/1_palindrome/main.cpp -o pal && ./pal
 
 # Finding duplicates (bitwise operations)
-clang++ -std=c++17 010_duplicates/main.cpp -o duplicates && ./duplicates
+clang++ -std=c++17 10_duplicates/main.cpp -o duplicates && ./duplicates
 
 # Anagram check
-clang++ -std=c++17 011_anagram/main.cpp -o anagram && ./anagram
+clang++ -std=c++17 11_anagram/main.cpp -o anagram && ./anagram
 ```
 
 ---

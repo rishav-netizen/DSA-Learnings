@@ -55,7 +55,7 @@ void permMethod2(char A[], int l, int h)
         return;
     }
 
-    for (int i = 1; i <= h; i++)
+    for (int i = l; i <= h; i++)
     {
         swap(A[i], A[l]);
         permMethod2(A, l + 1, h);

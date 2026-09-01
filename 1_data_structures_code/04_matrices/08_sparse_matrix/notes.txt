@@ -1,0 +1,20 @@
+Sparse Matrix
+=============
+
+Definition:
+- A matrix containing a high percentage of zero elements compared to non-zero elements.
+
+Key Representations:
+1. Coordinate List / 3-Column Representation (Triplets):
+   - Stores tuples of (Row, Column, Value) for non-zero elements.
+   - Usually represented as an array of structs/elements or 3-row/3-column 2D array.
+
+2. Compressed Sparse Row (CSR) / Compressed Sparse Column (CSC):
+   - Uses three 1D arrays: values array, column indices array, and row pointers array.
+
+3. Linked List Representation:
+   - Array of linked lists (one for each row) storing (Column, Value, Next).
+
+Complexity:
+- Space Complexity: O(non_zero_elements)
+- Time Complexity for Addition/Multiplication depends on the representation structure.

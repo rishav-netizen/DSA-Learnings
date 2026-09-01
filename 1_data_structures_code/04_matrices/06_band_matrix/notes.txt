@@ -1,0 +1,17 @@
+Band Matrix
+===========
+
+Definition:
+- A square matrix (n x n) whose non-zero entries are restricted to a diagonal "band", bounded by a lower bandwidth (a sub-diagonals) and upper bandwidth (b super-diagonals).
+- Condition: A[i][j] = 0 when i - j > a or j - i > b.
+
+Key Properties:
+- Total band width = a + b + 1 (including the main diagonal).
+- A tridiagonal matrix is a special case of a band matrix where a = 1 and b = 1.
+
+Storage Optimization:
+- Only elements inside the band are stored in a compact 1D array or an n x (a + b + 1) 2D array.
+
+Complexity:
+- Space Complexity: O((a + b + 1) * n) instead of O(n^2)
+- Time Complexity for Get/Set: O(1)

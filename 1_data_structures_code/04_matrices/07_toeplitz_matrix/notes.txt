@@ -1,0 +1,21 @@
+Toeplitz Matrix
+===============
+
+Definition:
+- A square matrix (n x n) in which every descending diagonal from left to right contains identical elements.
+- Condition: A[i][j] = A[i-1][j-1] for all valid i, j.
+
+Key Properties:
+- Complete matrix is uniquely determined by elements of its first row and first column.
+- Total unique elements: 2n - 1 (n elements in the first row + n - 1 remaining elements in the first column).
+
+Storage Optimization:
+- Store the first row and first column in a 1D array of size 2n - 1.
+
+Mapping Formula (0-based indexing):
+- If i <= j (Upper triangular part & main diagonal): Index = j - i
+- If i > j (Lower triangular part): Index = n + i - j - 1
+
+Complexity:
+- Space Complexity: O(n) instead of O(n^2)
+- Time Complexity for Get/Set: O(1)

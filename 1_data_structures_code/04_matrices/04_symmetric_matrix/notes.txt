@@ -1,0 +1,18 @@
+Symmetric Matrix
+================
+
+Definition:
+- A square matrix (n x n) that is equal to its transpose (A = A^T).
+- Condition: A[i][j] = A[j][i] for all i, j.
+
+Key Properties:
+- Elements reflected across the main diagonal are identical.
+- Unique elements count: n * (n + 1) / 2.
+
+Storage Optimization:
+- Can be represented as either a Lower Triangular Matrix or Upper Triangular Matrix in a 1D array of size n * (n + 1) / 2.
+- When retrieving element A[i][j], if i < j (when storing lower triangular half), simply swap indices to retrieve A[j][i].
+
+Complexity:
+- Space Complexity: O(n^2 / 2) -> O(n^2) space saving by ~50%
+- Time Complexity for Get/Set: O(1)

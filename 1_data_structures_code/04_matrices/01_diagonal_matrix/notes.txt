@@ -1,0 +1,18 @@
+Diagonal Matrix
+================
+
+Definition:
+- A square matrix (n x n) where all non-diagonal elements are zero.
+- Condition: A[i][j] = 0 when i != j.
+
+Key Properties:
+- Non-zero elements can only exist along the main diagonal (where i == j).
+- Number of non-zero elements: at most n.
+
+Storage Optimization:
+- Instead of allocating an n x n 2D array (O(n^2) space), store only the main diagonal elements in a 1D array of size n.
+- 1D Index Mapping (0-based): 1D_Index = i (valid when i == j).
+
+Complexity:
+- Space Complexity: O(n)
+- Time Complexity for Get/Set: O(1)

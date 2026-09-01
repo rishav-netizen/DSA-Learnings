@@ -1,0 +1,25 @@
+Lower Triangular Matrix
+========================
+
+Definition:
+- A square matrix (n x n) where all elements above the main diagonal are zero.
+- Condition: A[i][j] = 0 when i < j. Non-zero elements exist only when i >= j.
+
+Key Properties:
+- Total non-zero elements: n * (n + 1) / 2.
+
+Storage Optimization:
+- Store non-zero elements in a 1D array of size n * (n + 1) / 2.
+
+Mapping Formulas (0-based indexing):
+1. Row-Major Order:
+   - Elements stored row by row.
+   - Index = [i * (i + 1) / 2] + j
+
+2. Column-Major Order:
+   - Elements stored column by column.
+   - Index = [j * n - (j - 1) * j / 2] + (i - j)
+
+Complexity:
+- Space Complexity: O(n^2 / 2) -> O(n^2) space saving by ~50%
+- Time Complexity for Get/Set: O(1)

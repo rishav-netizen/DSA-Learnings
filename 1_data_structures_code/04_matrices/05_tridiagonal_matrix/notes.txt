@@ -1,0 +1,24 @@
+Tridiagonal Matrix
+==================
+
+Definition:
+- A square matrix (n x n) where non-zero elements are confined only to three diagonals:
+  1. Main diagonal (i - j = 0) -> n elements
+  2. Lower sub-diagonal (i - j = 1) -> n - 1 elements
+  3. Upper super-diagonal (j - i = 1) -> n - 1 elements
+- Condition: A[i][j] = 0 when |i - j| > 1.
+
+Key Properties:
+- Total non-zero elements: 3n - 2.
+
+Storage Optimization:
+- Store all non-zero elements in a single 1D array of size 3n - 2.
+
+Mapping Formula (0-based indexing):
+- Lower sub-diagonal (i - j = 1): Index = i - 1
+- Main diagonal (i - j = 0): Index = (n - 1) + i
+- Upper super-diagonal (j - i = 1): Index = (2n - 1) + i
+
+Complexity:
+- Space Complexity: O(n) instead of O(n^2)
+- Time Complexity for Get/Set: O(1)

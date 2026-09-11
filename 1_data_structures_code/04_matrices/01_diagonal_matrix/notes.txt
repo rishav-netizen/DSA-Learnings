@@ -8,11 +8,18 @@ Definition:
 Key Properties:
 - Non-zero elements can only exist along the main diagonal (where i == j).
 - Number of non-zero elements: at most n.
+- Number of zero elements: n^2 - n = n * (n - 1).
 
 Storage Optimization:
 - Instead of allocating an n x n 2D array (O(n^2) space), store only the main diagonal elements in a 1D array of size n.
-- 1D Index Mapping (0-based): 1D_Index = i (valid when i == j).
+
+Mapping Formulas (valid when i == j):
+- 1-Based Matrix Indexing (as used in C++ DiagonalMatrix implementation):
+  Index = i - 1
+- 0-Based Matrix Indexing:
+  Index = i
 
 Complexity:
-- Space Complexity: O(n)
+- Space Complexity: O(n) (saves n^2 - n space)
 - Time Complexity for Get/Set: O(1)
+- Time Complexity for Display: O(n^2)

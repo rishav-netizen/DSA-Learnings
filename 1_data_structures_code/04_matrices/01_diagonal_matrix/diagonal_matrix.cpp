@@ -3,20 +3,20 @@
 
 using namespace std;
 
-class Matrix
+class DiagonalMatrix
 {
     private: 
         int *A;
         int dimension;
     
     public: 
-        Matrix(int dimension)
+        DiagonalMatrix(int dimension)
         {
             this->dimension = dimension;
             this->A = new int[dimension]();
         }
 
-        ~Matrix()
+        ~DiagonalMatrix()
         {
             delete[] A;
             A = nullptr;
@@ -56,7 +56,7 @@ class Matrix
 int main(){
 
     int n = 6; // n * n matrix
-    Matrix Mat(n);  // 1 indexed
+    DiagonalMatrix Mat(n);  // 1 indexed
     for (int i = 1; i <= n; i++)
     {
         Mat.set(i, i, 3*i + 1);

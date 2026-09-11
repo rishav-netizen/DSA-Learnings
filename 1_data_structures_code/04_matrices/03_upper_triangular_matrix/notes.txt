@@ -7,19 +7,27 @@ Definition:
 
 Key Properties:
 - Total non-zero elements: n * (n + 1) / 2.
+- Total zero elements are: n^2 - (n * (n + 1) / 2) = n * (n - 1) / 2.
 
 Storage Optimization:
 - Store non-zero elements in a 1D array of size n * (n + 1) / 2.
 
-Mapping Formulas (0-based indexing):
-1. Row-Major Order:
-   - Elements stored row by row.
-   - Index = [i * n - (i - 1) * i / 2] + (j - i)
+Mapping Formulas:
 
-2. Column-Major Order:
-   - Elements stored column by column.
-   - Index = [j * (j + 1) / 2] + i
+1. Row-Major Order (Elements stored row by row):
+   - 1-Based Matrix Indexing (as used in C++ implementation):
+     Index = [n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2] + (j - i)
+     (Equivalently: [(i - 1) * n - (i - 2) * (i - 1) / 2] + (j - i))
+   - 0-Based Matrix Indexing:
+     Index = [i * n - (i - 1) * i / 2] + (j - i)
+
+2. Column-Major Order (Elements stored column by column):
+   - 1-Based Matrix Indexing (as used in C++ implementation):
+     Index = [j * (j - 1) / 2] + (i - 1)
+   - 0-Based Matrix Indexing:
+     Index = [j * (j + 1) / 2] + i
 
 Complexity:
 - Space Complexity: O(n^2 / 2) -> O(n^2) space saving by ~50%
 - Time Complexity for Get/Set: O(1)
+- Display: O(n^2)

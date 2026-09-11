@@ -5,7 +5,7 @@ using namespace std;
 
 //? (i, j) are the matrix coordinates hence they start from 1
 //? the array we use to store the elements are 0 indexed
-//? for COLUMN MAJOR: i >= j
+//? for Lower Triangular: i >= j
 
 class LowerTriangularMatrix
 {

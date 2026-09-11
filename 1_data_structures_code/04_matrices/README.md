@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-2%2F8_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-3%2F8_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -40,9 +40,12 @@ By taking advantage of these properties, we eliminate the need to store default 
 │   │   ├── lower_triangular_matrix.cpp
 │   │   └── image.png
 │   └── notes.txt                    # Addressing formula notes (1-based & 0-based)
-├── 03_upper_triangular_matrix/      # ⏳ Upper Triangular Matrix (Row/Column-major mapping)
-│   ├── upper_triangular_matrix.cpp  # C++ template
-│   └── notes.txt                    # Addressing formula notes
+├── 03_upper_triangular_matrix/      # ✅ Completed: Upper Triangular Matrix (Row & Column Major)
+│   ├── 01_row_major/                # Row-Major mapping implementation & driver
+│   │   └── upper_triangular_matrix.cpp
+│   ├── 02_column_major/             # Column-Major mapping implementation & driver
+│   │   └── upper_triangular_matrix.cpp
+│   └── notes.txt                    # Addressing formula notes (1-based & 0-based)
 ├── 04_symmetric_matrix/             # ⏳ Symmetric Matrix (A[i][j] = A[j][i])
 │   ├── symmetric_matrix.cpp         # C++ template
 │   └── notes.txt                    # Mapping reduction to Triangular Matrix
@@ -70,7 +73,7 @@ By taking advantage of these properties, we eliminate the need to store default 
 | :-: | :--- | :--- | :-: | :-: | :-: |
 | **01** | **Diagonal Matrix** | $i \neq j$ | $n$ | $n$ | ✅ **Completed** |
 | **02** | **Lower Triangular Matrix** | $i < j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
-| **03** | **Upper Triangular Matrix** | $i > j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ⏳ Planned |
+| **03** | **Upper Triangular Matrix** | $i > j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
 | **04** | **Symmetric Matrix** | $A[i][j] = A[j][i]$ | $\frac{n(n + 1)}{2}$ unique | $\frac{n(n + 1)}{2}$ | ⏳ Planned |
 | **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ⏳ Planned |
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
@@ -283,6 +286,132 @@ public:
 
 ---
 
+### 3. Upper Triangular Matrix (`03_upper_triangular_matrix`) ✅
+
+#### Mathematical Definition
+A square matrix $M$ of dimension $n \times n$ where all elements strictly below the main diagonal are zero:
+
+$$M[i][j] = \begin{cases} \text{non-zero / arbitrary} & \text{if } i \le j \\ 0 & \text{if } i > j \end{cases}$$
+
+```text
+Example (4x4 Upper Triangular Matrix):
+[ a11  a12  a13  a14 ]
+[  0   a22  a23  a24 ]
+[  0    0   a33  a34 ]
+[  0    0    0   a44 ]
+```
+
+- **Non-Zero Elements Count**: $n + (n - 1) + \dots + 1 = \frac{n(n + 1)}{2}$
+- **Zero Elements Count**: $n^2 - \frac{n(n + 1)}{2} = \frac{n(n - 1)}{2}$
+- **Compact 1D Array Size**: $\frac{n(n + 1)}{2}$
+
+---
+
+### 🔄 The Duality Principle: Interchange of Indices ($i \leftrightarrow j$)
+
+> [!TIP]
+> **Key Insight: Transposition Duality ($U = L^T$)**
+>
+> Because an upper triangular matrix $U$ is mathematically the transpose of a lower triangular matrix $L$ ($U = L^T$), swapping row and column indices ($i \leftrightarrow j$) directly transforms lower triangular addressing formulas into upper triangular formulas!
+>
+> - **Row-Major of $L$** corresponds to **Column-Major of $U$** (swap $i \leftrightarrow j$).
+> - **Column-Major of $L$** corresponds to **Row-Major of $U$** (swap $i \leftrightarrow j$).
+
+#### Summary Comparison Table (1-Based Matrix Coordinates)
+
+| Property / Order | Lower Triangular Matrix ($L$) | Upper Triangular Matrix ($U$) | Index Transformation |
+| :--- | :--- | :--- | :---: |
+| **Non-Zero Condition** | $i \ge j$ | $i \le j$ *(i.e., $j \ge i$)* | $i \leftrightarrow j$ |
+| **Row-Major Order** | $\mathbf{\text{Index}} = \left[\frac{\mathbf{i}(\mathbf{i} - 1)}{2}\right] + (\mathbf{j} - 1)$ | $\mathbf{\text{Index}} = \left[\frac{n(n + 1)}{2} - \frac{(n - \mathbf{i} + 1)(n - \mathbf{i} + 2)}{2}\right] + (\mathbf{j} - \mathbf{i})$ | $\uparrow\downarrow$ Cross-swapped |
+| **Column-Major Order** | $\mathbf{\text{Index}} = \left[\frac{n(n + 1)}{2} - \frac{(n - \mathbf{j} + 1)(n - \mathbf{j} + 2)}{2}\right] + (\mathbf{i} - \mathbf{j})$ | $\mathbf{\text{Index}} = \left[\frac{\mathbf{j}(\mathbf{j} - 1)}{2}\right] + (\mathbf{i} - 1)$ | $\uparrow\downarrow$ Cross-swapped |
+
+---
+
+#### Linear Coordinate Mapping Schemes
+
+Both implementations use 1-based matrix coordinates $(i, j)$ mapped to a 0-based compact dynamic array `A`:
+
+##### A. Row-Major Order (`01_row_major`)
+Elements are mapped and stored row-by-row:
+- Row 1 has $n$ elements: $a_{11}, a_{12}, \dots, a_{1n}$
+- Row 2 has $n - 1$ elements: $a_{22}, a_{23}, \dots, a_{2n}$
+- Row $i-1$ has $n - (i - 2)$ elements.
+- Number of elements in preceding $i-1$ rows:
+  $$\sum_{k=1}^{i-1} (n - k + 1) = \frac{n(n + 1)}{2} - \frac{(n - i + 1)(n - i + 2)}{2} = (i - 1)n - \frac{(i - 2)(i - 1)}{2}$$
+- Within row $i$, elements begin at column $i$, giving column offset $j - i$.
+
+$$\mathbf{\text{Index}}(i, j) = \left[\frac{n(n + 1)}{2} - \frac{(n - i + 1)(n - i + 2)}{2}\right] + (j - i) \quad (\text{for } 1 \le i \le j \le n)$$
+
+*(Note: For 0-based matrix indexing $0 \le i \le j < n$, the formula is $\left[i \cdot n - \frac{(i - 1)i}{2}\right] + (j - i)$)*
+
+##### B. Column-Major Order (`02_column_major`)
+Elements are mapped and stored column-by-column:
+- Column 1 has 1 element: $a_{11}$
+- Column 2 has 2 elements: $a_{12}, a_{22}$
+- Column $j-1$ has $j-1$ elements.
+- Number of elements in preceding $j-1$ columns:
+  $$\sum_{k=1}^{j-1} k = \frac{j(j - 1)}{2}$$
+- Within column $j$, row $i$ has 0-based offset $i - 1$.
+
+$$\mathbf{\text{Index}}(i, j) = \frac{j(j - 1)}{2} + (i - 1) \quad (\text{for } 1 \le i \le j \le n)$$
+
+*(Note: For 0-based matrix indexing $0 \le i \le j < n$, the formula is $\frac{j(j + 1)}{2} + i$)*
+
+#### Complexity Analysis
+- **Space Complexity**: $O\left(\frac{n(n + 1)}{2}\right) \approx O\left(\frac{n^2}{2}\right) \to O(n^2)$ heap allocation (~50% memory savings).
+- **Time Complexity**:
+  - `set(i, j, value)`: $O(1)$
+  - `get(i, j)`: $O(1)$
+  - `display()`: $O(n^2)$ to render full 2D view
+
+#### C++ Implementation Summary (`UpperTriangularMatrix`)
+```cpp
+class UpperTriangularMatrix {
+private:
+    int n;
+    int *A;
+
+public:
+    UpperTriangularMatrix(int n) {
+        this->n = n;
+        A = new int[n * (n + 1) / 2](); // Zero-initialized compact 1D array
+    }
+
+    ~UpperTriangularMatrix() {
+        delete[] A;
+        A = nullptr;
+    }
+
+    // Row-Major mapping
+    void set(int i, int j, int value) {
+        if (i <= j) {
+            A[(n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2) + (j - i)] = value;
+        }
+    }
+
+    int get(int i, int j) {
+        if (i <= j) {
+            return A[(n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2) + (j - i)];
+        }
+        return 0;
+    }
+
+    void display() {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                cout << '\t';
+                if (i <= j) cout << A[(n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2) + (j - i)];
+                else cout << '0';
+                cout << ' ';
+            }
+            cout << '\n';
+        }
+    }
+};
+```
+
+---
+
 ## ⚙️ How to Compile & Run
 
 You can compile and run any matrix module using standard C++17 compilers (`g++` or `clang++`):
@@ -302,4 +431,15 @@ g++ -std=c++17 lower_triangular_matrix.cpp -o lower_triangular_matrix
 cd ../02_column_major
 g++ -std=c++17 lower_triangular_matrix.cpp -o lower_triangular_matrix
 ./lower_triangular_matrix
+
+# 4. Upper Triangular Matrix (Row-Major)
+cd ../../03_upper_triangular_matrix/01_row_major
+g++ -std=c++17 upper_triangular_matrix.cpp -o upper_triangular_matrix
+./upper_triangular_matrix
+
+# 5. Upper Triangular Matrix (Column-Major)
+cd ../02_column_major
+g++ -std=c++17 upper_triangular_matrix.cpp -o upper_triangular_matrix
+./upper_triangular_matrix
 ```
+

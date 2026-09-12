@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-3%2F8_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-4%2F8_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -46,9 +46,9 @@ By taking advantage of these properties, we eliminate the need to store default 
 │   ├── 02_column_major/             # Column-Major mapping implementation & driver
 │   │   └── upper_triangular_matrix.cpp
 │   └── notes.txt                    # Addressing formula notes (1-based & 0-based)
-├── 04_symmetric_matrix/             # ⏳ Symmetric Matrix (A[i][j] = A[j][i])
-│   ├── symmetric_matrix.cpp         # C++ template
-│   └── notes.txt                    # Mapping reduction to Triangular Matrix
+├── 04_symmetric_matrix/             # ✅ Completed: Symmetric Matrix (Lower Triangular mapping)
+│   ├── symmetric_matrix.cpp         # Full C++ SymmetricMatrix class implementation & driver
+│   └── notes.txt                    # Mapping reduction to Triangular Matrix & symmetry swap
 ├── 05_tridiagonal_matrix/           # ⏳ Tridiagonal Matrix (Main, lower, and upper diagonals)
 │   ├── tridiagonal_matrix.cpp       # C++ template
 │   └── notes.txt                    # 3n - 2 elements mapping formulas
@@ -74,7 +74,7 @@ By taking advantage of these properties, we eliminate the need to store default 
 | **01** | **Diagonal Matrix** | $i \neq j$ | $n$ | $n$ | ✅ **Completed** |
 | **02** | **Lower Triangular Matrix** | $i < j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
 | **03** | **Upper Triangular Matrix** | $i > j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
-| **04** | **Symmetric Matrix** | $A[i][j] = A[j][i]$ | $\frac{n(n + 1)}{2}$ unique | $\frac{n(n + 1)}{2}$ | ⏳ Planned |
+| **04** | **Symmetric Matrix** | $A[i][j] = A[j][i]$ | $\frac{n(n + 1)}{2}$ unique | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
 | **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ⏳ Planned |
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
 | **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ⏳ Planned |
@@ -412,6 +412,92 @@ public:
 
 ---
 
+### 4. Symmetric Matrix (`04_symmetric_matrix`) ✅
+
+#### Mathematical Definition
+A square matrix $M$ of dimension $n \times n$ that is identical to its transpose ($M = M^T$):
+
+$$M[i][j] = M[j][i] \quad \text{for all } 1 \le i, j \le n$$
+
+```text
+Example (4x4 Symmetric Matrix):
+[  2   3   4   5  ]
+[  3   5   7   9  ]
+[  4   7  10  13  ]
+[  5   9  13  17  ]
+```
+
+- **Unique Elements Count**: $\frac{n(n + 1)}{2}$ (the elements on and below the main diagonal, or on and above).
+- **Redundant Elements Count**: $\frac{n(n - 1)}{2}$ (the mirrored triangle across the main diagonal).
+- **Compact 1D Array Size**: $\frac{n(n + 1)}{2}$
+
+#### Linear Coordinate Mapping Scheme
+
+The matrix is compressed into a 1D array of size $\frac{n(n + 1)}{2}$ by storing only the **Lower Triangular elements (Row-Major)**. Any query into the upper triangle ($i < j$) is redirected to its symmetric lower-triangle counterpart $(j, i)$ by swapping indices:
+
+$$\mathbf{\text{Index}}(i, j) = \begin{cases} \left[\frac{i(i - 1)}{2}\right] + (j - 1) & \text{if } i \ge j \\ \left[\frac{j(j - 1)}{2}\right] + (i - 1) & \text{if } i < j \end{cases}$$
+
+> [!TIP]
+> **Symmetry Index Swap**:
+> Whenever $i < j$, symmetry guarantees $M[i][j] = M[j][i]$. By simply swapping $(i, j) \to (j, i)$, the target index falls squarely in the stored lower triangular region ($j > i$), avoiding duplicate storage while maintaining $O(1)$ access.
+
+#### Complexity Analysis
+- **Space Complexity**: $O\left(\frac{n(n + 1)}{2}\right) \approx O\left(\frac{n^2}{2}\right) \to O(n^2)$ heap allocation (~50% memory savings).
+- **Time Complexity**:
+  - `set(i, j, value)`: $O(1)$
+  - `get(i, j)`: $O(1)$
+  - `display()`: $O(n^2)$ to render full 2D view
+
+#### C++ Implementation Summary (`SymmetricMatrix`)
+```cpp
+class SymmetricMatrix {
+private:
+    int n;
+    int *A;
+
+public:
+    SymmetricMatrix(int n) {
+        this->n = n;
+        A = new int[n * (n + 1) / 2](); // Zero-initialized compact 1D array
+    }
+
+    ~SymmetricMatrix() {
+        delete[] A;
+        A = nullptr;
+    }
+
+    void set(int i, int j, int value) {
+        if (i >= j) {
+            A[(i * (i - 1) / 2) + j - 1] = value;
+        } else {
+            A[(j * (j - 1) / 2) + i - 1] = value;
+        }
+    }
+
+    int get(int i, int j) {
+        if (i >= j) {
+            return A[(i * (i - 1) / 2) + j - 1];
+        } else {
+            return A[(j * (j - 1) / 2) + i - 1];
+        }
+    }
+
+    void display() {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                cout << '\t';
+                if (i >= j) cout << A[(i * (i - 1) / 2) + j - 1];
+                else cout << A[(j * (j - 1) / 2) + i - 1];
+                cout << ' ';
+            }
+            cout << '\n';
+        }
+    }
+};
+```
+
+---
+
 ## ⚙️ How to Compile & Run
 
 You can compile and run any matrix module using standard C++17 compilers (`g++` or `clang++`):
@@ -441,5 +527,10 @@ g++ -std=c++17 upper_triangular_matrix.cpp -o upper_triangular_matrix
 cd ../02_column_major
 g++ -std=c++17 upper_triangular_matrix.cpp -o upper_triangular_matrix
 ./upper_triangular_matrix
+
+# 6. Symmetric Matrix
+cd ../../04_symmetric_matrix
+g++ -std=c++17 symmetric_matrix.cpp -o symmetric_matrix
+./symmetric_matrix
 ```
 

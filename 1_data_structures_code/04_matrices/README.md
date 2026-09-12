@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-4%2F8_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-5%2F8_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -49,9 +49,9 @@ By taking advantage of these properties, we eliminate the need to store default 
 ├── 04_symmetric_matrix/             # ✅ Completed: Symmetric Matrix (Lower Triangular mapping)
 │   ├── symmetric_matrix.cpp         # Full C++ SymmetricMatrix class implementation & driver
 │   └── notes.txt                    # Mapping reduction to Triangular Matrix & symmetry swap
-├── 05_tridiagonal_matrix/           # ⏳ Tridiagonal Matrix (Main, lower, and upper diagonals)
-│   ├── tridiagonal_matrix.cpp       # C++ template
-│   └── notes.txt                    # 3n - 2 elements mapping formulas
+├── 05_tridiagonal_matrix/           # ✅ Completed: Tridiagonal Matrix (Main, lower, and upper diagonals)
+│   ├── tridiagonal_matrix.cpp       # Full C++ TridiagonalMatrix class implementation & driver
+│   └── notes.txt                    # 3n - 2 elements mapping formulas (1-based & 0-based)
 ├── 06_band_matrix/                  # ⏳ Band Matrix (Arbitrary bandwidth k around diagonal)
 │   ├── band_matrix.cpp              # C++ template
 │   └── notes.txt                    # Bandwidth indexing notes
@@ -75,7 +75,7 @@ By taking advantage of these properties, we eliminate the need to store default 
 | **02** | **Lower Triangular Matrix** | $i < j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
 | **03** | **Upper Triangular Matrix** | $i > j$ | $\frac{n(n + 1)}{2}$ | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
 | **04** | **Symmetric Matrix** | $A[i][j] = A[j][i]$ | $\frac{n(n + 1)}{2}$ unique | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
-| **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ⏳ Planned |
+| **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ✅ **Completed** |
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
 | **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ⏳ Planned |
 | **08** | **Sparse Matrix** | Majority elements $= 0$ | $m \ll n^2$ | $3 \times (m + 1)$ | ⏳ Planned |
@@ -498,6 +498,106 @@ public:
 
 ---
 
+### 5. Tridiagonal Matrix (`05_tridiagonal_matrix`) ✅
+
+#### Mathematical Definition
+A square matrix $M$ of dimension $n \times n$ where non-zero elements are strictly confined to three diagonals: the main diagonal, the sub-diagonal directly below it, and the super-diagonal directly above it:
+
+$$M[i][j] = \begin{cases} \text{non-zero / arbitrary} & \text{if } |i - j| \le 1 \\ 0 & \text{if } |i - j| > 1 \end{cases}$$
+
+```text
+Example (4x4 Tridiagonal Matrix):
+[ a11  a12   0    0  ]
+[ a21  a22  a23   0  ]
+[  0   a32  a33  a34 ]
+[  0    0   a43  a44 ]
+```
+
+- **Constituent Diagonals**:
+  1. **Lower sub-diagonal** ($i - j = 1$): $n - 1$ elements ($a_{21}, a_{32}, \dots, a_{n, n-1}$).
+  2. **Main diagonal** ($i - j = 0$): $n$ elements ($a_{11}, a_{22}, \dots, a_{nn}$).
+  3. **Upper super-diagonal** ($i - j = -1$): $n - 1$ elements ($a_{12}, a_{23}, \dots, a_{n-1, n}$).
+- **Total Non-Zero Elements Count**: $(n - 1) + n + (n - 1) = 3n - 2$
+- **Total Zero Elements Count**: $n^2 - (3n - 2)$
+- **Compact 1D Array Size**: $3n - 2$
+
+#### Linear Coordinate Mapping Scheme
+
+The non-zero elements are stored contiguously in a 1D dynamic array of size $3n - 2$, ordered diagonal-by-diagonal (lower sub-diagonal first, main diagonal second, upper super-diagonal third).
+
+Using 1-based matrix coordinates $(i, j)$ mapped to a 0-based compact array `A`:
+
+1. **Lower sub-diagonal** ($i - j = 1$, row $i \in [2, n]$):
+   $$\mathbf{\text{Index}}(i, j) = i - 2 \quad (\text{occupies indices } 0 \dots n - 2)$$
+
+2. **Main diagonal** ($i - j = 0$, row $i \in [1, n]$):
+   $$\mathbf{\text{Index}}(i, j) = (n - 1) + (i - 1) \quad (\text{occupies indices } n - 1 \dots 2n - 2)$$
+
+3. **Upper super-diagonal** ($i - j = -1$, row $i \in [1, n - 1]$):
+   $$\mathbf{\text{Index}}(i, j) = (2n - 1) + (i - 1) \quad (\text{occupies indices } 2n - 1 \dots 3n - 3)$$
+
+*(Note: For 0-based matrix indexing $0 \le i, j < n$, the formulas are: Lower: $i - 1$, Main: $(n - 1) + i$, Upper: $(2n - 1) + i$)*
+
+#### Complexity Analysis
+- **Space Complexity**: $O(3n - 2) \to O(n)$ heap allocation instead of $O(n^2)$.
+- **Time Complexity**:
+  - `set(i, j, value)`: $O(1)$
+  - `get(i, j)`: $O(1)$
+  - `display()`: $O(n^2)$ to render full 2D view
+
+#### C++ Implementation Summary (`TridiagonalMatrix`)
+```cpp
+class TridiagonalMatrix {
+private:
+    int n;
+    int *A;
+
+public:
+    TridiagonalMatrix(int n) {
+        this->n = n;
+        A = new int[3 * n - 2](); // Zero-initialized compact 1D array
+    }
+
+    ~TridiagonalMatrix() {
+        delete[] A;
+        A = nullptr;
+    }
+
+    void set(int i, int j, int value) {
+        if (i - j == 1) {
+            A[i - 2] = value;
+        } else if (i - j == 0) {
+            A[(n - 1) + (i - 1)] = value;
+        } else if (i - j == -1) {
+            A[(2 * n - 1) + (i - 1)] = value;
+        }
+    }
+
+    int get(int i, int j) {
+        if (i - j == 1) return A[i - 2];
+        else if (i - j == 0) return A[(n - 1) + (i - 1)];
+        else if (i - j == -1) return A[(2 * n - 1) + (i - 1)];
+        return 0;
+    }
+
+    void display() {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                cout << '\t';
+                if (i - j == 1) cout << A[i - 2];
+                else if (i - j == 0) cout << A[(n - 1) + (i - 1)];
+                else if (i - j == -1) cout << A[(2 * n - 1) + (i - 1)];
+                else cout << '0';
+                cout << ' ';
+            }
+            cout << '\n';
+        }
+    }
+};
+```
+
+---
+
 ## ⚙️ How to Compile & Run
 
 You can compile and run any matrix module using standard C++17 compilers (`g++` or `clang++`):
@@ -532,5 +632,10 @@ g++ -std=c++17 upper_triangular_matrix.cpp -o upper_triangular_matrix
 cd ../../04_symmetric_matrix
 g++ -std=c++17 symmetric_matrix.cpp -o symmetric_matrix
 ./symmetric_matrix
+
+# 7. Tridiagonal Matrix
+cd ../05_tridiagonal_matrix
+g++ -std=c++17 tridiagonal_matrix.cpp -o tridiagonal_matrix
+./tridiagonal_matrix
 ```
 

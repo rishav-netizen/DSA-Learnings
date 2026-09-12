@@ -96,6 +96,13 @@ c++/
 │   │   ├── 12_permutations/      # Finding permutations via State Space Tree & Swapping Backtracking
 │   │   └── README.md             # Complete Strings guide & complexity matrix
 │   │
+│   ├── 04_matrices/              # Special matrices (Diagonal, Triangular, Symmetric) & 1D mappings
+│   │   ├── 01_diagonal_matrix/   # Diagonal matrix ADT
+│   │   ├── 02_lower_triangular_matrix/ # Lower triangular (Row & Column major)
+│   │   ├── 03_upper_triangular_matrix/ # Upper triangular (Row & Column major)
+│   │   ├── 04_symmetric_matrix/  # Symmetric matrix (Lower triangular mapping)
+│   │   └── README.md             # Matrices module documentation & coordinate math
+│   │
 │   └── README.md                 # Overview of all DSA implementations
 │
 ├── 2_STL/                        # C++ Standard Template Library
@@ -224,7 +231,7 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
 | **01 · Array Representation** | ✅ Completed | [`01_arraysRepresentation/README.md`](./1_data_structures_code/01_arraysRepresentation/README.md) |
 | **02 · Array ADT** | ✅ Completed | [`02_arrayADT/README.md`](./1_data_structures_code/02_arrayADT/README.md) |
 | **03 · Strings** | ✅ Completed | [`03_string/README.md`](./1_data_structures_code/03_string/README.md) |
-| **04 · Matrices** | ⏳ Planned | Special matrices: Diagonal, Tri-diagonal, Symmetric, Triangular |
+| **04 · Matrices** | 🔄 In Progress | [`04_matrices/README.md`](./1_data_structures_code/04_matrices/README.md) |
 | **05 · Sparse Matrix & Polynomial** | ⏳ Planned | Coordinate list, linked representation, addition & multiplication |
 | **06 · Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, operations, reverse, cycle detection |
 | **07 · Stacks** | ⏳ Planned | Array/Linked List implementations, infix-to-postfix, matching |

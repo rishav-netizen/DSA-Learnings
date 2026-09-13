@@ -8,14 +8,20 @@ Definition:
 Key Properties:
 - Complete matrix is uniquely determined by elements of its first row and first column.
 - Total unique elements: 2n - 1 (n elements in the first row + n - 1 remaining elements in the first column).
+- Total redundant elements: n^2 - (2n - 1) = (n - 1)^2.
 
 Storage Optimization:
 - Store the first row and first column in a 1D array of size 2n - 1.
 
-Mapping Formula (0-based indexing):
-- If i <= j (Upper triangular part & main diagonal): Index = j - i
-- If i > j (Lower triangular part): Index = n + i - j - 1
+Mapping Formulas:
+(Identical for both 1-based and 0-based matrix indexing since formulas rely on coordinate differences):
+1. If i <= j (Upper triangular part & main diagonal):
+   Index = j - i  (occupies indices 0 to n - 1)
+
+2. If i > j (Lower triangular part):
+   Index = n + (i - j) - 1  (occupies indices n to 2n - 2)
 
 Complexity:
-- Space Complexity: O(n) instead of O(n^2)
+- Space Complexity: O(2n - 1) -> O(n) instead of O(n^2)
 - Time Complexity for Get/Set: O(1)
+- Display: O(n^2)

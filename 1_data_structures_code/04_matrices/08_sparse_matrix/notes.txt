@@ -7,14 +7,22 @@ Definition:
 Key Representations:
 1. Coordinate List / 3-Column Representation (Triplets):
    - Stores tuples of (Row, Column, Value) for non-zero elements.
-   - Usually represented as an array of structs/elements or 3-row/3-column 2D array.
+   - Usually represented as a dynamic array of struct `Element { int i, j, val; }`.
+   - Elements are ordered in row-major order (sorted first by row `i`, then by column `j`).
 
 2. Compressed Sparse Row (CSR) / Compressed Sparse Column (CSC):
    - Uses three 1D arrays: values array, column indices array, and row pointers array.
 
 3. Linked List Representation:
-   - Array of linked lists (one for each row) storing (Column, Value, Next).
+   - Array of linked list heads (one for each row) storing `(Column, Value, Next)`.
 
-Complexity:
-- Space Complexity: O(non_zero_elements)
-- Time Complexity for Addition/Multiplication depends on the representation structure.
+Memory Optimization Rule:
+- Standard 2D representation: m * n integers.
+- Triplet representation: 3 * num integers (where num is the count of non-zero elements).
+- Space saving condition: 3 * num < m * n (non-zero elements must be less than ~33% of the matrix).
+
+Operations (Coordinate List with Sorting):
+- Reading: Input triplets and sort via std::sort using custom row-major comparator.
+- Display: Single-pass scan in O(m * n) matching current (i, j) with sorted triplet array.
+- Get: O(log(num)) via Binary Search over row-major sorted triplets.
+- Space Complexity: O(num) heap memory.

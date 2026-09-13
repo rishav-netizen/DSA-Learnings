@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-6%2F8_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-7%2F8_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -58,9 +58,9 @@ By taking advantage of these properties, we eliminate the need to store default 
 ├── 07_toeplitz_matrix/              # ✅ Completed: Toeplitz Matrix (Identical descending diagonals)
 │   ├── toeplitz_matrix.cpp          # Full C++ ToeplitzMatrix class implementation & driver
 │   └── notes.txt                    # 2n - 1 unique elements mapping (first row & first column)
-├── 08_sparse_matrix/                # ⏳ Sparse Matrix (3-column representation & addition)
-│   ├── sparse_matrix.cpp            # C++ template
-│   └── notes.txt                    # Coordinate list / CSR concepts
+├── 08_sparse_matrix/                # ✅ Completed: Sparse Matrix (Coordinate list / Triplet representation)
+│   ├── sparse_matrix.cpp            # Full C++ SparseMatrix class implementation & driver
+│   └── notes.txt                    # Triplet representation, row-major sort & binary search
 ├── notes.txt                        # Master overview of Special Square Matrices
 └── README.md                        # Matrices module documentation and progress tracker
 ```
@@ -78,7 +78,7 @@ By taking advantage of these properties, we eliminate the need to store default 
 | **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ✅ **Completed** |
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
 | **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ✅ **Completed** |
-| **08** | **Sparse Matrix** | Majority elements $= 0$ | $m \ll n^2$ | $3 \times (m + 1)$ | ⏳ Planned |
+| **08** | **Sparse Matrix** | Majority elements $= 0$ | $\text{num} \ll n^2$ | $3 \times \text{num}$ | ✅ **Completed** |
 
 ---
 
@@ -689,6 +689,103 @@ public:
 
 ---
 
+### 7. Sparse Matrix (`08_sparse_matrix`) ✅
+
+#### Mathematical Definition
+A matrix of dimension $m \times n$ where the vast majority of elements are zeroes:
+
+$$M[i][j] = 0 \quad \text{for most } (i, j)$$
+
+```text
+Example (5x5 Sparse Matrix with 4 non-zero elements):
+[  5   0   0   0   0  ]
+[  0   0   2   0   0  ]
+[  0   9   0   0   0  ]
+[  0   0   0   0   7  ]
+[  0   0   0   0   0  ]
+```
+
+- **Non-Zero Elements Count**: $\text{num} \ll m \times n$.
+- **Storage Strategy**: Coordinate List / 3-Column Representation (Triplets: `(row, col, value)`).
+- **Space Efficiency Threshold**: Memory is saved whenever $3 \times \text{num} < m \times n$ (non-zero density $< 33\%$).
+
+#### Triplet Representation & Algorithmic Design
+
+1. **`struct Element`**: Encapsulates coordinates `(i, j)` and non-zero value `val`.
+2. **Row-Major Sorting via `std::sort`**: Non-zero entries are sorted using a custom comparator (`a.i < b.i || (a.i == b.i && a.j < b.j)`), allowing users to input elements in arbitrary order while guaranteeing canonical row-major internal order.
+3. **Single-Pass `display()`**: Traverses the $m \times n$ grid in $O(m \times n)$ time using an index pointer $k$ into the sorted triplet array.
+4. **$O(\log(\text{num}))$ `get(i, j)`**: Employs binary search over the row-major sorted triplet array to retrieve stored values in logarithmic time.
+
+#### Complexity Analysis
+- **Space Complexity**: $O(\text{num})$ heap allocation for `Element` array instead of $O(m \times n)$.
+- **Time Complexity**:
+  - `read()`: $O(\text{num} \log(\text{num}))$ to input and sort elements
+  - `get(i, j)`: $O(\log(\text{num}))$ via binary search
+  - `display()`: $O(m \times n)$ single-pass grid render
+
+#### C++ Implementation Summary (`SparseMatrix`)
+```cpp
+struct Element {
+    int i, j, val;
+};
+
+bool compare(const Element &a, const Element &b) {
+    if (a.i == b.i) return a.j < b.j;
+    return a.i < b.i;
+}
+
+class SparseMatrix {
+private:
+    int n;
+    int num;
+    Element *A;
+
+public:
+    SparseMatrix(int n, int num) {
+        this->n = n;
+        this->num = num;
+        A = new Element[num];
+    }
+
+    ~SparseMatrix() {
+        delete[] A;
+        A = nullptr;
+    }
+
+    void read() {
+        for (int k = 0; k < num; k++) {
+            cin >> A[k].i >> A[k].j >> A[k].val;
+        }
+        sort(A, A + num, compare);
+    }
+
+    int get(int i, int j) {
+        if (i < 1 || i > n || j < 1 || j > n) return 0;
+        int l = 0, h = num - 1;
+        while (l <= h) {
+            int mid = (h - l) / 2 + l;
+            if (A[mid].i == i && A[mid].j == j) return A[mid].val;
+            else if ((A[mid].i < i) || (A[mid].i == i && A[mid].j < j)) l = mid + 1;
+            else h = mid - 1;
+        }
+        return 0;
+    }
+
+    void display() {
+        int k = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (k < num && A[k].i == i && A[k].j == j) cout << A[k++].val << "\t";
+                else cout << "0\t";
+            }
+            cout << "\n";
+        }
+    }
+};
+```
+
+---
+
 ## ⚙️ How to Compile & Run
 
 You can compile and run any matrix module using standard C++17 compilers (`g++` or `clang++`):
@@ -733,5 +830,10 @@ g++ -std=c++17 tridiagonal_matrix.cpp -o tridiagonal_matrix
 cd ../07_toeplitz_matrix
 g++ -std=c++17 toeplitz_matrix.cpp -o toeplitz_matrix
 ./toeplitz_matrix
+
+# 9. Sparse Matrix
+cd ../08_sparse_matrix
+g++ -std=c++17 sparse_matrix.cpp -o sparse_matrix
+./sparse_matrix
 ```
 

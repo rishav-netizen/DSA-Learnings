@@ -102,6 +102,7 @@ c++/
 │   │   ├── 03_upper_triangular_matrix/ # Upper triangular (Row & Column major)
 │   │   ├── 04_symmetric_matrix/  # Symmetric matrix (Lower triangular mapping)
 │   │   ├── 05_tridiagonal_matrix/# Tridiagonal matrix (3 diagonals mapping)
+│   │   ├── 07_toeplitz_matrix/   # Toeplitz matrix (first row & first column mapping)
 │   │   └── README.md             # Matrices module documentation & coordinate math
 │   │
 │   └── README.md                 # Overview of all DSA implementations

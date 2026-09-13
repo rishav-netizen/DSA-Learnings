@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-5%2F8_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-6%2F8_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -55,9 +55,9 @@ By taking advantage of these properties, we eliminate the need to store default 
 ├── 06_band_matrix/                  # ⏳ Band Matrix (Arbitrary bandwidth k around diagonal)
 │   ├── band_matrix.cpp              # C++ template
 │   └── notes.txt                    # Bandwidth indexing notes
-├── 07_toeplitz_matrix/              # ⏳ Toeplitz Matrix (Identical descending diagonals)
-│   ├── toeplitz_matrix.cpp          # C++ template
-│   └── notes.txt                    # 2n - 1 unique elements mapping
+├── 07_toeplitz_matrix/              # ✅ Completed: Toeplitz Matrix (Identical descending diagonals)
+│   ├── toeplitz_matrix.cpp          # Full C++ ToeplitzMatrix class implementation & driver
+│   └── notes.txt                    # 2n - 1 unique elements mapping (first row & first column)
 ├── 08_sparse_matrix/                # ⏳ Sparse Matrix (3-column representation & addition)
 │   ├── sparse_matrix.cpp            # C++ template
 │   └── notes.txt                    # Coordinate list / CSR concepts
@@ -77,7 +77,7 @@ By taking advantage of these properties, we eliminate the need to store default 
 | **04** | **Symmetric Matrix** | $A[i][j] = A[j][i]$ | $\frac{n(n + 1)}{2}$ unique | $\frac{n(n + 1)}{2}$ | ✅ **Completed** |
 | **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ✅ **Completed** |
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
-| **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ⏳ Planned |
+| **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ✅ **Completed** |
 | **08** | **Sparse Matrix** | Majority elements $= 0$ | $m \ll n^2$ | $3 \times (m + 1)$ | ⏳ Planned |
 
 ---
@@ -598,6 +598,97 @@ public:
 
 ---
 
+### 6. Toeplitz Matrix (`07_toeplitz_matrix`) ✅
+
+#### Mathematical Definition
+A square matrix $M$ of dimension $n \times n$ where every descending diagonal from left to right contains identical elements:
+
+$$M[i][j] = M[i-1][j-1] \quad \text{for all valid } i, j$$
+
+```text
+Example (4x4 Toeplitz Matrix):
+[ 2   4   6   8  ]
+[ 12  2   4   6  ]
+[ 13  12  2   4  ]
+[ 14  13  12  2  ]
+```
+
+- **Unique Elements Count**: $2n - 1$ (entirely determined by $n$ elements in the first row and $n - 1$ remaining elements in the first column).
+- **Redundant Elements Count**: $n^2 - (2n - 1) = (n - 1)^2$.
+- **Compact 1D Array Size**: $2n - 1$
+
+#### Linear Coordinate Mapping Scheme
+
+All unique elements are stored in a 1D dynamic array of size $2n - 1$:
+- **First row elements** (main diagonal & upper diagonals, $i \le j$): mapped via the coordinate difference $j - i$.
+- **First column elements** (lower sub-diagonals, $i > j$): mapped via the coordinate difference $i - j$, offset by $n$.
+
+Using 1-based matrix coordinates $(i, j)$ mapped to a 0-based compact array `A`:
+
+1. **Upper triangular half & main diagonal** ($i \le j$):
+   $$\mathbf{\text{Index}}(i, j) = j - i \quad (\text{occupies indices } 0 \dots n - 1)$$
+
+2. **Lower triangular half** ($i > j$):
+   $$\mathbf{\text{Index}}(i, j) = n + (i - j) - 1 \quad (\text{occupies indices } n \dots 2n - 2)$$
+
+*(Note: Because coordinate differences $(j - i)$ and $(i - j)$ are shift-invariant, the exact same index formulas apply for both 0-based and 1-based matrix coordinates)*
+
+#### Complexity Analysis
+- **Space Complexity**: $O(2n - 1) \to O(n)$ heap allocation instead of $O(n^2)$.
+- **Time Complexity**:
+  - `set(i, j, value)`: $O(1)$
+  - `get(i, j)`: $O(1)$
+  - `display()`: $O(n^2)$ to render full 2D view
+
+#### C++ Implementation Summary (`ToeplitzMatrix`)
+```cpp
+class ToeplitzMatrix {
+private:
+    int n;
+    int *A;
+
+public:
+    ToeplitzMatrix(int n) {
+        this->n = n;
+        A = new int[2 * n - 1](); // Zero-initialized compact 1D array
+    }
+
+    ~ToeplitzMatrix() {
+        delete[] A;
+        A = nullptr;
+    }
+
+    void set(int i, int j, int value) {
+        if (i <= j) {
+            A[j - i] = value;
+        } else {
+            A[n + i - j - 1] = value;
+        }
+    }
+
+    int get(int i, int j) {
+        if (i <= j) {
+            return A[j - i];
+        }
+        return A[n + i - j - 1];
+    }
+
+    void display() {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                cout << '\t';
+                if (i <= j) cout << A[j - i];
+                else cout << A[n + i - j - 1];
+                cout << ' ';
+            }
+            cout << '\n';
+        }
+    }
+};
+```
+
+---
+
 ## ⚙️ How to Compile & Run
 
 You can compile and run any matrix module using standard C++17 compilers (`g++` or `clang++`):
@@ -637,5 +728,10 @@ g++ -std=c++17 symmetric_matrix.cpp -o symmetric_matrix
 cd ../05_tridiagonal_matrix
 g++ -std=c++17 tridiagonal_matrix.cpp -o tridiagonal_matrix
 ./tridiagonal_matrix
+
+# 8. Toeplitz Matrix
+cd ../07_toeplitz_matrix
+g++ -std=c++17 toeplitz_matrix.cpp -o toeplitz_matrix
+./toeplitz_matrix
 ```
 

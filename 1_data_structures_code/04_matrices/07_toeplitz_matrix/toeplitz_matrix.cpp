@@ -23,7 +23,6 @@ class ToeplitzMatrix
 
         void set(int i, int j, int value)
         {
-            // TODO: Implement set logic
             if (i <= j)
             {
                 A[j - i] = value;
@@ -37,7 +36,6 @@ class ToeplitzMatrix
 
         int get(int i, int j)
         {
-            // TODO: Implement get logic
             if (i <= j)
             {
                 return A[j - i];
@@ -47,7 +45,6 @@ class ToeplitzMatrix
 
         void display()
         {
-            // TODO: Implement display logic
             for (int i = 1; i <= n; i++)
             {
                 for (int j = 1; j <= n; j++)
@@ -87,7 +84,6 @@ int main()
     cin >> n;
     ToeplitzMatrix m(n);
 
-    // TODO: Populate and display Toeplitz matrix
     for (int i = 1; i <= n; i++)
     {
         for (int j = 1; j <=n; j++)
@@ -95,6 +91,7 @@ int main()
             m.set(i, j, i * 2 * j - 1);
         }
     }
+    
     m.display();
     
     return 0;

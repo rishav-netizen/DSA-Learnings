@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-7%2F8_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-8%2F9_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -42,9 +42,11 @@ By taking advantage of these properties, we eliminate the need to store default 
 │   └── notes.txt                    # Addressing formula notes (1-based & 0-based)
 ├── 03_upper_triangular_matrix/      # ✅ Completed: Upper Triangular Matrix (Row & Column Major)
 │   ├── 01_row_major/                # Row-Major mapping implementation & driver
-│   │   └── upper_triangular_matrix.cpp
+│   │   ├── upper_triangular_matrix.cpp
+│   │   └── image.png
 │   ├── 02_column_major/             # Column-Major mapping implementation & driver
-│   │   └── upper_triangular_matrix.cpp
+│   │   ├── upper_triangular_matrix.cpp
+│   │   └── image.png
 │   └── notes.txt                    # Addressing formula notes (1-based & 0-based)
 ├── 04_symmetric_matrix/             # ✅ Completed: Symmetric Matrix (Lower Triangular mapping)
 │   ├── symmetric_matrix.cpp         # Full C++ SymmetricMatrix class implementation & driver
@@ -61,6 +63,8 @@ By taking advantage of these properties, we eliminate the need to store default 
 ├── 08_sparse_matrix/                # ✅ Completed: Sparse Matrix (Coordinate list / Triplet representation)
 │   ├── sparse_matrix.cpp            # Full C++ SparseMatrix class implementation & driver
 │   └── notes.txt                    # Triplet representation, row-major sort & binary search
+├── 09_menu_driven_matrix/           # ✅ Completed: Polymorphic Base Matrix ADT & Interactive Driver
+│   └── main.cpp                     # Full menu-driven program with runtime polymorphism
 ├── notes.txt                        # Master overview of Special Square Matrices
 └── README.md                        # Matrices module documentation and progress tracker
 ```
@@ -79,6 +83,7 @@ By taking advantage of these properties, we eliminate the need to store default 
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
 | **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ✅ **Completed** |
 | **08** | **Sparse Matrix** | Majority elements $= 0$ | $\text{num} \ll n^2$ | $3 \times \text{num}$ | ✅ **Completed** |
+| **09** | **Menu-Driven Polymorphic Matrix** | Unified OOP ADT | All Matrix Types | Variable | ✅ **Completed** |
 
 ---
 
@@ -135,50 +140,8 @@ flowchart LR
   - `get(i, j)`: $O(1)$
   - `display()`: $O(n^2)$ to render full 2D grid
 
-#### C++ Implementation Summary
-```cpp
-class DiagonalMatrix {
-private:
-    int *A;
-    int dimension;
-
-public:
-    DiagonalMatrix(int dimension) {
-        this->dimension = dimension;
-        this->A = new int[dimension](); // Zero-initialized
-    }
-
-    ~DiagonalMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    void set(int i, int j, int x) {
-        if (i == j) {
-            A[i - 1] = x;
-        }
-    }
-
-    int get(int i, int j) {
-        if (i == j) {
-            return A[i - 1];
-        }
-        return 0;
-    }
-
-    void display() {
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                cout << "\t";
-                if (i == j) cout << A[i];
-                else cout << "0";
-                cout << " ";
-            }
-            cout << "\n";
-        }
-    }
-};
-```
+#### 💻 Code Implementation
+👉 **Source Code:** [`diagonal_matrix.cpp`](./01_diagonal_matrix/diagonal_matrix.cpp)
 
 ---
 
@@ -238,51 +201,9 @@ $$\mathbf{\text{Index}}(i, j) = \left[\frac{n(n + 1)}{2} - \frac{(n - j + 1)(n -
   - `get(i, j)`: $O(1)$
   - `display()`: $O(n^2)$ to render full 2D view
 
-#### C++ Implementation Summary (`LowerTriangularMatrix`)
-```cpp
-class LowerTriangularMatrix {
-private:
-    int n;
-    int *A;
-
-public:
-    LowerTriangularMatrix(int n) {
-        this->n = n;
-        A = new int[n * (n + 1) / 2](); // Zero-initialized compact 1D array
-    }
-
-    ~LowerTriangularMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    // Row-Major mapping
-    void set(int i, int j, int value) {
-        if (i >= j) {
-            A[(i * (i - 1) / 2) + (j - 1)] = value;
-        }
-    }
-
-    int get(int i, int j) {
-        if (i >= j) {
-            return A[(i * (i - 1) / 2) + (j - 1)];
-        }
-        return 0;
-    }
-
-    void display() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                cout << '\t';
-                if (i >= j) cout << A[(i * (i - 1) / 2) + (j - 1)];
-                else cout << '0';
-                cout << ' ';
-            }
-            cout << '\n';
-        }
-    }
-};
-```
+#### 💻 Code Implementations
+- 👉 **Row-Major Implementation:** [`01_row_major/lower_triangular_matrix.cpp`](./02_lower_triangular_matrix/01_row_major/lower_triangular_matrix.cpp)
+- 👉 **Column-Major Implementation:** [`02_column_major/lower_triangular_matrix.cpp`](./02_lower_triangular_matrix/02_column_major/lower_triangular_matrix.cpp)
 
 ---
 
@@ -364,51 +285,9 @@ $$\mathbf{\text{Index}}(i, j) = \frac{j(j - 1)}{2} + (i - 1) \quad (\text{for } 
   - `get(i, j)`: $O(1)$
   - `display()`: $O(n^2)$ to render full 2D view
 
-#### C++ Implementation Summary (`UpperTriangularMatrix`)
-```cpp
-class UpperTriangularMatrix {
-private:
-    int n;
-    int *A;
-
-public:
-    UpperTriangularMatrix(int n) {
-        this->n = n;
-        A = new int[n * (n + 1) / 2](); // Zero-initialized compact 1D array
-    }
-
-    ~UpperTriangularMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    // Row-Major mapping
-    void set(int i, int j, int value) {
-        if (i <= j) {
-            A[(n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2) + (j - i)] = value;
-        }
-    }
-
-    int get(int i, int j) {
-        if (i <= j) {
-            return A[(n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2) + (j - i)];
-        }
-        return 0;
-    }
-
-    void display() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                cout << '\t';
-                if (i <= j) cout << A[(n * (n + 1) / 2 - (n - i + 1) * (n - i + 2) / 2) + (j - i)];
-                else cout << '0';
-                cout << ' ';
-            }
-            cout << '\n';
-        }
-    }
-};
-```
+#### 💻 Code Implementations
+- 👉 **Row-Major Implementation:** [`01_row_major/upper_triangular_matrix.cpp`](./03_upper_triangular_matrix/01_row_major/upper_triangular_matrix.cpp)
+- 👉 **Column-Major Implementation:** [`02_column_major/upper_triangular_matrix.cpp`](./03_upper_triangular_matrix/02_column_major/upper_triangular_matrix.cpp)
 
 ---
 
@@ -448,53 +327,8 @@ $$\mathbf{\text{Index}}(i, j) = \begin{cases} \left[\frac{i(i - 1)}{2}\right] + 
   - `get(i, j)`: $O(1)$
   - `display()`: $O(n^2)$ to render full 2D view
 
-#### C++ Implementation Summary (`SymmetricMatrix`)
-```cpp
-class SymmetricMatrix {
-private:
-    int n;
-    int *A;
-
-public:
-    SymmetricMatrix(int n) {
-        this->n = n;
-        A = new int[n * (n + 1) / 2](); // Zero-initialized compact 1D array
-    }
-
-    ~SymmetricMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    void set(int i, int j, int value) {
-        if (i >= j) {
-            A[(i * (i - 1) / 2) + j - 1] = value;
-        } else {
-            A[(j * (j - 1) / 2) + i - 1] = value;
-        }
-    }
-
-    int get(int i, int j) {
-        if (i >= j) {
-            return A[(i * (i - 1) / 2) + j - 1];
-        } else {
-            return A[(j * (j - 1) / 2) + i - 1];
-        }
-    }
-
-    void display() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                cout << '\t';
-                if (i >= j) cout << A[(i * (i - 1) / 2) + j - 1];
-                else cout << A[(j * (j - 1) / 2) + i - 1];
-                cout << ' ';
-            }
-            cout << '\n';
-        }
-    }
-};
-```
+#### 💻 Code Implementation
+👉 **Source Code:** [`symmetric_matrix.cpp`](./04_symmetric_matrix/symmetric_matrix.cpp)
 
 ---
 
@@ -545,56 +379,8 @@ Using 1-based matrix coordinates $(i, j)$ mapped to a 0-based compact array `A`:
   - `get(i, j)`: $O(1)$
   - `display()`: $O(n^2)$ to render full 2D view
 
-#### C++ Implementation Summary (`TridiagonalMatrix`)
-```cpp
-class TridiagonalMatrix {
-private:
-    int n;
-    int *A;
-
-public:
-    TridiagonalMatrix(int n) {
-        this->n = n;
-        A = new int[3 * n - 2](); // Zero-initialized compact 1D array
-    }
-
-    ~TridiagonalMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    void set(int i, int j, int value) {
-        if (i - j == 1) {
-            A[i - 2] = value;
-        } else if (i - j == 0) {
-            A[(n - 1) + (i - 1)] = value;
-        } else if (i - j == -1) {
-            A[(2 * n - 1) + (i - 1)] = value;
-        }
-    }
-
-    int get(int i, int j) {
-        if (i - j == 1) return A[i - 2];
-        else if (i - j == 0) return A[(n - 1) + (i - 1)];
-        else if (i - j == -1) return A[(2 * n - 1) + (i - 1)];
-        return 0;
-    }
-
-    void display() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                cout << '\t';
-                if (i - j == 1) cout << A[i - 2];
-                else if (i - j == 0) cout << A[(n - 1) + (i - 1)];
-                else if (i - j == -1) cout << A[(2 * n - 1) + (i - 1)];
-                else cout << '0';
-                cout << ' ';
-            }
-            cout << '\n';
-        }
-    }
-};
-```
+#### 💻 Code Implementation
+👉 **Source Code:** [`tridiagonal_matrix.cpp`](./05_tridiagonal_matrix/tridiagonal_matrix.cpp)
 
 ---
 
@@ -640,52 +426,8 @@ Using 1-based matrix coordinates $(i, j)$ mapped to a 0-based compact array `A`:
   - `get(i, j)`: $O(1)$
   - `display()`: $O(n^2)$ to render full 2D view
 
-#### C++ Implementation Summary (`ToeplitzMatrix`)
-```cpp
-class ToeplitzMatrix {
-private:
-    int n;
-    int *A;
-
-public:
-    ToeplitzMatrix(int n) {
-        this->n = n;
-        A = new int[2 * n - 1](); // Zero-initialized compact 1D array
-    }
-
-    ~ToeplitzMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    void set(int i, int j, int value) {
-        if (i <= j) {
-            A[j - i] = value;
-        } else {
-            A[n + i - j - 1] = value;
-        }
-    }
-
-    int get(int i, int j) {
-        if (i <= j) {
-            return A[j - i];
-        }
-        return A[n + i - j - 1];
-    }
-
-    void display() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                cout << '\t';
-                if (i <= j) cout << A[j - i];
-                else cout << A[n + i - j - 1];
-                cout << ' ';
-            }
-            cout << '\n';
-        }
-    }
-};
-```
+#### 💻 Code Implementation
+👉 **Source Code:** [`toeplitz_matrix.cpp`](./07_toeplitz_matrix/toeplitz_matrix.cpp)
 
 ---
 
@@ -723,66 +465,21 @@ Example (5x5 Sparse Matrix with 4 non-zero elements):
   - `get(i, j)`: $O(\log(\text{num}))$ via binary search
   - `display()`: $O(m \times n)$ single-pass grid render
 
-#### C++ Implementation Summary (`SparseMatrix`)
-```cpp
-struct Element {
-    int i, j, val;
-};
+#### 💻 Code Implementation
+👉 **Source Code:** [`sparse_matrix.cpp`](./08_sparse_matrix/sparse_matrix.cpp)
 
-bool compare(const Element &a, const Element &b) {
-    if (a.i == b.i) return a.j < b.j;
-    return a.i < b.i;
-}
+---
 
-class SparseMatrix {
-private:
-    int n;
-    int num;
-    Element *A;
+### 8. Menu-Driven Polymorphic Matrix (`09_menu_driven_matrix`) ✅
 
-public:
-    SparseMatrix(int n, int num) {
-        this->n = n;
-        this->num = num;
-        A = new Element[num];
-    }
+#### Object-Oriented Architecture
+An interactive command-line interface demonstrating runtime polymorphism and object-oriented design in C++:
+- **Abstract Base Class (`Matrix`)**: Defines common attributes (`n`, dynamic pointer `*A`), a virtual destructor, and pure virtual interfaces (`set`, `get`, `display`).
+- **Derived Matrix Subclasses**: `DiagonalMatrix`, `LowerTriangularMatrix`, `UpperTriangularMatrix`, `SymmetricMatrix`, `TridiagonalMatrix`, and `ToeplitzMatrix` inherit from `Matrix`, allocate appropriate 1D compact storage in their constructors, and override pure virtual methods with uniform boundary checks ($1 \le i \le n \land 1 \le j \le n$).
+- **Runtime Polymorphism**: An interactive console menu instantiates the desired concrete class via a base pointer (`Matrix *m = new ...`), executing operations dynamically at runtime without exposing the underlying compression logic.
 
-    ~SparseMatrix() {
-        delete[] A;
-        A = nullptr;
-    }
-
-    void read() {
-        for (int k = 0; k < num; k++) {
-            cin >> A[k].i >> A[k].j >> A[k].val;
-        }
-        sort(A, A + num, compare);
-    }
-
-    int get(int i, int j) {
-        if (i < 1 || i > n || j < 1 || j > n) return 0;
-        int l = 0, h = num - 1;
-        while (l <= h) {
-            int mid = (h - l) / 2 + l;
-            if (A[mid].i == i && A[mid].j == j) return A[mid].val;
-            else if ((A[mid].i < i) || (A[mid].i == i && A[mid].j < j)) l = mid + 1;
-            else h = mid - 1;
-        }
-        return 0;
-    }
-
-    void display() {
-        int k = 0;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (k < num && A[k].i == i && A[k].j == j) cout << A[k++].val << "\t";
-                else cout << "0\t";
-            }
-            cout << "\n";
-        }
-    }
-};
-```
+#### 💻 Code Implementation
+👉 **Source Code:** [`09_menu_driven_matrix/main.cpp`](./09_menu_driven_matrix/main.cpp)
 
 ---
 
@@ -835,5 +532,9 @@ g++ -std=c++17 toeplitz_matrix.cpp -o toeplitz_matrix
 cd ../08_sparse_matrix
 g++ -std=c++17 sparse_matrix.cpp -o sparse_matrix
 ./sparse_matrix
-```
 
+# 10. Menu-Driven Matrix Program
+cd ../09_menu_driven_matrix
+g++ -std=c++17 main.cpp -o main
+./main
+```

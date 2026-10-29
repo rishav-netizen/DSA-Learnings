@@ -104,6 +104,7 @@ c++/
 │   │   ├── 05_tridiagonal_matrix/# Tridiagonal matrix (3 diagonals mapping)
 │   │   ├── 07_toeplitz_matrix/   # Toeplitz matrix (first row & first column mapping)
 │   │   ├── 08_sparse_matrix/     # Sparse matrix (Coordinate list / 3-column representation)
+│   │   ├── 09_menu_driven_matrix/# Polymorphic base Matrix & menu-driven interactive driver
 │   │   └── README.md             # Matrices module documentation & coordinate math
 │   │
 │   └── README.md                 # Overview of all DSA implementations

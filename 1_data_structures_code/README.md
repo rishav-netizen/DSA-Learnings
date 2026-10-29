@@ -74,7 +74,7 @@ flowchart LR
 | 2 | **Array Representation** | ✅ Completed | Memory layout, heap allocation, 1D/2D/3D/nD address calculations. |
 | 3 | **Array ADT** | ✅ Completed | 17 manual operations, OOP class encapsulation, 5 advanced student challenges. |
 | 4 | **Strings** | ✅ Completed | ASCII encoding, char vs string, length calculation, case conversion, word counting, validation, reversal, comparison, bitwise duplicates, anagrams, permutations. |
-| 5 | **Matrices** | 🔄 In Progress | Special Matrices: Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal, Toeplitz, Sparse (completed), Band. |
+| 5 | **Matrices** | 🔄 In Progress | Special Matrices: Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal, Toeplitz, Sparse, Menu-Driven ADT (completed), Band. |
 | 6 | **Sparse Matrix & Polynomial** | ⏳ Planned | 3-column representation, linked representation, polynomial evaluation & addition. |
 | 7 | **Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, Doubly Circular, operations, reverse, merge, loops. |
 | 8 | **Stacks** | ⏳ Planned | Array/Linked List implementations, infix-to-postfix conversion, parenthesis matching. |

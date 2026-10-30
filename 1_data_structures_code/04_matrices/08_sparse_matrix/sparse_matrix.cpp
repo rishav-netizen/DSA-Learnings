@@ -1,6 +1,6 @@
-// Sparse Matrix Implementation Placeholder
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
 
 using namespace std;
 
@@ -21,8 +21,8 @@ bool compare(const Element &a, const Element &b) // returns if a should come bef
 class SparseMatrix
 {
     private:
-        int n;
-        int num;
+        int n; // dimension
+        int num; // number of non zero elements
         Element *A;
 
     public: 
@@ -33,7 +33,21 @@ class SparseMatrix
             A = new Element[num];
         }
 
-        int get(int i, int j)
+        // copy constructor for deep copy
+        SparseMatrix(const SparseMatrix &other)
+        {
+            n = other.n;
+            num = other.num;
+
+            A = new Element[num];
+
+            for (int i = 0; i < num; i++)
+            {
+                A[i] = other.A[i];
+            }
+        }
+
+        int get(int i, int j) const
         {
             if (i < 1 || i > n || j < 1 || j > n)
             {
@@ -72,10 +86,10 @@ class SparseMatrix
             sort(A, A + num, compare); // sorting row major wise for binary search in get()
         }
 
-        void display()
+        void display() const
         {
-            int k = 0;
-            
+            int k = 0; // tracker for non zero elements
+
             for (int i = 1; i <= n; i++)
             {
                 cout << "\t";
@@ -93,8 +107,88 @@ class SparseMatrix
                 }
                 cout << endl;
             }
-            
+            cout << endl;
         }
+
+        SparseMatrix operator+(const SparseMatrix &other)
+        {
+            if(this->n != other.n) // dimension check 
+            {
+                cout << "They must have the same dimension!\n";
+                exit(1);
+            }
+
+            int total = this->num + other.num; // in worst case when all are different indexed
+            SparseMatrix result(n, total);
+
+            int i = 0, j = 0, k = 0;
+
+            // here basically merging two sorted arrays using compare to compare elements cuz they aint integers
+            while(i < this->num && j < other.num)
+            {
+                if(compare(A[i], other.A[j]))
+                {
+                    result.A[k] = A[i];
+                    i++;
+                }
+                else if (compare(other.A[j], A[i]))
+                {
+                    result.A[k] = other.A[j];
+                    j++;
+                }
+                else
+                {
+                    int sum = A[i].val + other.A[j].val;
+                    if(sum != 0)
+                    {
+                        result.A[k].i = A[i].i; 
+                        result.A[k].j = A[i].j; 
+                        result.A[k].val = sum;
+                        k++;
+                    }
+                    i++;
+                    j++;
+                    continue; // if the sum is zero then the array counter for non zeroes shouldnt be incremented hence we ignore the below code of THIS loop
+                }
+                k++;
+            }
+            
+            while (i < this->num)
+            {
+                result.A[k++] = A[i++];
+            }
+            while (j < other.num)
+            {
+                result.A[k++] = other.A[j++];
+            }
+
+            result.num = k;
+
+            return result;
+        }
+
+        SparseMatrix& operator=(const SparseMatrix &other) //copy assignment operator
+        {
+            if (this == &other)
+            {
+                return *this;
+            }
+
+            delete[] A;
+
+            n = other.n;
+            num = other.num;
+
+            A = new Element[num];
+
+            for (int i = 0; i < num; i++)
+            {
+                A[i] = other.A[i];
+            }
+
+            return *this;
+        }
+
 
         ~SparseMatrix()
         {
@@ -107,22 +201,39 @@ class SparseMatrix
 
 int main()
 {
-    cout << "Enter square sparse matrix dimension: ";
-    int n;
-    cin >> n;
+    cout << "Enter first square sparse matrix dimension: ";
+    int n1;
+    cin >> n1;
 
     cout << "Enter number of non zero elements: ";
-    int num;
-    cin >> num;
-    SparseMatrix m(n, num);
-    m.read();
+    int num1;
+    cin >> num1;
+    SparseMatrix m1(n1, num1);
+    m1.read();
 
     cout << "\nSparse Matrix: \n";
-    m.display();
+    m1.display();
 
-    int row, col;
-    cout << "\nEnter (row, col) for element you wanna see: ";
-    cin >> row >> col;
-    cout << "Element at (" << row << ", " << col << "): " << m.get(row, col) << endl;
+    cout << "Enter second square sparse matrix dimension: ";
+    int n2;
+    cin >> n2;
+
+    cout << "Enter number of non zero elements: ";
+    int num2;
+    cin >> num2;
+    SparseMatrix m2(n2, num2);
+    m2.read();
+
+    cout << "\nSparse Matrix: \n";
+    m2.display();
+
+    // int row, col;
+    // cout << "\nEnter (row, col) for element you wanna see: ";
+    // cin >> row >> col;
+    // cout << "Element at (" << row << ", " << col << "): " << m.get(row, col) << endl;
+
+    SparseMatrix result = m1 + m2; // this is deep copying right?
+    cout << "\nThe resultant matrix is as follows: \n";
+    result.display();
     return 0;
 }

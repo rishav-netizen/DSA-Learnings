@@ -6,7 +6,7 @@
 
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Progress-yellow?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Modules-8%2F9_Completed-informational?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Modules-9%2F10_Completed-informational?style=for-the-badge)
 
 *Optimizing square matrix memory footprints in C++ by mapping structured zero and redundant elements into compact 1-Dimensional dynamic arrays via $O(1)$ index translation formulas.*
 
@@ -60,11 +60,18 @@ By taking advantage of these properties, we eliminate the need to store default 
 ├── 07_toeplitz_matrix/              # ✅ Completed: Toeplitz Matrix (Identical descending diagonals)
 │   ├── toeplitz_matrix.cpp          # Full C++ ToeplitzMatrix class implementation & driver
 │   └── notes.txt                    # 2n - 1 unique elements mapping (first row & first column)
-├── 08_sparse_matrix/                # ✅ Completed: Sparse Matrix (Coordinate list / Triplet representation)
-│   ├── sparse_matrix.cpp            # Full C++ SparseMatrix class implementation & driver
+├── 08_sparse_matrix/                # ✅ Completed: Sparse Matrix (Coordinate list, CSR & Addition)
+│   ├── 00_representation/           # Representations
+│   │   ├── 00_three_col/            # 3-Column Coordinate List (Triplets)
+│   │   │   └── main.cpp             # Procedural C-style triplet representation & display
+│   │   └── 01_compressed_sparse_rows/# Compressed Sparse Row (CSR)
+│   │       └── main.cpp             # CSR 3-array representation (val, col_ind, row_ptr)
+│   ├── sparse_matrix.cpp            # Full C++ SparseMatrix class with Addition & Binary Search
 │   └── notes.txt                    # Triplet representation, row-major sort & binary search
 ├── 09_menu_driven_matrix/           # ✅ Completed: Polymorphic Base Matrix ADT & Interactive Driver
 │   └── main.cpp                     # Full menu-driven program with runtime polymorphism
+├── 10_polynomial/                   # ✅ Completed: Polynomial Representation & Addition
+│   └── main.cpp                     # Term representation, Horner evaluation & polynomial addition
 ├── notes.txt                        # Master overview of Special Square Matrices
 └── README.md                        # Matrices module documentation and progress tracker
 ```
@@ -82,8 +89,9 @@ By taking advantage of these properties, we eliminate the need to store default 
 | **05** | **Tridiagonal Matrix** | $\|i - j\| > 1$ | $3n - 2$ | $3n - 2$ | ✅ **Completed** |
 | **06** | **Band Matrix** | $\|i - j\| > k$ | $(2k + 1)n - k(k + 1)$ | Band size | ⏳ Planned |
 | **07** | **Toeplitz Matrix** | $A[i][j] = A[i-1][j-1]$ | $2n - 1$ unique | $2n - 1$ | ✅ **Completed** |
-| **08** | **Sparse Matrix** | Majority elements $= 0$ | $\text{num} \ll n^2$ | $3 \times \text{num}$ | ✅ **Completed** |
+| **08** | **Sparse Matrix** | Majority elements $= 0$ | $\text{num} \ll m \times n$ | $3 \times \text{num}$ | ✅ **Completed** |
 | **09** | **Menu-Driven Polymorphic Matrix** | Unified OOP ADT | All Matrix Types | Variable | ✅ **Completed** |
+| **10** | **Polynomial** | Polynomial Terms | $\text{num} \le \text{deg} + 1$ | $2 \times \text{num}$ | ✅ **Completed** |
 
 ---
 
@@ -451,22 +459,38 @@ Example (5x5 Sparse Matrix with 4 non-zero elements):
 - **Storage Strategy**: Coordinate List / 3-Column Representation (Triplets: `(row, col, value)`).
 - **Space Efficiency Threshold**: Memory is saved whenever $3 \times \text{num} < m \times n$ (non-zero density $< 33\%$).
 
-#### Triplet Representation & Algorithmic Design
+#### Representations & Algorithmic Design
 
-1. **`struct Element`**: Encapsulates coordinates `(i, j)` and non-zero value `val`.
-2. **Row-Major Sorting via `std::sort`**: Non-zero entries are sorted using a custom comparator (`a.i < b.i || (a.i == b.i && a.j < b.j)`), allowing users to input elements in arbitrary order while guaranteeing canonical row-major internal order.
-3. **Single-Pass `display()`**: Traverses the $m \times n$ grid in $O(m \times n)$ time using an index pointer $k$ into the sorted triplet array.
-4. **$O(\log(\text{num}))$ `get(i, j)`**: Employs binary search over the row-major sorted triplet array to retrieve stored values in logarithmic time.
+1. **3-Column Coordinate List / Triplets (`00_three_col`)**:
+   - Encapsulates `(row, col, value)` triplets using `struct Element { int i, j, x; }`.
+   - The matrix wrapper `struct Sparse` holds dimensions, total non-zeros `nums`, and a dynamic `Element` array.
+   - 👉 **Source Code:** [`00_representation/00_three_col/main.cpp`](./08_sparse_matrix/00_representation/00_three_col/main.cpp)
+
+2. **Compressed Sparse Row (CSR) Representation (`01_compressed_sparse_rows`)**:
+   - Eliminates redundant row coordinate storage by using 3 linear arrays:
+     - `val[num]`: Non-zero values.
+     - `col_ind[num]`: Column indices corresponding to each non-zero element.
+     - `row_ptr[rows + 1]`: Cumulative counts pointing to the start index of each row in `val` and `col_ind`.
+   - Memory footprint: $2 \times \text{num} + (m + 1)$ integers vs $3 \times \text{num}$ for triplets.
+   - 👉 **Source Code:** [`00_representation/01_compressed_sparse_rows/main.cpp`](./08_sparse_matrix/00_representation/01_compressed_sparse_rows/main.cpp)
+
+3. **C++ OOP `SparseMatrix` Class with Matrix Addition (`sparse_matrix.cpp`)**:
+   - **Row-Major Sorting via `std::sort`**: Sorts entries canonical row-major (`a.i < b.i || (a.i == b.i && a.j < b.j)`).
+   - **$O(\log(\text{num}))$ `get(i, j)`**: Binary search over row-major sorted triplets.
+   - **Matrix Addition (`add`)**: Merges two sparse matrices in linear time $O(\text{num}_1 + \text{num}_2)$ using a two-pointer merge strategy comparing `(i, j)` coordinates:
+     - If $(i_1, j_1) = (i_2, j_2)$: Sum values $val_1 + val_2$ and advance both pointers.
+     - If $(i_1, j_1) < (i_2, j_2)$: Copy element from matrix 1 and advance pointer 1.
+     - If $(i_1, j_1) > (i_2, j_2)$: Copy element from matrix 2 and advance pointer 2.
+     - Append remaining entries from either matrix.
+   - 👉 **Source Code:** [`sparse_matrix.cpp`](./08_sparse_matrix/sparse_matrix.cpp)
 
 #### Complexity Analysis
-- **Space Complexity**: $O(\text{num})$ heap allocation for `Element` array instead of $O(m \times n)$.
+- **Space Complexity**: $O(\text{num})$ dynamic allocation.
 - **Time Complexity**:
-  - `read()`: $O(\text{num} \log(\text{num}))$ to input and sort elements
-  - `get(i, j)`: $O(\log(\text{num}))$ via binary search
+  - `read()`: $O(\text{num} \log(\text{num}))$ sorting input
+  - `get(i, j)`: $O(\log(\text{num}))$ binary search
   - `display()`: $O(m \times n)$ single-pass grid render
-
-#### 💻 Code Implementation
-👉 **Source Code:** [`sparse_matrix.cpp`](./08_sparse_matrix/sparse_matrix.cpp)
+  - `add()`: $O(\text{num}_1 + \text{num}_2)$ linear two-pointer merge
 
 ---
 
@@ -480,6 +504,38 @@ An interactive command-line interface demonstrating runtime polymorphism and obj
 
 #### 💻 Code Implementation
 👉 **Source Code:** [`09_menu_driven_matrix/main.cpp`](./09_menu_driven_matrix/main.cpp)
+
+---
+
+### 9. Polynomial Representation & Addition (`10_polynomial`) ✅
+
+#### Mathematical Concept
+A single-variable polynomial $P(x)$ of degree $d$ with $n$ non-zero terms is represented algebraically as:
+
+$$P(x) = c_0 x^{e_0} + c_1 x^{e_1} + c_2 x^{e_2} + \dots + c_{n-1} x^{e_{n-1}} \quad (e_0 > e_1 > e_2 > \dots \ge 0)$$
+
+Instead of allocating an array of size $d + 1$ (which wastes memory for sparse polynomials like $x^{1000} + 1$), we store only non-zero terms using an array of `Term` structs:
+- `struct Term { int coeff, exp; }`
+
+#### Algorithmic Design & Operations
+1. **Canonical Sorting**: User inputs terms in any order; `std::sort` with comparator `compare(t1, t2) -> t1.exp > t2.exp` orders terms in descending exponent sequence.
+2. **Formatted Display**: Renders readable algebraic expressions, correctly formatting $x^1 \to x$, $x^0 \to \text{constant}$, and omitting extraneous $+$ delimiters.
+3. **Evaluation at $x$**: Computes $P(x_0)$ in $O(n)$ by evaluating $\sum_{k=0}^{n-1} c_k \cdot x_0^{e_k}$.
+4. **Polynomial Addition (`add`)**: Employs a linear two-pointer merge algorithm across the two exponent-sorted term arrays:
+   - If $e_1 = e_2$: Sum coefficients $(c_1 + c_2)x^{e_1}$, append term, advance both pointers.
+   - If $e_1 > e_2$: Copy term $(c_1, e_1)$ from polynomial 1, advance pointer 1.
+   - If $e_1 < e_2$: Copy term $(c_2, e_2)$ from polynomial 2, advance pointer 2.
+   - Append remaining terms from either polynomial.
+
+#### Complexity Analysis
+- **Space Complexity**: $O(n_1 + n_2)$ dynamic array allocation for the resulting polynomial.
+- **Time Complexity**:
+  - `set()`: $O(n \log n)$ term sort
+  - `evaluate(x)`: $O(n)$ evaluation
+  - `add()`: $O(n_1 + n_2)$ linear two-pointer merge traversal
+
+#### 💻 Code Implementation
+👉 **Source Code:** [`10_polynomial/main.cpp`](./10_polynomial/main.cpp)
 
 ---
 
@@ -528,13 +584,28 @@ cd ../07_toeplitz_matrix
 g++ -std=c++17 toeplitz_matrix.cpp -o toeplitz_matrix
 ./toeplitz_matrix
 
-# 9. Sparse Matrix
-cd ../08_sparse_matrix
+# 9. Sparse Matrix - 3-Column Triplet Representation
+cd ../08_sparse_matrix/00_representation/00_three_col
+g++ -std=c++17 main.cpp -o main
+./main
+
+# 10. Sparse Matrix - Compressed Sparse Row (CSR)
+cd ../01_compressed_sparse_rows
+g++ -std=c++17 main.cpp -o main
+./main
+
+# 11. Sparse Matrix - C++ Class with Addition & Binary Search
+cd ../..
 g++ -std=c++17 sparse_matrix.cpp -o sparse_matrix
 ./sparse_matrix
 
-# 10. Menu-Driven Matrix Program
+# 12. Menu-Driven Polymorphic Matrix Program
 cd ../09_menu_driven_matrix
+g++ -std=c++17 main.cpp -o main
+./main
+
+# 13. Polynomial Representation & Addition
+cd ../10_polynomial
 g++ -std=c++17 main.cpp -o main
 ./main
 ```

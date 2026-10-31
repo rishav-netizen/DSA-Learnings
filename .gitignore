@@ -2,3 +2,5 @@
 zzzz/
 .vscode/
 main
+*.dSYM/
+.aider*

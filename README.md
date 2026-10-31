@@ -103,8 +103,9 @@ c++/
 │   │   ├── 04_symmetric_matrix/  # Symmetric matrix (Lower triangular mapping)
 │   │   ├── 05_tridiagonal_matrix/# Tridiagonal matrix (3 diagonals mapping)
 │   │   ├── 07_toeplitz_matrix/   # Toeplitz matrix (first row & first column mapping)
-│   │   ├── 08_sparse_matrix/     # Sparse matrix (Coordinate list / 3-column representation)
+│   │   ├── 08_sparse_matrix/     # Sparse matrix (Coordinate list, CSR & matrix addition)
 │   │   ├── 09_menu_driven_matrix/# Polymorphic base Matrix & menu-driven interactive driver
+│   │   ├── 10_polynomial/        # Polynomial representation & addition
 │   │   └── README.md             # Matrices module documentation & coordinate math
 │   │
 │   └── README.md                 # Overview of all DSA implementations
@@ -227,6 +228,31 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
 
 ---
 
+### 04 · Special Matrices, Sparse Formats & Polynomials
+
+👉 **Read the module guide:** [`04_matrices/README.md`](./1_data_structures_code/04_matrices/README.md)
+
+- **Special Square Matrix 1D Mappings**:
+  - `01 Diagonal`: Single 1D dynamic array of size $n$, $O(1)$ index translation $k = i - 1$.
+  - `02 Lower Triangular`: Row-Major ($\frac{i(i-1)}{2} + j - 1$) and Column-Major ($\frac{n(j-1) - (j-2)(j-1)}{2} + i - j$) mappings.
+  - `03 Upper Triangular`: Row-Major and Column-Major dual addressing formulas.
+  - `04 Symmetric`: Space reduction via Lower Triangular index translation.
+  - `05 Tridiagonal`: Main, lower, and upper diagonals mapped into $3n - 2$ linear elements.
+  - `07 Toeplitz`: Descending diagonals compressed using first row and first column into $2n - 1$ unique space.
+- **Sparse Matrix Representations & Addition (`08_sparse_matrix`)**:
+  - `00_three_col`: Procedural 3-column coordinate list (Triplets: `row`, `col`, `val`).
+  - `01_compressed_sparse_rows`: Compressed Sparse Row (CSR) 3-array format (`val`, `col_ind`, `row_ptr`).
+  - `sparse_matrix.cpp`: C++ OOP class with $O(\log(\text{num}))$ binary search retrieval and $O(\text{num}_1 + \text{num}_2)$ linear two-pointer matrix addition.
+- **Menu-Driven Interactive Matrix ADT (`09_menu_driven_matrix`)**:
+  - Abstract base `Matrix` with virtual destructor and pure virtual interfaces (`set`, `get`, `display`).
+  - Derived subclasses demonstrating runtime polymorphism and dynamic instantiation.
+- **Polynomial Representation & Addition (`10_polynomial`)**:
+  - Dynamic array of `Term { coeff, exp }` sorted canonically by exponent in descending order.
+  - Formatted algebraic display and $O(n)$ evaluation at $x$.
+  - Linear two-pointer merge algorithm for polynomial addition in $O(n_1 + n_2)$ time.
+
+---
+
 ## 📚 DSA Roadmap
 
 | Topic | Status | Detailed Documentation |
@@ -236,7 +262,7 @@ The [`1_data_structures_code`](./1_data_structures_code/README.md) directory con
 | **02 · Array ADT** | ✅ Completed | [`02_arrayADT/README.md`](./1_data_structures_code/02_arrayADT/README.md) |
 | **03 · Strings** | ✅ Completed | [`03_string/README.md`](./1_data_structures_code/03_string/README.md) |
 | **04 · Matrices** | 🔄 In Progress | [`04_matrices/README.md`](./1_data_structures_code/04_matrices/README.md) |
-| **05 · Sparse Matrix & Polynomial** | ⏳ Planned | Coordinate list, linked representation, addition & multiplication |
+| **05 · Polynomial** | ✅ Completed | [`04_matrices/10_polynomial`](./1_data_structures_code/04_matrices/10_polynomial/main.cpp) |
 | **06 · Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, operations, reverse, cycle detection |
 | **07 · Stacks** | ⏳ Planned | Array/Linked List implementations, infix-to-postfix, matching |
 | **08 · Queues** | ⏳ Planned | Linear, Circular, Deque, Priority Queue |

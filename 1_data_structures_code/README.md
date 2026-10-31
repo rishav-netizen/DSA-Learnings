@@ -45,7 +45,7 @@ This directory contains pure C++ implementations of foundational data structures
 | **01 · Array Representation** | Physical and logical memory mapping of arrays. | Static vs Dynamic, Array Resizing, 2D Representations (3 Methods), Row/Column Major Formulas, Horner's Rule | ✅ Completed | [Explore Array Representation](./01_arraysRepresentation/README.md) |
 | **02 · Array ADT** | Complete Array Abstract Data Type with 17 core operations and interview challenges. | Insert, Delete, Binary Search, Set Operations (Union, Intersection, Diff), Missing Elements, Duplicates, Two-Sum, Single-scan Min/Max | ✅ Completed | [Explore Array ADT](./02_arrayADT/README.md) |
 | **03 · Strings** | Character memory models, null-terminated strings, and core string algorithms. | ASCII encoding, char vs string, length, case conversion, word counting, validation, reversal, comparison, bitwise duplicates, anagrams, permutations | ✅ Completed | [Explore Strings](./03_string/README.md) |
-| **04 · Matrices** | Compact representations of special square matrices in 1D dynamic arrays. | Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal, Toeplitz, Sparse (Coordinate list), Duality $i \leftrightarrow j$ | 🔄 In Progress | [Explore Matrices](./04_matrices/README.md) |
+| **04 · Matrices** | Compact representations of special square matrices, sparse formats, and polynomials. | Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal, Toeplitz, Sparse Matrix (Triplets, CSR, Addition), Menu-Driven ADT, Polynomial (Representation & Addition) | 🔄 In Progress | [Explore Matrices](./04_matrices/README.md) |
 
 ---
 
@@ -58,14 +58,13 @@ flowchart LR
     A["00 · Recursion ✅"] --> B["01 · Array Representation ✅"]
     B --> C["02 · Array ADT ✅"]
     C --> D["03 · Strings ✅"]
-    D --> E["04 · Matrices 🔄"]
-    E --> F["05 · Sparse Matrix & Polynomial ⏳"]
-    F --> G["06 · Linked Lists ⏳"]
-    G --> H["07 · Stacks & Queues ⏳"]
-    H --> I["08 · Trees & BST ⏳"]
-    I --> J["09 · AVL & Heaps ⏳"]
-    J --> K["10 · Sorting & Hashing ⏳"]
-    K --> L["11 · Graphs & Algorithms ⏳"]
+    D --> E["04 · Matrices & Polynomials 🔄"]
+    E --> F["05 · Linked Lists ⏳"]
+    F --> G["06 · Stacks & Queues ⏳"]
+    G --> H["07 · Trees & BST ⏳"]
+    H --> I["08 · AVL & Heaps ⏳"]
+    I --> J["09 · Sorting & Hashing ⏳"]
+    J --> K["10 · Graphs & Algorithms ⏳"]
 ```
 
 | # | Topic | Status | Notes |
@@ -74,8 +73,8 @@ flowchart LR
 | 2 | **Array Representation** | ✅ Completed | Memory layout, heap allocation, 1D/2D/3D/nD address calculations. |
 | 3 | **Array ADT** | ✅ Completed | 17 manual operations, OOP class encapsulation, 5 advanced student challenges. |
 | 4 | **Strings** | ✅ Completed | ASCII encoding, char vs string, length calculation, case conversion, word counting, validation, reversal, comparison, bitwise duplicates, anagrams, permutations. |
-| 5 | **Matrices** | 🔄 In Progress | Special Matrices: Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal, Toeplitz, Sparse, Menu-Driven ADT (completed), Band. |
-| 6 | **Sparse Matrix & Polynomial** | ⏳ Planned | 3-column representation, linked representation, polynomial evaluation & addition. |
+| 5 | **Matrices** | 🔄 In Progress | Special Matrices: Diagonal, Lower/Upper Triangular, Symmetric, Tridiagonal, Toeplitz, Sparse Matrix (Triplets, CSR, Matrix Addition), Menu-Driven ADT, Band (planned). |
+| 6 | **Polynomial** | ✅ Completed | Array of Terms representation, descending exponent sorting, evaluation at $x$, and linear two-pointer addition. |
 | 7 | **Linked Lists** | ⏳ Planned | Singly, Doubly, Circular, Doubly Circular, operations, reverse, merge, loops. |
 | 8 | **Stacks** | ⏳ Planned | Array/Linked List implementations, infix-to-postfix conversion, parenthesis matching. |
 | 9 | **Queues** | ⏳ Planned | Linear queue, Circular queue, Double-ended queue (Deque), Priority Queue. |

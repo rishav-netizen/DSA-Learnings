@@ -1,0 +1,55 @@
+NEED FOR LINKED LISTS:
+    arrays have fixed size
+    each element has separate memory dynamically allocated in the heap
+
+------------------     
+NODE STRUCTURE
+data | next
+
+typedef struct Node 
+{
+    int data;
+    Node* next;
+};
+------------------
+CREATE A NODE
+Node *p;
+p = new Node;
+p->data = 10;
+p->next = NULL; 
+
+-------------------
+SOME IMPORTANT STATEMENTS
+Node *p, *q;
+q = p; // two pointers pointing on the same Node
+q = p->next; // let q point to the next node of p
+p = p->next; // let p point to the next Node of p, basically increment to next node
+
+// to check if pointer p is pointing to anything or not
+
+// p doesnt point to anything
+if (p == NULL)
+if (p == 0)
+if (!p)
+
+// p is pointing to something
+if (p != NULL)
+if (p != 0)
+if (p)
+
+
+// to know if p is the last node
+if (p -> next == NULL) // p is last node
+if (p -> next != NULL) // p isn't last node
+
+------------------
+TRAVERSAL OF LINKED LIST
+
+Node* p = first;
+while(p != NULL)
+{
+    cout << p->data << endl;
+    p = p->next;
+} 
+
+
